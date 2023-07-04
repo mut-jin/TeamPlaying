@@ -26,9 +26,6 @@ public class ChatController {
 	private ChatService service;
 
 	@Autowired
-	private GroupChatService groupService;
-
-	@Autowired
 	private MemberService memberService;
 
 	@GetMapping("list")
@@ -217,9 +214,6 @@ public class ChatController {
 	public Map<String, Object> countMyChat(Authentication authentication) {
 		Map<String, Object> map = new HashMap<>();
 		Integer count = service.getMyCount(authentication.getName());
-		System.out.println(count);
-		count += groupService.getChatCount(authentication.getName());
-		System.out.println(count);
 		map.put("count", count);
 		return map;
 	}
