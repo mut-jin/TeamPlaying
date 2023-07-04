@@ -33,12 +33,6 @@
 				<li class="nav-item">
 					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/running/runningMain" style="color: white;">러닝</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link ${current eq 'add' ? 'active' : '' }" href="/futsal/futsalMain" style="color: white;">풋살</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/climbing/list" style="color: white;">등산</a>
-				</li>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item">
 						<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/totalMyPage" style="color: white;">마이페이지  </a>

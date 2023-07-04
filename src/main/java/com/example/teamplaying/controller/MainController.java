@@ -19,9 +19,6 @@ import java.util.Map;
 public class MainController {
 
 	@Autowired
-	private ChatService chatService;
-
-	@Autowired
 	private MemberService memberService;
 
 	@GetMapping("checkEmail/{email}")
@@ -38,7 +35,7 @@ public class MainController {
 
 	@GetMapping("IDCheck/{userId}")
 	@ResponseBody
-	public Map<String, Object> checkId(@PathVariable("id") String id) {
+	public Map<String, Object> checkId(@PathVariable("userId") String id) {
 
 		return memberService.IDCheck(id);
 	}
@@ -130,11 +127,10 @@ public class MainController {
 		if (ok) {
 			request.logout();
 			rttr.addFlashAttribute("message", "회원 탈퇴하였습니다.");
-			return "redirect:/main";
 		} else {
 			rttr.addFlashAttribute("message", "회원 탈퇴시 문제가 발생하였습니다.");
-			return "redirect:/main";
 		}
+		return "redirect:/main";
 	}
 
 }

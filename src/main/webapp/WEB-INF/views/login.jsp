@@ -34,9 +34,6 @@ input[type="text"], input[type="password"] {
 	<div class="container-lg">
 		<div class="row justify-content-center">
 			<div class="col-12 col-md-8 col-lg-6">
-				<div class="logo-container">
-					<img src="/path/to/your/logo.png" alt="Logo" width="150">
-				</div>
 				<br />
 				<br />
 				<h1 class="login-title" style="margin-left:200px;"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%EB%A1%9C%EA%B7%B8%EC%9D%B8.png" alt="" /></h1>
