@@ -136,13 +136,11 @@ public class MainController {
 					   @RequestParam(value = "page", defaultValue = "1") Integer page,
 					   @RequestParam(value = "search", defaultValue = "") String search,
 					   @RequestParam(value = "type", required = false) String type) {
-		System.out.println("search: " + search);
 		Map<String, Object> result = memberService.getArtistBoard(page, search, type);
 
 		model.addAllAttributes(result);
 
-	}
-	@GetMapping("work")
+	}@GetMapping("work")
 	public void work(Model model,
 					 @RequestParam(value = "page", defaultValue = "1") Integer page,
 					 @RequestParam(value = "search", defaultValue = "") String search,
@@ -159,6 +157,11 @@ public class MainController {
 		Map<String, Object> result = memberService.getMember(id, page);
 		model.addAllAttributes(result);
 		return "artistPage";
+	}
+
+	@GetMapping("canvas")
+	public void canvas() {
+
 	}
 
 }

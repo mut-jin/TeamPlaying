@@ -31,6 +31,9 @@
 				<li class="nav-item">
 					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/artist" style="color: white;">아티스트</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/canvas" style="color: white;">커스텀</a>
+				</li>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item">
 						<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/totalMyPage" style="color: white;">마이페이지  </a>
