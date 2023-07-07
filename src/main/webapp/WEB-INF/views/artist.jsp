@@ -36,7 +36,7 @@
         <div class="dropdown" style="flex-grow: 0; flex-basis: 25%;">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                Dropdown button
+                <input type="text" placeholder="aa">
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Action</a></li>
@@ -45,11 +45,16 @@
             </ul>
         </div>
         <div style="flex-grow: 1;"></div>
-        <input type="text" style="flex-grow: 0; flex-basis: 25%;">
+        <form action="/artist" class="d-flex"
+              style="flex-bottom: 25%; flex-grow: 0;" role="search">
+            <input value="${param.search }" name="search" type="search" style="flex-basis: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
+            <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; flex-grow: 0" type="submit"><i
+                    class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
     </div>
     <c:forEach items="${boardList}" var="list">
         <div class="d-flex mb-4">
-            <a href="" class="card"
+            <a href="/artist/${list.id}" class="card"
                style="width: 100%; padding: 24px 12px 24px; text-decoration: none; outline: ridge;">
                 <div style="display: flex; flex-wrap: wrap; align-items: center!important;">
                     <div style="display: flex; flex-basis: 50%;">
@@ -61,7 +66,8 @@
                         <div class="layout" style="flex-basis: 66.7%; max-width: 66.7%">
                             <div style="margin-bottom: 8px; flex: 0 0 auto; font-weight: bolder">${list.nickName}</div>
                             <div style="margin-bottom: 8px; flex: 0 0 auto;">${list.address}</div>
-                            <div style="margin-bottom: 8px; flex: 0 0 auto;"><i class="fa-regular fa-star"></i>${list.subscribe}
+                            <div style="margin-bottom: 8px; flex: 0 0 auto;"><i
+                                    class="fa-regular fa-star"></i>${list.subCount}
                                 <i class="fa-regular fa-eye"></i> ${list.totalView}
                             </div>
                         </div>

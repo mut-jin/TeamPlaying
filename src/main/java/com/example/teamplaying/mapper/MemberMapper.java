@@ -5,6 +5,7 @@ import com.example.teamplaying.domain.Member;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface MemberMapper {
@@ -306,6 +307,28 @@ public interface MemberMapper {
             </script>
             """)
     List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type);
+
+    @Select("""
+            SELECT
+                 profile,
+                 nickName,
+                 address,
+                 introduce,
+                 (SELECT SUM(view) FROM shoeBoard WHERE memberId = m.id) totalView,
+                 (SELECT COUNT(*) FROM shoeBoard WHERE memberId = m.id) workCount,
+                 (SELECT COUNT(*) FROM subscribe WHERE artistId = m.id) subCount
+            FROM Member
+            WHERE id = #{id}
+            ORDER BY id DESC
+            LIMIT #{startIndex}, #{rowPerPage}
+            """)
+    List<Member> getMemberById(Integer startIndex, Integer rowPerPage, Integer id);
+
+    @Select("""
+            SELECT COUNT(*) FROM shoeBoard
+            WHERE memberId = #{id}
+            """)
+    Integer getmyShoeBoardNum(Integer id);
 /*
     COUNT(f.id) fileCount,
             	(SELECT COUNT(*) FROM BoardLike WHERE boardId = b.id) likeCount,
