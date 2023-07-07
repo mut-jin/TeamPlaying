@@ -1,6 +1,5 @@
 package com.example.teamplaying.mapper;
 
-import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.domain.ShoeFileName;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,6 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface ShoeBoardMapper {
+
+
 
     @Select("""
             SELECT id FROM shoeBoard
@@ -65,4 +66,16 @@ public interface ShoeBoardMapper {
             WHERE boardId = #{boardId}
             """)
     List<String> getMyShoeFileNameList(Integer boardId);
+
+
+    @Select("""
+            SELECT shoeName FROM shoeBoard
+            WHERE brand = #{brand}
+            """)
+    List<String> getShoeModelsByBrand(String brand);
+//    @Select("""
+//            SELECT shoeName FROM shoeBoard
+//            WHERE brand = #{shoeBrand}
+//            """)
+//    List<String> getShoeNameList(String shoeBrand);
 }
