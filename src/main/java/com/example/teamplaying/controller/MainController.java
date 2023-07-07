@@ -3,6 +3,7 @@ package com.example.teamplaying.controller;
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.service.ChatService;
 import com.example.teamplaying.service.MemberService;
+import com.example.teamplaying.service.ShoeBoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,9 @@ public class MainController {
 
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private ShoeBoardService shoeBoardService;
 
 	@GetMapping("checkEmail/{email}")
 	@ResponseBody
@@ -131,6 +135,25 @@ public class MainController {
 			rttr.addFlashAttribute("message", "회원 탈퇴시 문제가 발생하였습니다.");
 		}
 		return "redirect:/main";
+	}
+
+	@GetMapping("artist")
+	public void artist(Model model,
+					   @RequestParam(value = "page", defaultValue = "1") Integer page,
+					   @RequestParam(value = "search", defaultValue = "") String search,
+					   @RequestParam(value = "type", required = false) String type) {
+		Map<String, Object> result = memberService.getArtistBoard(page, search, type);
+
+		model.addAllAttributes(result);
+
+	}@GetMapping("work")
+	public void work(Model model,
+					 @RequestParam(value = "page", defaultValue = "1") Integer page,
+					 @RequestParam(value = "search", defaultValue = "") String search,
+					 @RequestParam(value = "type", required = false) String type) {
+		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type);
+
+		model.addAllAttributes(result);
 	}
 
 }
