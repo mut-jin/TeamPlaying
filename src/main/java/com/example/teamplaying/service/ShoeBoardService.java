@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ShoeBoardService {
@@ -49,4 +50,14 @@ public class ShoeBoardService {
         }
         return Map.of("pageInfo", pageInfo, "boardList", list);
     }
+
+    public List<String> getShoeModelsByBrand(String brand) {
+        List<String> shoeNameList = mapper.getShoeModelsByBrand(brand);
+        return shoeNameList;
+    }
+
+
+//    public List<String> getShoeNameList(String shoeBrand) {
+//        return mapper.getShoeNameList(shoeBrand);
+//    }
 }

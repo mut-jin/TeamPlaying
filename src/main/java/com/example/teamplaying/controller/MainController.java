@@ -5,12 +5,14 @@ import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.ShoeBoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -154,5 +156,24 @@ public class MainController {
 
 		model.addAllAttributes(result);
 	}
+
+	@GetMapping("workadd")
+	public void workadd() {
+
+	}
+
+	@GetMapping("/getShoeModels")
+	public ResponseEntity<List<String>> getShoeModels(@RequestParam String brand) {
+		List<String> shoeModels = shoeBoardService.getShoeModelsByBrand(brand);
+		return ResponseEntity.ok(shoeModels);
+	}
+
+
+//	@GetMapping("workadd/shoeBrand")
+//	public Map<String, Object> shoeBrand(String shoeBrand) {
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("shoeNameList", shoeBoardService.getShoeNameList(shoeBrand));
+//		return map;
+//	}
 
 }
