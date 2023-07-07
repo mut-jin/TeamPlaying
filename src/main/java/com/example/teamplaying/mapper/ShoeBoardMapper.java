@@ -50,7 +50,7 @@ public interface ShoeBoardMapper {
             	nickName,
             	view,
             	price,
-            	(SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount
+            	(SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
             	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
             FROM shoeBoard s
             WHERE shoeName LIKE #{pattern}

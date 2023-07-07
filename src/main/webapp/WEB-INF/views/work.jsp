@@ -46,9 +46,9 @@
         <div style="flex-grow: 1;"></div>
         <input type="text" style="flex-grow: 0; flex-basis: 25%;">
     </div>
-    <div id="todayListData" class="row">
+    <div id="todayListData">
         <c:forEach items="${boardList}" var="board">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="card my-card" style="width: 18rem; margin-bottom: 20px;">
                     <div onclick="openModal(${board.id})">
                         <div class="card-body">
@@ -60,10 +60,10 @@
                                 </c:if>
                             </c:forEach>
                             <h5 class="card-title d-flex justify-content-between">
-                                <span>🌄 ${board.writer}</span>
+                                <span>  ${board.nickName}</span>
                                 <p style="font-size: medium;">${board.inserted}</p>
                             </h5>
-                            <p class="card-text">${board.title}</p>
+                            <p class="card-text">${board.shoeName}</p>
                             <p class="card-text">
                                 <i class="fa-solid fa-heart"></i> ${board.likeCount } <i class="fa-regular fa-comments"></i> ${board.commentCount }
                             </p>
