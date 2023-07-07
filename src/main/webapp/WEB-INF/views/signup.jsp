@@ -74,8 +74,8 @@
 						<input id="inputPassword" type="password" class="form-control" name="password" value="${member.password }" />
 					</div>
 					<div class="mb-3">
-						<label for="inputEmail" class="form-label"><img style="margin-left: -2px;" src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%9D%B4%EB%A6%84.png" alt="" /></label>
-						<input id="inputEmail" type="text" class="form-control" name="name" value="${member.name }" />
+						<label for="inputName" class="form-label"><img style="margin-left: -2px;" src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%9D%B4%EB%A6%84.png" alt="" /></label>
+						<input id="inputName" type="text" class="form-control" name="name" value="${member.name }" />
 					</div>
 					<div class="mb-3">
 						<label for="inputNickName" class="form-label"><img style="margin-left: -1px;" src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EB%B3%84%EB%AA%85.png" alt="" /></label>
@@ -85,8 +85,8 @@
                   <button type="button" id="checkNickNameBtn" class="btn btn-secondary">중복확인</button> -->
 					</div>
 					<div class="mb-3">
-						<label for="inputEmail" class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%83%9D%EC%9D%BC.png" alt="" /></label>
-						<input id="inputEmail" type="text" class="form-control" name="birth" value="${member.birth }" />
+						<label for="inputBirth" class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%83%9D%EC%9D%BC.png" alt="" /></label>
+						<input id="inputBirth" type="text" class="form-control" name="birth" value="${member.birth }" />
 					</div>
 					<div class="mb-3">
 						<label for="inputGender" class="form-label"><img style="margin-left: -5px;" src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%84%B1%EB%B3%84.png" alt="" /></label>

@@ -2,23 +2,32 @@ package com.example.teamplaying.service;
 
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.mapper.MemberMapper;
+import com.example.teamplaying.mapper.ShoeBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class MemberService {
+	@Autowired
+	private ShoeBoardMapper shoeMapper;
 
 	@Autowired
 	private MemberMapper mapper;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Value("${aws.s3.bucketUrl}")
+	private String bucketUrl;
 
 	public String getNickName(String userId) {
 
@@ -178,5 +187,40 @@ public class MemberService {
 		return Map.of("available", member == null);
 	}
 
+    public Map<String, Object> getArtistBoard(Integer page, String search, String type) {
+		Integer rowPerPage = 8;
+		Integer startIndex = (page - 1) * rowPerPage;
+
+		Integer artistNum = mapper.getArtistNum(search);
+		Integer lastPageNum = (artistNum - 1) / rowPerPage + 1;
+
+		Integer rightPageNum = ((page - 1) / 5 + 1) * 5;
+		Integer leftPageNum = rightPageNum - 4;
+		leftPageNum = Math.max(leftPageNum, 1);
+		rightPageNum = Math.min(rightPageNum, lastPageNum);
+
+		Map<String, Object> pageInfo = new HashMap<>();
+		pageInfo.put("rightPageNum", rightPageNum);
+		pageInfo.put("leftPageNum", leftPageNum);
+		pageInfo.put("lastPageNum", lastPageNum);
+		pageInfo.put("currentPageNum", page);
+
+		List<Member> list = mapper.selectAllPaging(startIndex ,rowPerPage, search, type);
+		for(Member i : list) {
+			List<String> shoeList = new ArrayList<>();
+			List<Integer> boardIdList = shoeMapper.getBoardIdList(i.getId());
+			for(Integer j : boardIdList) {
+				shoeList.add(bucketUrl + "/shoeBoard/" + j + "/" + shoeMapper.getMyShoeFileName(j));
+
+			}
+			i.setSubscribe(shoeMapper.getMySubscribe(i.getId()));
+			i.setShoeImgList(shoeList);
+			if(i.getTotalView() == null) {
+				i.setTotalView(0);
+			}
+		}
+
+		return Map.of("pageInfo", pageInfo, "boardList", list);
+    }
 
 }

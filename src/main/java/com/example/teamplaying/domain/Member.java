@@ -20,8 +20,12 @@ public class Member {
 	private String phone;
 	private String email;
 	private String introduce;
+	private String memberType;
+	private String profile;
 
-	private List<String> authority;
+	private Integer totalView;
+	private Integer subscribe;
+	private List<String> shoeImgList;
 
 	
 }
