@@ -155,4 +155,9 @@ public class MainController {
 		model.addAllAttributes(result);
 	}
 
+	@GetMapping("canvas")
+	public void canvas() {
+
+	}
+
 }

@@ -25,12 +25,13 @@
 			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
 			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
 			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-
+			<%--s3://bucket0503-mason/TeamPlay/--%>
+			<%--s3://bucket0503-mason/TeamPlay/20230630164747.png--%>
 		</div>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
 				<a href="/running/runningMain">
-					<img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/logo/%EB%9F%AC%EB%8B%9D.jpg" class="d-block w-100" alt="...">
+					<img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/20230630164747.png" class="d-block w-100" alt="...">
 				</a>
 			</div>
 			<div class="carousel-item">
