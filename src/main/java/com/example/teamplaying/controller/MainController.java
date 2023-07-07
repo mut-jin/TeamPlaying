@@ -1,7 +1,6 @@
 package com.example.teamplaying.controller;
 
 import com.example.teamplaying.domain.Member;
-import com.example.teamplaying.service.ChatService;
 import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.ShoeBoardService;
 import jakarta.servlet.http.HttpServletRequest;
