@@ -157,6 +157,7 @@ public class MainController {
 		model.addAllAttributes(result);
 	}
 
+
 	@GetMapping("workadd")
 	public void workadd() {
 
@@ -175,5 +176,12 @@ public class MainController {
 //		map.put("shoeNameList", shoeBoardService.getShoeNameList(shoeBrand));
 //		return map;
 //	}
+
+
+	@GetMapping("canvas")
+	public void canvas() {
+
+	}
+
 
 }
