@@ -52,9 +52,54 @@ input[type="text"], input[type="password"] {
 						<input class="btn btn-dark" style="width: 412.8px; height: 39px;" type="submit" value="Login">
 					</div>
 				</form>
+				<h2>Kakao Login</h2>
+				<button id="loginBtn">Kakao 로그인</button>
 			</div>
 		</div>
 	</div>
+
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script>
+	// 1603e23f210e1265c0074871a6496f28
+		/*window.Kakao.init("1603e23f210e1265c0074871a6496f28");
+
+		function loginWithKakao() {
+			window.Kakao.Auth.login({
+				scope: 'profile_nickname, account_email, gender, birthday',
+				success: function (authObj) {
+					console.log(authObj);
+					window.Kakao.API.request({
+						url:'/v2/user/me',
+						success: res => {
+							const kakao_account = res.kakao_account;
+							console.log(kakao_account);
+							var accessToken = authObj.access_token;
+							console.log(accessToken);
+						}
+					});
+				}
+			})
+		};*/
+
+	Kakao.init("1603e23f210e1265c0074871a6496f28")
+
+	// Kakao 로그인 버튼 클릭 이벤트 처리
+	document.getElementById('loginBtn').addEventListener('click', function() {
+		Kakao.Auth.login({
+			success: function(authObj) {
+				var accessToken = authObj.access_token;
+				// 로그인 성공 시, Spring 컨트롤러로 액세스 토큰 전송
+				window.location.href = '/kakao-login?accessToken=' + accessToken;
+			},
+			fail: function(error) {
+				// 로그인 실패 시 처리할 내용을 작성합니다.
+			}
+		});
+	});
+
+
+
+	</script>
 
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d88d8436c67d406cea914acf60c7b220&libraries=services"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
