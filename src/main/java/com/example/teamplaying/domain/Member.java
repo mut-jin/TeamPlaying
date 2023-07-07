@@ -25,7 +25,6 @@ public class Member {
 
 	private Integer totalView;
 	private Integer subscribe;
-	private List<String> authority;
 	private List<String> shoeImgList;
 
 	
