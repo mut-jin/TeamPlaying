@@ -11,17 +11,39 @@
 		padding : 0;
 	}
 	#navbar-container {
-		padding : 0;
+		padding-top: 15px; /* 원하는 위쪽 패딩 값을 지정 */
+		padding-bottom: 15px; /* 원하는 아래쪽 패딩 값을 지정 */
+		display: flex;
+		align-items: center;
+		height: 100%;
 	}
 	#navbar-padding {
 		padding : 0;
 	}
+
+	.navbar-brand {
+		margin-right: 20px;
+	}
+
+	.navbar-nav {
+		display: flex;
+		align-items: center;
+		height: 100%;
+	}
+
+	.nav-item {
+		margin: 0 10px;
+	}
+
+
+
 </style>
 <nav class="navbar navbar-expand-lg fixed-top" style="top: -8px;">
 	<div id="navbar-container" class="container-fluid" style="background-color: black;">
 
-		<a id="navbar-brand-link" class="navbar-brand" href="/main">
-			<img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/logo/%EB%A9%94%EC%9D%B4%ED%8A%B8.png" alt="..." width="80" height="70">
+		<a id="navbar-brand-link" class="navbar-brand" href="/main" style="color: white; font-size: 25px; margin-top: -5px;">
+			Zero-One
+		<%-- 👟 --%>
 		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>

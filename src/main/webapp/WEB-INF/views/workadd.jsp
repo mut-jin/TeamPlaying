@@ -36,6 +36,7 @@
 
         .form-control {
             border: 1px solid black;
+            height: 50px;
         }
 
         .mb-3 {
@@ -46,6 +47,19 @@
             width: 466px;
             border: 1px solid black;
             text-align: left;
+            height: 50px;
+        }
+
+        .dropdown-item.active {
+            background-color: orange;
+        }
+
+        .form-control::placeholder {
+            text-align: left;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translate(10px, 10px); /* 조정할 수 있는 위치로 이동 */
         }
 
         #checkIdBtn, #checkNickNameBtn, #checkEmailBtn {
@@ -76,42 +90,115 @@
             <br/>
             <div class="mb-3">
                 <label for="inputTitle" class="form-label">작품명</label>
-                <input id="inputTitle" type="title" class="form-control" name="title" value="${member.title }" placeholder="작품명"/>
+                <input id="inputTitle" type="title" class="form-control" name="title" value="${member.title }"
+                       placeholder="작품명"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">신발 브랜드</label>
                 <div class="dropdown">
-                    <button style="background-color: white;" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button style="background-color: white;" class="btn dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                         <input id="brand" style="border: 0; width: 420px;" placeholder="신발 브랜드"/>
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><button class="dropdown-item ShoeBrand nike" id="nike" value="나이키">나이키</button></li>
-                        <li><button class="dropdown-item ShoeBrand adidas" id="adidas" value="아디다스">아디다스</button></li>
-                        <li><button class="dropdown-item ShoeBrand vans" id="vans" value="반스">반스</button></li>
-                        <li><button class="dropdown-item ShoeBrand converse" id="converse" value="컨버스">컨버스</button></li>
+                    <ul class="dropdown-menu" style="width: 466px; font-size: 22px; font-weight: bolder">
+                        <li>
+                            <button class="dropdown-item ShoeBrand nike" id="nike" value="나이키">나이키</button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item ShoeBrand adidas" id="adidas" value="아디다스">아디다스</button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item ShoeBrand vans" id="vans" value="반스">반스</button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item ShoeBrand converse" id="converse" value="컨버스">컨버스</button>
+                        </li>
                     </ul>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="inputShoeName" class="form-label">신발 모델명</label>
+                <label class="form-label">신발 모델명</label>
                 <div class="dropdown">
-                    <button style="background-color: white;" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <input style="border: 0; width: 420px;" placeholder="신발 모델명"/>
+                    <button style="background-color: white; width: 466px; border: 1px solid black; text-align: left; height: 50px;"
+                            class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <input id="shoeModel" style="border: 0; width: 420px;" placeholder="신발 모델명"/>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" id="shoeModelDropdown"
+                        style="width: 466px; font-size: 22px; font-weight: bolder">
+                        <!-- 나이키 브랜드의 신발 모델 -->
                         <li><a class="dropdown-item ShoeName nike-model" href="#">에어포스 1</a></li>
                         <li><a class="dropdown-item ShoeName nike-model" href="#">우먼스 코르테즈 올흰</a></li>
                         <li><a class="dropdown-item ShoeName nike-model" href="#">조던1 미드 올백</a></li>
                         <li><a class="dropdown-item ShoeName nike-model" href="#">우먼스 에어포스 1</a></li>
                         <li><a class="dropdown-item ShoeName nike-model" href="#">에어포스 1(블랙)</a></li>
+
+                        <!-- 아디다스 브랜드의 신발 모델 -->
+                        <li><a class="dropdown-item ShoeName adidas-model" href="#">이지부스트 350</a></li>
+                        <li><a class="dropdown-item ShoeName adidas-model" href="#">슈퍼스타</a></li>
+
+                        <!-- 반스 브랜드의 신발 모델 -->
+                        <li><a class="dropdown-item ShoeName vans-model" href="">올드스쿨 (화이트)</a></li>
+                        <li><a class="dropdown-item ShoeName vans-model" href="">어센틱 (화이트)</a></li>
+                        <li><a class="dropdown-item ShoeName vans-model" href="">클래식 슬립온 (화이트)</a></li>
+                        <li><a class="dropdown-item ShoeName vans-model" href="">올드스쿨 (블랙)</a></li>
+                        <li><a class="dropdown-item ShoeName vans-model" href="">어센틱 (블랙)</a></li>
+                        <li><a class="dropdown-item ShoeName vans-model" href="">클래식 슬립온 (블랙)</a></li>
+                        <li><a class="dropdown-item ShoeName vans-model" href="">에라 (블랙)</a></li>
+                        <li><a class="dropdown-item ShoeName vans-model" href="">에라 (화이트)</a></li>
+                        <li><a class="dropdown-item ShoeName vans-model" href="">클래식 슬립온 (체커)</a></li>
+
+                        <!-- 컨버스 브랜드의 신발 모델 -->
+                        <li><a class="dropdown-item ShoeName converse-model" href="">척테일러 1970S 하이 (블랙)</a></li>
+                        <li><a class="dropdown-item ShoeName converse-model" href="">척테일러 1970S 하이 (화이트)</a></li>
+                        <li><a class="dropdown-item ShoeName converse-model" href="">척테일러 1970S 로우 (블랙)</a></li>
+                        <li><a class="dropdown-item ShoeName converse-model" href="">척테일러 1970S 로우 (화이트)</a></li>
+
+
                     </ul>
                 </div>
-            </div>
 
+                <br>
+
+                <div class="form-text">1MB 크기의 파일, 총 10MB 크기만 허용</div>
+                <div class="form-group">
+                    <!-- <label for="fileInput" class="form-label"></label>  -->
+                    <input class="form-control form-control-user" style="height: 38px;" type="file" multiple name="files" accept="image/*"
+                           id="fileInput" onchange="setDetailImage(event);"/>
+                </div>
+                <div id="images_container" style="width: 250px; height: 200px; object-fit: cover;"></div>
+
+                <div>
+                    <label for="inputPrice" class="form-label">작업 비용</label>
+                    <input id="inputPrice" type="title" class="form-control" name="title" value="${shoeBoard.price }"
+                           placeholder="작업 비용"/>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label for="inputMakeTime" class="form-label">작업 일수</label>
+                    <input id="inputMakeTime" type="makeTime" class="form-control" name="makeTime" value="${shoeBoard.makeTime }"
+                           placeholder="작업 일수"/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputBody" class="form-label">작품 설명</label>
+                    <input id="inputBody" style="height: 250px;" type="body" class="form-control" name="body" value="${shoeBoard.body }"
+                           placeholder="작품 설명"/>
+                </div>
+
+                <div class="mb-3">
+                    <form method="post" action="/artist/id">
+                        <input class="btn btn-warning" style="width: 466px; height: 50px; color: white; font-size: 20px;" type="submit" value="등록하기">
+                    </form>
+                </div>
+
+
+
+            </div>
             <form method="post">
 
             </form>
         </div>
+
 
     </div>
 </div>
