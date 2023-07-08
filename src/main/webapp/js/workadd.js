@@ -26,3 +26,26 @@ $(".ShoeBrand").click(function() {
         }
     });
 });
+
+$(document).ready(function() {
+    // 신발 브랜드 선택 시 해당 브랜드의 신발 모델만 표시
+    $('.ShoeBrand').click(function() {
+        var brand = $(this).attr('id');
+        $('#brand').val($(this).text());
+        $('.ShoeName').hide();
+        $('.ShoeName.' + brand + '-model').show();
+    });
+
+    // 신발 모델 선택 시 입력 필드에 선택한 모델명 표시
+    $('.ShoeName').click(function() {
+        var shoeModel = $(this).text();
+        $('#shoeModel').val(shoeModel);
+    });
+});
+
+$(".dropdown-item").click(function() {
+    $(".dropdown-item").removeClass("active"); // 모든 아이템에서 active 클래스 제거
+    $(this).addClass("active"); // 선택한 아이템에 active 클래스 추가
+});
+
+
