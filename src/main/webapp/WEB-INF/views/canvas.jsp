@@ -1,231 +1,233 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: dkssu
-  Date: 2023-07-07
-  Time: 오전 10:52
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html>
 <html>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous" referrerpolicy="no-referrer"/>
 <head>
-    <title>Custom</title>
     <style>
-        /*body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            !*overflow: hidden;*!
+        #drawing-board {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+        }
+        #drawing-board canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #drawing-board img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: move;
+        }
+        .rotate-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
             color: white;
-        }*/
-        /*.container {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-
-        #toolbar {
-            display: flex;
-            flex-direction: row;
-            height: auto;
-            background-color: black;
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-
-        #toolbar * {
-            margin-bottom: 5px;
+        #drawing-board:hover .rotate-button,
+        #drawing-board:hover .delete-button {
+            opacity: 1;
         }
-
-        #toolbar input {
-            width: 100%;
-        }*/
     </style>
-
 </head>
 <body>
-<my:navBar></my:navBar>
-<br>
-<br>
-<br>
-<br>
-<br>
+<div id="drawing-board">
+    <canvas id="canvas"></canvas>
+</div>
 
-<%--s3://bucket0503-mason/TeamPlay/
---%>
-<section style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <canvas id="drawing-board" style="border: 1px solid black; border-radius: 10px; width: 80%; height: auto; position: relative;"></canvas>
-    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/UserPhoto.jpg" onclick="handleImageClick(event)" style="max-width: 100%; max-height: 100%;" />
-    <div id="toolbar" style="border: 1px solid black; border-radius: 10px; width: 80%;">
-        <label for="stroke">color</label>
-        <input id="stroke" name='stroke' type="color">
-
-        <label for="lineWidth">선 두께</label>
-        <input id="lineWidth" name='lineWidth' type="range" min="0.1" max="20" value="10" step="0.1" />
-
-        <button onclick="selectMode('delete')">Delete</button>
-        <button onclick="selectMode('draw')">Draw</button>
-
-        <button id="clear">Clear</button>
-        <form method="post" enctype="multipart/form-data">
-            <div class=""></div>
-        </form>
-
-    </div>
-</section>
+<div id="image-list">
+    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/UserPhoto.jpg" alt="Image 1" class="draggable-image">
+    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/UserPhoto+(1).jpg" alt="Image 2" class="draggable-image">
+</div>
 
 <script>
-    const canvas = document.getElementById('drawing-board');
-    const toolbar = document.getElementById('toolbar');
+    const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-    const canvasOffsetX = canvas.offsetLeft;
-    const canvasOffsetY = canvas.offsetTop;
+    const imageList = document.getElementById('image-list');
+    const draggableImages = document.querySelectorAll('.draggable-image');
 
-    canvas.width = window.innerWidth - canvasOffsetX;
-    canvas.height = window.innerHeight - canvasOffsetY;
-
-    let isPainting = false;
     let isDragging = false;
-    let isDeleting = false;
-    let lineWidth = 5;
-    let imageX = 0;
-    let imageY = 0;
+    let dragStartX, dragStartY;
+    let selectedImage = null;
+    let imageX = 0, imageY = 0;
+    let rotationAngle = 0;
 
-    toolbar.addEventListener('click', (event) => {
-        if (event.target.id === 'clear') {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-    });
+    canvas.width = 400;
+    canvas.height = 400;
 
-    toolbar.addEventListener('change', (event) => {
-        if (event.target.id === 'stroke') {
-            ctx.strokeStyle = event.target.value;
-        }
-
-        if (event.target.id === 'lineWidth') {
-            lineWidth = event.target.value;
-        }
-    });
-
-    canvas.addEventListener('mousedown', (event) => {
-        if (isDeleting) {
-            handleDelete(event);
-        } else {
-            isPainting = true;
-            ctx.beginPath();
-            ctx.moveTo(event.clientX - canvasOffsetX, event.clientY);
-        }
-    });
-
-    canvas.addEventListener('mouseup', (event) => {
-        isPainting = false;
-    });
-
-    canvas.addEventListener('mousemove', (event) => {
-        if (isPainting) {
-            ctx.lineWidth = lineWidth;
-            ctx.lineCap = 'round';
-            ctx.lineTo(event.clientX - canvasOffsetX, event.clientY);
-            ctx.stroke();
-        } else if (isDragging) {
-            handleMouseMove(event);
-        }
-    });
+    imageList.addEventListener('mousedown', handleImageClick);
+    canvas.addEventListener('mousedown', handleCanvasMouseDown);
+    canvas.addEventListener('mousemove', handleCanvasMouseMove);
+    canvas.addEventListener('mouseup', handleCanvasMouseUp);
 
     function handleImageClick(event) {
-        if (isPainting || isDeleting) {
-            return;
-        }
+        if (event.target.classList.contains('draggable-image')) {
+            const image = event.target;
+            const newImage = new Image();
+            newImage.src = image.src;
 
-        const image = new Image();
-        image.src = event.target.src;
-        image.onload = function() {
-            const centerX = (canvas.width - image.width) / 2;
-            const centerY = (canvas.height - image.height) / 2;
-            imageX = centerX;
-            imageY = centerY;
+            newImage.onload = function() {
+                const centerX = (canvas.width - newImage.width) / 2;
+                const centerY = (canvas.height - newImage.height) / 2;
+                imageX = centerX;
+                imageY = centerY;
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(image, centerX, centerY);
-
-            const deleteButtonSize = 20;
-            const deleteButtonX = centerX;
-            const deleteButtonY = centerY - deleteButtonSize;
-            ctx.fillStyle = 'red';
-            ctx.fillRect(deleteButtonX, deleteButtonY, deleteButtonSize, deleteButtonSize);
-        };
-    }
-
-    function handleDelete(event) {
-        if (isDeleting) {
-            const deleteButtonSize = 20;
-            const deleteButtonX = (canvas.width - deleteButtonSize) / 2;
-            const deleteButtonY = (canvas.height - deleteButtonSize) / 2 - deleteButtonSize;
-
-            const clickX = event.clientX - canvasOffsetX;
-            const clickY = event.clientY - canvasOffsetY;
-
-            if (clickX >= deleteButtonX && clickX <= deleteButtonX + deleteButtonSize &&
-                clickY >= deleteButtonY && clickY <= deleteButtonY + deleteButtonSize) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate((rotationAngle * Math.PI) / 180);
+                ctx.drawImage(newImage, -newImage.width / 2, -newImage.height / 2);
+                ctx.restore();
+
+                selectedImage = newImage;
+
+                // 이미지를 canvas에 추가하는 부분
+                selectedImage.style.position = 'absolute';
+                selectedImage.style.left = `${centerX}px`;
+                selectedImage.style.top = `${centerY}px`;
+                selectedImage.style.transformOrigin = 'center center';
+                selectedImage.style.pointerEvents = 'none';
+                selectedImage.classList.add('draggable');
+                document.getElementById('drawing-board').appendChild(selectedImage);
+
+                const rotateButton = document.createElement('div');
+                rotateButton.classList.add('rotate-button');
+                rotateButton.textContent = '↻';
+                rotateButton.addEventListener('mousedown', handleRotateButtonMouseDown);
+                document.getElementById('drawing-board').appendChild(rotateButton);
+
+                const deleteButton = document.createElement('div');
+                deleteButton.classList.add('delete-button');
+                deleteButton.textContent = 'X';
+                deleteButton.addEventListener('mousedown', handleDeleteButtonMouseDown);
+                document.getElementById('drawing-board').appendChild(deleteButton);
+
+                //selectedImage = newImage;
+
+                rotateButton.style.left = `${imageX - rotateButton.offsetWidth / 2}px`;
+                rotateButton.style.top = `${imageY - rotateButton.offsetHeight / 2}px`;
+
+                deleteButton.style.right = `${canvas.offsetWidth - (imageX + selectedImage.width) - deleteButton.offsetWidth / 2}px`;
+                deleteButton.style.top = `${imageY - deleteButton.offsetHeight / 2}px`;
+            };
         }
     }
 
-    function handleMouseDown(event) {
-        if (isDeleting) {
-            handleDelete(event);
-        } else {
+    function handleCanvasMouseDown(event) {
+        if (event.target === canvas && selectedImage) {
             isDragging = true;
-            dragStartX = event.clientX;
-            dragStartY = event.clientY;
+            dragStartX = event.clientX - canvas.offsetLeft;
+            dragStartY = event.clientY - canvas.offsetTop;
+
+            // 이미지를 선택한 상태에서 마우스를 클릭하면 selectedImage를 canvas의 자식 요소로 이동합니다.
+            canvas.appendChild(selectedImage);
+
         }
     }
 
-    function handleMouseMove(event) {
-        if (isDragging) {
-            const dragOffsetX = event.clientX - dragStartX;
-            const dragOffsetY = event.clientY - dragStartY;
+    function handleCanvasMouseMove(event) {
+        if (isDragging && selectedImage) {
+            const dragOffsetX = event.clientX - canvas.offsetLeft - dragStartX;
+            const dragOffsetY = event.clientY - canvas.offsetTop - dragStartY;
 
             imageX += dragOffsetX;
             imageY += dragOffsetY;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(image, imageX, imageY);
+            ctx.save();
+            ctx.translate(imageX + selectedImage.width / 2, imageY + selectedImage.height / 2);
+            ctx.rotate((rotationAngle * Math.PI) / 180);
+            ctx.drawImage(selectedImage, -selectedImage.width / 2, -selectedImage.height / 2);
+            ctx.restore();
 
-            dragStartX = event.clientX;
-            dragStartY = event.clientY;
+            dragStartX = event.clientX - canvas.offsetLeft;
+            dragStartY = event.clientY - canvas.offsetTop;
+
+            const rotateButton = document.querySelector('.rotate-button');
+            rotateButton.style.left = `${imageX - rotateButton.offsetWidth / 2}px`;
+            rotateButton.style.top = `${imageY - rotateButton.offsetHeight / 2}px`;
+
+            const deleteButton = document.querySelector('.delete-button');
+            deleteButton.style.right = `${canvas.offsetWidth - (imageX + selectedImage.width) - deleteButton.offsetWidth / 2}px`;
+            deleteButton.style.top = `${imageY - deleteButton.offsetHeight / 2}px`;
         }
     }
 
-    function handleMouseUp(event) {
+    function handleCanvasMouseUp() {
         isDragging = false;
     }
 
-    function selectMode(mode) {
-        isPainting = false;
-        isDeleting = false;
-        isDragging = false;
+    let rotateStartX, rotateStartY;
+    let rotationStartAngle;
+    let isRotating = false;
+    function handleRotateButtonMouseDown(event) {
+        rotateStartX = event.clientX;
+        rotateStartY = event.clientY;
+        rotationStartAngle = rotationAngle;
 
-        if (mode === 'draw') {
-            toolbar.style.cursor = 'crosshair';
-            canvas.removeEventListener('mousedown', handleMouseDown);
-            canvas.removeEventListener('mousemove', handleMouseMove);
-            canvas.removeEventListener('mouseup', handleMouseUp);
-        } else if (mode === 'delete') {
-            toolbar.style.cursor = 'pointer';
-            canvas.addEventListener('mousedown', handleMouseDown);
-            canvas.addEventListener('mousemove', handleMouseMove);
-            canvas.addEventListener('mouseup', handleMouseUp);
+        isRotating = true;
+
+        document.addEventListener('mousemove', handleRotateButtonMouseMove);
+        document.addEventListener('mouseup', handleRotateButtonMouseUp);
+    }
+
+    function handleRotateButtonMouseMove(event) {
+        if (isRotating) {
+            const rotateOffsetX = event.clientX - rotateStartX;
+            const rotateOffsetY = event.clientY - rotateStartY;
+
+            const angle = Math.atan2(rotateOffsetY, rotateOffsetX);
+            const newRotationAngle = rotationStartAngle + (angle * 180) / Math.PI;
+
+            rotationAngle = newRotationAngle;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(imageX + selectedImage.width / 2, imageY + selectedImage.height / 2);
+            ctx.rotate((rotationAngle * Math.PI) / 180);
+            ctx.drawImage(selectedImage, -selectedImage.width / 2, -selectedImage.height / 2);
+            ctx.restore();
         }
     }
 
-    selectMode('draw');
-</script>
+    function handleRotateButtonMouseUp() {
+      isRotating = false;
 
+      document.removeEventListener('mousemove', handleRotateButtonMouseMove);
+      document.removeEventListener('mouseup', handleRotateButtonMouseUp);
+    }
+
+    function handleDeleteButtonMouseDown() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const rotateButton = document.querySelector('.rotate-button');
+      rotateButton.remove();
+
+      const deleteButton = document.querySelector('.delete-button');
+      deleteButton.remove();
+
+      selectedImage = null;
+    }
+  </script>
+</body>
 </html>
