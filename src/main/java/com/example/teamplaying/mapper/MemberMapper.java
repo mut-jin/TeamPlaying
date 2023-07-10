@@ -306,6 +306,13 @@ public interface MemberMapper {
             </script>
             """)
     List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type);
+
+    @Select("""
+            SELECT id
+            FROM Member
+            WHERE id = #{id}
+            """)
+    Member selectId(Integer id);
 /*
     COUNT(f.id) fileCount,
             	(SELECT COUNT(*) FROM BoardLike WHERE boardId = b.id) likeCount,

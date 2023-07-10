@@ -223,4 +223,8 @@ public class MemberService {
 		return Map.of("pageInfo", pageInfo, "boardList", list);
     }
 
+	public Member getBoard(Integer id) {
+
+		return mapper.selectId(id);
+	}
 }

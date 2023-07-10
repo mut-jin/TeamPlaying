@@ -157,11 +157,12 @@ public class MainController {
 		model.addAllAttributes(result);
 	}
 
-
 	@GetMapping("workadd")
-	public void workadd() {
+	public void workadd(Model model, Authentication authentication) {
+		model.addAttribute("member", memberService.get(authentication.getName()));
 
 	}
+
 
 	@GetMapping("/getShoeModels")
 	public ResponseEntity<List<String>> getShoeModels(@RequestParam String brand) {
@@ -182,6 +183,5 @@ public class MainController {
 	public void canvas() {
 
 	}
-
 
 }
