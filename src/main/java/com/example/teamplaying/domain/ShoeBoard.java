@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class ShoeBoard {
     private Integer id;
-    private String category;
+    private String title;
     private String shoeName;
     private Integer memberId;
     private String nickName;
