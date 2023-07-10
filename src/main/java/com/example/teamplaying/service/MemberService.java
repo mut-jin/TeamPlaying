@@ -240,6 +240,11 @@ public class MemberService {
 		pageInfo.put("leftPageNum", leftPageNum);
 		pageInfo.put("lastPageNum", lastPageNum);
 		pageInfo.put("currentPageNum", page);
-		return Map.of("pageInfo", pageInfo, "memberInfo", mapper.getMemberById(startIndex, rowPerPage, id));
+
+		List<Member> list = mapper.getMemberById(startIndex, rowPerPage, id);
+		for(Member i : list) {
+			i.setProfile(bucketUrl + "/Member/" + i.getId() + "/" + i.getProfile());
+		}
+		return Map.of("pageInfo", pageInfo, "memberInfo", list);
 	}
 }

@@ -317,7 +317,7 @@ public interface MemberMapper {
                  (SELECT SUM(view) FROM shoeBoard WHERE memberId = m.id) totalView,
                  (SELECT COUNT(*) FROM shoeBoard WHERE memberId = m.id) workCount,
                  (SELECT COUNT(*) FROM subscribe WHERE artistId = m.id) subCount
-            FROM Member
+            FROM Member m
             WHERE id = #{id}
             ORDER BY id DESC
             LIMIT #{startIndex}, #{rowPerPage}
