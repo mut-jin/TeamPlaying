@@ -157,6 +157,15 @@ public class MainController {
 		model.addAllAttributes(result);
 	}
 
+	@GetMapping("artist/{id}")
+	public String artistPage(Model model,
+							 @PathVariable Integer id,
+							 @RequestParam(value = "page", defaultValue = "1") Integer page) {
+		Map<String, Object> result = memberService.getMember(id, page);
+		model.addAllAttributes(result);
+		return "artistPage";
+	}
+
 
 	@GetMapping("workadd")
 	public void workadd() {
@@ -182,6 +191,5 @@ public class MainController {
 	public void canvas() {
 
 	}
-
 
 }

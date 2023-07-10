@@ -209,11 +209,11 @@ public class MemberService {
 		for(Member i : list) {
 			List<String> shoeList = new ArrayList<>();
 			List<Integer> boardIdList = shoeMapper.getBoardIdList(i.getId());
-			for(Integer j : boardIdList) {
-				shoeList.add(bucketUrl + "/shoeBoard/" + j + "/" + shoeMapper.getMyShoeFileName(j));
+			for(Integer boardID : boardIdList) {
+				shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
 
 			}
-			i.setSubscribe(shoeMapper.getMySubscribe(i.getId()));
+			i.setSubCount(shoeMapper.getMySubscribe(i.getId()));
 			i.setShoeImgList(shoeList);
 			if(i.getTotalView() == null) {
 				i.setTotalView(0);
@@ -223,4 +223,28 @@ public class MemberService {
 		return Map.of("pageInfo", pageInfo, "boardList", list);
     }
 
+	public Map<String, Object> getMember(Integer id, Integer page) {
+		Integer rowPerPage = 9;
+		Integer startIndex = (page - 1) * rowPerPage;
+
+		Integer shoeBoardNum = mapper.getmyShoeBoardNum(id);
+		Integer lastPageNum = (shoeBoardNum - 1) / rowPerPage + 1;
+
+		Integer rightPageNum = ((page - 1) / 5 + 1) * 5;
+		Integer leftPageNum = rightPageNum - 4;
+		leftPageNum = Math.max(leftPageNum, 1);
+		rightPageNum = Math.min(rightPageNum, lastPageNum);
+
+		Map<String, Object> pageInfo = new HashMap<>();
+		pageInfo.put("rightPageNum", rightPageNum);
+		pageInfo.put("leftPageNum", leftPageNum);
+		pageInfo.put("lastPageNum", lastPageNum);
+		pageInfo.put("currentPageNum", page);
+
+		List<Member> list = mapper.getMemberById(startIndex, rowPerPage, id);
+		for(Member i : list) {
+			i.setProfile(bucketUrl + "/Member/" + i.getId() + "/" + i.getProfile());
+		}
+		return Map.of("pageInfo", pageInfo, "memberInfo", list);
+	}
 }

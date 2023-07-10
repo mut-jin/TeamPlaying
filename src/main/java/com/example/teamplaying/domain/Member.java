@@ -24,8 +24,9 @@ public class Member {
 	private String profile;
 
 	private Integer totalView;
-	private Integer subscribe;
+	private Integer subCount;
 	private List<String> shoeImgList;
+	private Integer workCount;
 
 	
 }

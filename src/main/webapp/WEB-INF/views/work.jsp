@@ -56,7 +56,7 @@
                                 <span>  ${board.nickName}</span>
                                 <p style="font-size: medium;">${board.inserted}</p>
                             </h5>
-                            <p class="card-text">${board.shoeName}</p>
+                            <p class="card-text">${board.title}</p>
                             <p class="card-text">
                                 <i class="fa-solid fa-heart"></i> ${board.likeCount } <i class="fa-regular fa-comments"></i> ${board.commentCount }
                             </p>
