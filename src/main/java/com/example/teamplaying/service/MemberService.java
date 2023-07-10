@@ -223,6 +223,7 @@ public class MemberService {
 		return Map.of("pageInfo", pageInfo, "boardList", list);
     }
 
+
 	public Map<String, Object> getMember(Integer id, Integer page) {
 		Integer rowPerPage = 9;
 		Integer startIndex = (page - 1) * rowPerPage;
