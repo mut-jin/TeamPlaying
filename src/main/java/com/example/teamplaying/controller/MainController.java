@@ -180,13 +180,6 @@ public class MainController {
 		return "artistPage";
 	}
 
-
-	@GetMapping("workadd")
-	public void workadd() {
-
-	}
-
-
 	@GetMapping("/getShoeModels")
 	public ResponseEntity<List<String>> getShoeModels(@RequestParam String brand) {
 		List<String> shoeModels = shoeBoardService.getShoeModelsByBrand(brand);
