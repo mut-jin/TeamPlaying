@@ -17,7 +17,6 @@
         padding-bottom: 15px; /* 원하는 아래쪽 패딩 값을 지정 */
         display: flex;
         align-items: center;
-        height: 100%;
     }
 
     #navbar-padding {
@@ -87,6 +86,17 @@
                         <a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/signup" style="color: white;">회원가입 </a>
                     </li>
                 </sec:authorize>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                            고객센터
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="cs">1:1 문의</a></li>
+                            <li><a class="dropdown-item" href="myCs">내 문의</a></li>
+                        </ul>
+                    </div>
+                </li>
                 <sec:authorize access="isAuthenticated()">
                     <li class="nav-item">
                         <button class="nav-item btn btn-primary"

@@ -1,8 +1,9 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ attribute name="pageNum" %>
+<%@ attribute name="pageUrl"%>
 
-<c:url value="/artist" var="pageLink">
+<c:url value="${pageUrl}" var="pageLink">
     <c:param name="page" value="${pageNum }" />
     <c:if test="${not empty param.search }">
         <c:param name="search" value="${param.search }" />

@@ -24,7 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		Member member = mapper.getMemberInfoByUserId(username);
-		System.out.println(member);
 		if(member == null) {
 			throw new UsernameNotFoundException(username + " 회원이 없습니다.");
 		}
@@ -39,6 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (member.getMemberType().equals("artist")) {
 			authorityList.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
 		}
+
 		UserDetails user = User.builder()
 				.username(member.getUserId())
 				.password(member.getPassword())
