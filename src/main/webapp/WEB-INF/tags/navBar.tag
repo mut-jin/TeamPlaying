@@ -17,7 +17,6 @@
         padding-bottom: 15px; /* 원하는 아래쪽 패딩 값을 지정 */
         display: flex;
         align-items: center;
-        height: 100%;
     }
 
     #navbar-padding {
@@ -87,6 +86,17 @@
                         <a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/signup" style="color: white;">회원가입 </a>
                     </li>
                 </sec:authorize>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                            고객센터
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="cs">1:1 문의</a></li>
+                            <li><a class="dropdown-item" href="myCs">내 문의</a></li>
+                        </ul>
+                    </div>
+                </li>
                 <sec:authorize access="isAuthenticated()">
                     <li class="nav-item">
                         <button class="nav-item btn btn-primary"
@@ -171,17 +181,17 @@
 
 
 <!-- offcanvas -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
-     style="width: 800px;">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">알림 목록 🏄‍♂️</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div id="runningHostAlarm"></div>
-        <div id="runningMemberAlarm"></div>
-        <div id="climbingHostAlarm"></div>
-        <div id="climbingMemberAlarm"></div>
-    </div>
-</div>
+<%--<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"--%>
+<%--     style="width: 800px;">--%>
+<%--    <div class="offcanvas-header">--%>
+<%--        <h5 class="offcanvas-title" id="offcanvasExampleLabel">알림 목록 🏄‍♂️</h5>--%>
+<%--        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>--%>
+<%--    </div>--%>
+<%--    <div class="offcanvas-body">--%>
+<%--        <div id="runningHostAlarm"></div>--%>
+<%--        <div id="runningMemberAlarm"></div>--%>
+<%--        <div id="climbingHostAlarm"></div>--%>
+<%--        <div id="climbingMemberAlarm"></div>--%>
+<%--    </div>--%>
+<%--</div>--%>
 

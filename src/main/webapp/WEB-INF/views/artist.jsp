@@ -36,12 +36,13 @@
         <div class="dropdown" style="flex-grow: 0; flex-basis: 25%;">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                <input type="text" placeholder="aa">
+                <input type="text" value="${name}" id="typeSelect">
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="/artist?name=선택">선택</a></li>
+                <li><a class="dropdown-item" href="/artist?order=subscribe&name=구독자 순">구독자 순</a></li>
+                <li><a class="dropdown-item" href="/artist?order=totalWork&name=최다 작품 순">최다 작품 순 </a></li>
+                <li><a class="dropdown-item" href="/artist?order=totalView&name=총조회수 순">총조회수 순</a></li>
             </ul>
         </div>
         <div style="flex-grow: 1;"></div>
@@ -92,13 +93,13 @@
             <ul class="pagination justify-content-center">
                 <!-- 이전 버튼 -->
                 <c:if test="${pageInfo.currentPageNum gt 1 }">
-                    <my:pageItem pageNum="${pageInfo.currentPageNum - 1 }">
+                    <my:pageItem pageUrl="/artist" pageNum="${pageInfo.currentPageNum - 1 }">
                         <i class="fa-solid fa-angle-left"></i>
                     </my:pageItem>
                 </c:if>
 
                 <c:forEach begin="${pageInfo.leftPageNum }" end="${pageInfo.rightPageNum }" var="pageNum">
-                    <my:pageItem pageNum="${pageNum }">
+                    <my:pageItem pageUrl="/artist" pageNum="${pageNum }">
                         ${pageNum }
                     </my:pageItem>
                 </c:forEach>
@@ -106,7 +107,7 @@
                 <!-- 다음 버튼 -->
                 <c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
                     <%-- 페이지 번호 : ${pageInfo.currentPageNum + 1 } --%>
-                    <my:pageItem pageNum="${pageInfo.currentPageNum + 1 }">
+                    <my:pageItem pageUrl="/artist" pageNum="${pageInfo.currentPageNum + 1 }">
                         <i class="fa-solid fa-angle-right"></i>
                     </my:pageItem>
                 </c:if>
@@ -120,5 +121,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../../js/artist.js"></script>
 </body>
 </html>
