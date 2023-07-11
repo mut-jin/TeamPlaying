@@ -100,14 +100,14 @@
             <br/>
             <div class="mb-3">
                 <label for="inputTitle" class="form-label">작품명</label>
-                <input id="inputTitle" type="title" class="form-control" name="title" value=""
+                <input id="inputTitle" type="title" class="form-control" name="title" value="${shoeBoard.title}"
                        placeholder="작품명" onclick="highlightInput(this)"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">신발 브랜드</label>
-                <div class="dropdown">
+                <div class="dropdown" onclick="highlightInput(this)">
                     <button style="background-color: white;" class="btn dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false" onclick="highlightInput(this)">
+                            data-bs-toggle="dropdown" aria-expanded="false">
                         <input id="brand" style="border: 0; width: 420px;" placeholder="신발 브랜드"/>
                     </button>
                     <ul class="dropdown-menu" style="width: 466px; font-size: 22px; font-weight: bolder">
@@ -128,9 +128,9 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">신발 모델명</label>
-                <div class="dropdown">
+                <div class="dropdown" onclick="highlightInput(this)">
                     <button style="background-color: white;" class="btn dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false" onclick="highlightInput(this.querySelector('input'))">
+                            data-bs-toggle="dropdown" aria-expanded="false">
                         <input id="shoeModel" style="border: 0; width: 420px;" placeholder="신발 브랜드"/>
                     </button>
 
@@ -231,6 +231,7 @@
     let previousClickedElement = null;
 
     function highlightInput(input) {
+        console.log(input);
         // 이전에 클릭한 요소의 테두리와 텍스트 색상을 원래 색으로 되돌림
         if (previousClickedElement !== null) {
             previousClickedElement.classList.remove('yellow-border');
@@ -247,35 +248,6 @@
         previousClickedElement = input;
     }
 
-    // 작품명 텍스트 클릭 시 노란색 적용
-    document.getElementById('inputTitle').addEventListener('click', function () {
-        highlightInput(this);
-    });
-
-    // 신발 브랜드 텍스트 클릭 시 노란색 적용
-    document.getElementById('brand').addEventListener('click', function () {
-        const brandInput = this.querySelector('input');
-        highlightInput(brandInput);
-        highlightInput(this); // 텍스트 적용을 위해 추가
-    });
-
-    // 신발 모델명 텍스트 클릭 시 노란색 적용
-    document.getElementById('shoeModel').addEventListener('click', function () {
-        highlightInput(this);
-    });
-
-    // 다른 요소를 클릭했을 때 이전 요소의 테두리와 텍스트 색상을 원래 색으로 되돌림
-    document.addEventListener('click', function (event) {
-        const clickedElement = event.target;
-        if (clickedElement !== previousClickedElement) {
-            if (previousClickedElement !== null) {
-                previousClickedElement.classList.remove('yellow-border');
-                const labelElement = previousClickedElement.parentNode.querySelector('.form-label');
-                labelElement.classList.remove('yellow-label');
-            }
-            previousClickedElement = null;
-        }
-    });
 
 </script>
 

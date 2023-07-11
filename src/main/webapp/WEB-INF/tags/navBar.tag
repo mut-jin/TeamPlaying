@@ -111,67 +111,21 @@
                             aria-controls="offcanvasExample">
                         <i class="fa-regular fa-bell"></i>
                         <span id="NumberOfAlarm" style="display: none;"
-                              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger""> </span>
+                              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> </span>
                     </button>
                 </sec:authorize>
-                <button type="button" class="btn btn-warning" style="margin-left: 20px;">
-                    <a href="workadd">
-                        작품 등록
-                    </a>
-                </button>
+                <sec:authorize access="hasAuthority('ROLE_ARTIST')">
+                    <li class="nav-item">
+                        <a class="btn btn-warning" href="/workadd" style="color: white; margin-left: 10px;">
+                            작품 등록
+                        </a>
+                    </li>
+                </sec:authorize>
             </ul>
-
         </div>
     </div>
 </nav>
 
-<%-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/running/runningMain" style="color: white;">러닝</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link ${current eq 'add' ? 'active' : '' }" href="/futsal/futsalList" style="color: white;">풋살</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/climbing/list" style="color: white;">등산</a>
-				</li>
-				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item">
-						<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/my_page" style="color: white;">마이페이지</a>
-					</li>
-				</sec:authorize>
-				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item">
-						<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/logout" style="color: red;">로그아웃</a>
-					</li>
-				</sec:authorize>
-				<sec:authorize access="isAnonymous()">
-					<li class="nav-item">
-						<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/login" style="color: aqua;">로그인</a>
-					</li>
-				</sec:authorize>
-				<sec:authorize access="isAnonymous()">
-					<li class="nav-item">
-						<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/signup" style="color: white;">회원가입</a>
-					</li>
-				</sec:authorize>
-				<sec:authorize access="isAuthenticated()">
-					<button id="alarmList" class="btn btn-primary position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-						<i class="fa-regular fa-bell"></i>
-						<span id="NumberOfAlarm" style="display: none;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger""> </span>
-					</button>
-				</sec:authorize>
-				<li class="nav-item"><a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/list">회원목록</a></li>
-			</ul>
-
-		</div>
-	</div>
-</nav>
- --%>
 <style>
     .btn.btn-warning a {
         text-decoration: none;
@@ -179,8 +133,32 @@
     }
 </style>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var memberTypeInput = document.querySelector('input[name="memberType"]');
+        var registerArtworkLink = document.querySelector('.register-artwork-link');
 
-<!-- offcanvas -->
+        // 초기 로딩 시 회원 유형에 따라 작품 등록 링크를 표시/숨김 처리
+        handleMemberTypeChange(memberTypeInput.value);
+
+        memberTypeInput.addEventListener('change', function() {
+            handleMemberTypeChange(this.value);
+        });
+
+        function handleMemberTypeChange(memberType) {
+            if (memberType === 'artist') {
+                registerArtworkLink.style.display = 'block';
+            } else {
+                registerArtworkLink.style.display = 'none';
+            }
+        }
+    });
+</script>
+
+
+
+
+<%--<!-- offcanvas -->--%>
 <%--<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"--%>
 <%--     style="width: 800px;">--%>
 <%--    <div class="offcanvas-header">--%>

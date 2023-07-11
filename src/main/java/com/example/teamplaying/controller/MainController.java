@@ -1,11 +1,13 @@
 package com.example.teamplaying.controller;
 
 import com.example.teamplaying.domain.Member;
+import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.ShoeBoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -149,11 +151,21 @@ public class MainController {
 
 		model.addAllAttributes(result);
 
-	}@GetMapping("work")
-	public void work(Model model,
+	}
+	@GetMapping("workadd")
+	@PreAuthorize("hasAuthority('artist')")
+	public void workadd(Model model, Authentication authentication) {
+		model.addAttribute("member", memberService.get(authentication.getName()));
+
+	}
+
+	@GetMapping("work")
+	public void work(Model model, Authentication authentication,
 					 @RequestParam(value = "page", defaultValue = "1") Integer page,
 					 @RequestParam(value = "search", defaultValue = "") String search,
 					 @RequestParam(value = "type", required = false) String type) {
+
+		// work
 		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type);
 
 		model.addAllAttributes(result);
@@ -173,6 +185,7 @@ public class MainController {
 	public void workadd() {
 
 	}
+
 
 	@GetMapping("/getShoeModels")
 	public ResponseEntity<List<String>> getShoeModels(@RequestParam String brand) {
