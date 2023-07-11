@@ -142,8 +142,10 @@ public class MainController {
 	public void artist(Model model,
 					   @RequestParam(value = "page", defaultValue = "1") Integer page,
 					   @RequestParam(value = "search", defaultValue = "") String search,
-					   @RequestParam(value = "type", required = false) String type) {
-		Map<String, Object> result = memberService.getArtistBoard(page, search, type);
+					   @RequestParam(value = "type", required = false) String type,
+					   @RequestParam(value = "name", defaultValue = "선택") String name,
+					   @RequestParam(value = "order", defaultValue = "id") String order) {
+		Map<String, Object> result = memberService.getArtistBoard(page, search, type, order, name);
 
 		model.addAllAttributes(result);
 
@@ -189,6 +191,11 @@ public class MainController {
 
 	@GetMapping("canvas")
 	public void canvas() {
+
+	}
+
+	@GetMapping("cs")
+	public void cs() {
 
 	}
 

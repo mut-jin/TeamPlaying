@@ -3,12 +3,14 @@ package com.example.teamplaying.security;
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -22,7 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		Member member = mapper.getMemberInfoByUserId(username);
-		System.out.println(member);
 		if(member == null) {
 			throw new UsernameNotFoundException(username + " 회원이 없습니다.");
 		}
@@ -32,7 +33,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 //			authorityList.add(new SimpleGrantedAuthority(auth));
 //		}
 
-		
+		List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+
+		authorityList.add(new SimpleGrantedAuthority(member.getMemberType()));
+
 		UserDetails user = User.builder()
 				.username(member.getUserId())
 				.password(member.getPassword())

@@ -1,11 +1,9 @@
 package com.example.teamplaying.mapper;
 
 import com.example.teamplaying.domain.Member;
-import com.example.teamplaying.domain.Member;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface MemberMapper {
@@ -298,15 +296,17 @@ public interface MemberMapper {
             	nickName,
             	address,
             	profile,
-            	(SELECT SUM(view) FROM shoeBoard WHERE memberId = m.id) totalView
+            	(SELECT SUM(view) FROM shoeBoard WHERE memberId = m.id) totalView,
+            	(SELECT COUNT(*) FROM shoeBoard WHERE memberId = m.id) totalWork,
+            	(SELECT COUNT(*) FROM subscribe WHERE artistId = m.id) subscribe
             FROM Member m
             WHERE memberType = 'artist' AND
                   nickName LIKE #{pattern}
-            ORDER BY id DESC
+            ORDER BY #{order} DESC
             LIMIT #{startIndex}, #{rowPerPage}
             </script>
             """)
-    List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type);
+    List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type, String order);
 
     @Select("""
             SELECT
@@ -322,7 +322,7 @@ public interface MemberMapper {
             ORDER BY id DESC
             LIMIT #{startIndex}, #{rowPerPage}
             """)
-    List<Member> getMemberById(Integer startIndex, Integer rowPerPage, Integer id);
+    Member getMemberById(Integer startIndex, Integer rowPerPage, Integer id);
 
     @Select("""
             SELECT COUNT(*) FROM shoeBoard
