@@ -15,8 +15,8 @@ public class Member {
 	private String nickName;
 	private LocalDateTime inserted;
 	private String birth;
-	private String gender;
 	private String address;
+	private String addressDetail;
 	private String phone;
 	private String email;
 	private String introduce;

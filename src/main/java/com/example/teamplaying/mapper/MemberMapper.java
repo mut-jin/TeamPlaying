@@ -25,8 +25,8 @@ public interface MemberMapper {
 
     @Insert("""
             insert into Member
-            (userId, password, name, nickName, birth, gender, address, phone, email, introduce)
-            values (#{userId}, #{password}, #{name} ,#{nickName}, #{birth}, #{gender}, #{address}, #{phone}, #{email}, #{introduce})
+            (userId, password, name, nickName, birth, memberType, address, addressDetail, phone, email, introduce)
+            values (#{userId}, #{password}, #{name} ,#{nickName}, #{birth}, #{memberType}, #{address}, #{addressDetail}, #{phone}, #{email}, #{introduce})
             """)
     Integer insertMember(Member member);
 
