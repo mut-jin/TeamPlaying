@@ -52,8 +52,8 @@ input[type="text"], input[type="password"] {
 						<input class="btn btn-dark" style="width: 412.8px; height: 39px;" type="submit" value="Login">
 					</div>
 				</form>
-				<h2>Kakao Login</h2>
-				<button id="loginBtn">Kakao 로그인</button>
+				<%--<h2>Kakao Login</h2>
+				<button id="loginBtn">Kakao 로그인</button>--%>
 			</div>
 		</div>
 	</div>
@@ -81,7 +81,7 @@ input[type="text"], input[type="password"] {
 			})
 		};*/
 
-	Kakao.init("1603e23f210e1265c0074871a6496f28")
+	/*Kakao.init("1603e23f210e1265c0074871a6496f28")
 
 	// Kakao 로그인 버튼 클릭 이벤트 처리
 	document.getElementById('loginBtn').addEventListener('click', function() {
@@ -96,7 +96,7 @@ input[type="text"], input[type="password"] {
 			}
 		});
 	});
-
+*/
 
 
 	</script>

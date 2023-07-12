@@ -183,5 +183,9 @@ public class MainController {
 
 	}
 
+	@GetMapping("canvas1")
+	public void canvas1() {
+
+	}
 
 }

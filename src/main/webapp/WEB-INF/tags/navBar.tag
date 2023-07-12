@@ -15,7 +15,6 @@
 		padding-bottom: 15px; /* 원하는 아래쪽 패딩 값을 지정 */
 		display: flex;
 		align-items: center;
-		height: 100%;
 	}
 	#navbar-padding {
 		padding : 0;
@@ -54,7 +53,7 @@
 					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/artist" style="color: white;">아티스트</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/canvas" style="color: white;">커스텀</a>
+					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/canvas1" style="color: white;">커스텀</a>
 				</li>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item">
@@ -84,10 +83,10 @@
 							</a>
 						</button>
 					</li>
-					<button id="alarmList" class="btn btn-primary position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+					<%--<button id="alarmList" class="btn btn-primary position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
 						<i class="fa-regular fa-bell"></i>
 						<span id="NumberOfAlarm" style="display: none;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger""> </span>
-					</button>
+					</button>--%>
 				</sec:authorize>
 			</ul>
 
@@ -144,7 +143,7 @@
  --%>
 
 
-<!-- offcanvas -->
+<!-- offcanvas --><%--
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 800px;">
 	<div class="offcanvas-header">
 		<h5 class="offcanvas-title" id="offcanvasExampleLabel">알림 목록 🏄‍♂️</h5>
@@ -156,4 +155,4 @@
 		<div id="climbingHostAlarm"></div>
 		<div id="climbingMemberAlarm"></div>
 	</div>
-</div>
+</div>--%>
