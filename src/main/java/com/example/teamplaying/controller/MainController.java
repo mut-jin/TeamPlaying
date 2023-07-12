@@ -200,6 +200,9 @@ public class MainController {
 
 	}
 
+	@GetMapping("canvas1")
+	public void canvas1() {
+  
 	@GetMapping("cs")
 	public void cs() {
 

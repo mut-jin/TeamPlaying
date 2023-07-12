@@ -7,6 +7,9 @@
             width: 400px;
             height: 400px;
             border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         #drawing-board canvas {
             position: absolute;
@@ -15,15 +18,16 @@
         }
         #drawing-board img {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 0;
+            left: 0;
             transform: translate(-50%, -50%);
             cursor: move;
         }
         .rotate-button {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 5px;
@@ -34,8 +38,9 @@
         }
         .delete-button {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: -20px;
+            right: 50%;
+            transform: translateX(-50%);
             background-color: rgba(255, 0, 0, 0.7);
             color: white;
             padding: 5px;
@@ -43,10 +48,6 @@
             cursor: pointer;
             opacity: 0;
             transition: opacity 0.3s ease;
-        }
-        #drawing-board:hover .rotate-button,
-        #drawing-board:hover .delete-button {
-            opacity: 1;
         }
     </style>
 </head>
@@ -69,6 +70,7 @@
     let isDragging = false;
     let dragStartX, dragStartY;
     let selectedImage = null;
+    let selectedImageContainer = null;
     let imageX = 0, imageY = 0;
     let rotationAngle = 0;
 
@@ -87,89 +89,58 @@
             newImage.src = image.src;
 
             newImage.onload = function() {
-                const centerX = (canvas.width - newImage.width) / 2;
-                const centerY = (canvas.height - newImage.height) / 2;
-                imageX = centerX;
-                imageY = centerY;
-
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.save();
-                ctx.translate(centerX, centerY);
-                ctx.rotate((rotationAngle * Math.PI) / 180);
-                ctx.drawImage(newImage, -newImage.width / 2, -newImage.height / 2);
-                ctx.restore();
-
-                selectedImage = newImage;
-
-                // 이미지를 canvas에 추가하는 부분
-                selectedImage.style.position = 'absolute';
-                selectedImage.style.left = `${centerX}px`;
-                selectedImage.style.top = `${centerY}px`;
-                selectedImage.style.transformOrigin = 'center center';
-                selectedImage.style.pointerEvents = 'none';
-                selectedImage.classList.add('draggable');
-                document.getElementById('drawing-board').appendChild(selectedImage);
+                const container = document.createElement('div');
+                container.classList.add('image-container');
+                document.getElementById('drawing-board').appendChild(container); // 수정된 부분
 
                 const rotateButton = document.createElement('div');
                 rotateButton.classList.add('rotate-button');
                 rotateButton.textContent = '↻';
-                rotateButton.addEventListener('mousedown', handleRotateButtonMouseDown);
-                document.getElementById('drawing-board').appendChild(rotateButton);
+                container.appendChild(rotateButton);
 
                 const deleteButton = document.createElement('div');
                 deleteButton.classList.add('delete-button');
                 deleteButton.textContent = 'X';
-                deleteButton.addEventListener('mousedown', handleDeleteButtonMouseDown);
-                document.getElementById('drawing-board').appendChild(deleteButton);
+                container.appendChild(deleteButton);
 
-                //selectedImage = newImage;
+                selectedImage = newImage;
+                selectedImageContainer = container;
 
-                rotateButton.style.left = `${imageX - rotateButton.offsetWidth / 2}px`;
-                rotateButton.style.top = `${imageY - rotateButton.offsetHeight / 2}px`;
+                // 이미지가 캔버스 중앙에 위치하도록 수정된 부분
+                container.style.left = `${canvas.width / 2 - selectedImage.width / 2}px`;
+                container.style.top = `${canvas.height / 2 - selectedImage.height / 2}px`;
 
-                deleteButton.style.right = `${canvas.offsetWidth - (imageX + selectedImage.width) - deleteButton.offsetWidth / 2}px`;
-                deleteButton.style.top = `${imageY - deleteButton.offsetHeight / 2}px`;
+                rotateButton.style.opacity = '1';
+                deleteButton.style.opacity = '1';
             };
         }
     }
 
     function handleCanvasMouseDown(event) {
-        if (event.target === canvas && selectedImage) {
-            isDragging = true;
-            dragStartX = event.clientX - canvas.offsetLeft;
-            dragStartY = event.clientY - canvas.offsetTop;
-
-            // 이미지를 선택한 상태에서 마우스를 클릭하면 selectedImage를 canvas의 자식 요소로 이동합니다.
-            canvas.appendChild(selectedImage);
-
+        if (event.target === canvas) {
+            const container = event.target.closest('.image-container');
+            if (container) {
+                selectedImageContainer = container;
+                selectedImage = container.querySelector('img');
+                isDragging = true;
+                dragStartX = event.clientX - container.offsetLeft;
+                dragStartY = event.clientY - container.offsetTop;
+            }
         }
     }
 
     function handleCanvasMouseMove(event) {
-        if (isDragging && selectedImage) {
-            const dragOffsetX = event.clientX - canvas.offsetLeft - dragStartX;
-            const dragOffsetY = event.clientY - canvas.offsetTop - dragStartY;
+        if (isDragging && selectedImage && selectedImageContainer) {
+            const dragOffsetX = event.clientX - selectedImageContainer.offsetLeft - dragStartX;
+            const dragOffsetY = event.clientY - selectedImageContainer.offsetTop - dragStartY;
 
             imageX += dragOffsetX;
             imageY += dragOffsetY;
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save();
-            ctx.translate(imageX + selectedImage.width / 2, imageY + selectedImage.height / 2);
-            ctx.rotate((rotationAngle * Math.PI) / 180);
-            ctx.drawImage(selectedImage, -selectedImage.width / 2, -selectedImage.height / 2);
-            ctx.restore();
+            selectedImageContainer.style.transform = `translate(${imageX}px, ${imageY}px)`;
 
-            dragStartX = event.clientX - canvas.offsetLeft;
-            dragStartY = event.clientY - canvas.offsetTop;
-
-            const rotateButton = document.querySelector('.rotate-button');
-            rotateButton.style.left = `${imageX - rotateButton.offsetWidth / 2}px`;
-            rotateButton.style.top = `${imageY - rotateButton.offsetHeight / 2}px`;
-
-            const deleteButton = document.querySelector('.delete-button');
-            deleteButton.style.right = `${canvas.offsetWidth - (imageX + selectedImage.width) - deleteButton.offsetWidth / 2}px`;
-            deleteButton.style.top = `${imageY - deleteButton.offsetHeight / 2}px`;
+            dragStartX = event.clientX - selectedImageContainer.offsetLeft;
+            dragStartY = event.clientY - selectedImageContainer.offsetTop;
         }
     }
 
@@ -201,33 +172,22 @@
 
             rotationAngle = newRotationAngle;
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save();
-            ctx.translate(imageX + selectedImage.width / 2, imageY + selectedImage.height / 2);
-            ctx.rotate((rotationAngle * Math.PI) / 180);
-            ctx.drawImage(selectedImage, -selectedImage.width / 2, -selectedImage.height / 2);
-            ctx.restore();
+            selectedImage.style.transform = `translate(-50%, -50%) rotate(${rotationAngle}deg)`;
         }
     }
 
     function handleRotateButtonMouseUp() {
-      isRotating = false;
+        isRotating = false;
 
-      document.removeEventListener('mousemove', handleRotateButtonMouseMove);
-      document.removeEventListener('mouseup', handleRotateButtonMouseUp);
+        document.removeEventListener('mousemove', handleRotateButtonMouseMove);
+        document.removeEventListener('mouseup', handleRotateButtonMouseUp);
     }
 
     function handleDeleteButtonMouseDown() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const rotateButton = document.querySelector('.rotate-button');
-      rotateButton.remove();
-
-      const deleteButton = document.querySelector('.delete-button');
-      deleteButton.remove();
-
-      selectedImage = null;
+        selectedImageContainer.remove();
+        selectedImage = null;
+        selectedImageContainer = null;
     }
-  </script>
+</script>
 </body>
 </html>
