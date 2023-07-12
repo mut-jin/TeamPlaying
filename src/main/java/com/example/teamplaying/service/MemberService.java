@@ -187,7 +187,7 @@ public class MemberService {
 		return Map.of("available", member == null);
 	}
 
-    public Map<String, Object> getArtistBoard(Integer page, String search, String type) {
+    public Map<String, Object> getArtistBoard(Integer page, String search, String type, String order, String name) {
 		Integer rowPerPage = 8;
 		Integer startIndex = (page - 1) * rowPerPage;
 
@@ -205,22 +205,46 @@ public class MemberService {
 		pageInfo.put("lastPageNum", lastPageNum);
 		pageInfo.put("currentPageNum", page);
 
-		List<Member> list = mapper.selectAllPaging(startIndex ,rowPerPage, search, type);
+		List<Member> list = mapper.selectAllPaging(startIndex ,rowPerPage, search, type, order);
 		for(Member i : list) {
 			List<String> shoeList = new ArrayList<>();
 			List<Integer> boardIdList = shoeMapper.getBoardIdList(i.getId());
-			for(Integer j : boardIdList) {
-				shoeList.add(bucketUrl + "/shoeBoard/" + j + "/" + shoeMapper.getMyShoeFileName(j));
+			for(Integer boardID : boardIdList) {
+				shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
 
 			}
-			i.setSubscribe(shoeMapper.getMySubscribe(i.getId()));
+			i.setSubCount(shoeMapper.getMySubscribe(i.getId()));
 			i.setShoeImgList(shoeList);
 			if(i.getTotalView() == null) {
 				i.setTotalView(0);
 			}
+			System.out.println(list);
 		}
 
-		return Map.of("pageInfo", pageInfo, "boardList", list);
+		return Map.of("pageInfo", pageInfo, "boardList", list, "name", name);
     }
 
+
+	public Map<String, Object> getMember(Integer id, Integer page) {
+		Integer rowPerPage = 9;
+		Integer startIndex = (page - 1) * rowPerPage;
+
+		Integer shoeBoardNum = mapper.getmyShoeBoardNum(id);
+		Integer lastPageNum = (shoeBoardNum - 1) / rowPerPage + 1;
+
+		Integer rightPageNum = ((page - 1) / 5 + 1) * 5;
+		Integer leftPageNum = rightPageNum - 4;
+		leftPageNum = Math.max(leftPageNum, 1);
+		rightPageNum = Math.min(rightPageNum, lastPageNum);
+
+		Map<String, Object> pageInfo = new HashMap<>();
+		pageInfo.put("rightPageNum", rightPageNum);
+		pageInfo.put("leftPageNum", leftPageNum);
+		pageInfo.put("lastPageNum", lastPageNum);
+		pageInfo.put("currentPageNum", page);
+
+		Member member = mapper.getMemberById(startIndex, rowPerPage, id);
+		member.setProfile(bucketUrl + "/Member/" + member.getId() + "/" + member.getProfile());
+		return Map.of("pageInfo", pageInfo, "memberInfo", member);
+	}
 }

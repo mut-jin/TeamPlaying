@@ -1,7 +1,6 @@
 package com.example.teamplaying.mapper;
 
 import com.example.teamplaying.domain.Member;
-import com.example.teamplaying.domain.Member;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -24,8 +23,8 @@ public interface MemberMapper {
 
     @Insert("""
             insert into Member
-            (userId, password, name, nickName, birth, gender, address, phone, email, introduce)
-            values (#{userId}, #{password}, #{name} ,#{nickName}, #{birth}, #{gender}, #{address}, #{phone}, #{email}, #{introduce})
+            (userId, password, name, nickName, birth, memberType, address, addressDetail, phone, email, introduce)
+            values (#{userId}, #{password}, #{name} ,#{nickName}, #{birth}, #{memberType}, #{address}, #{addressDetail}, #{phone}, #{email}, #{introduce})
             """)
     Integer insertMember(Member member);
 
@@ -297,15 +296,39 @@ public interface MemberMapper {
             	nickName,
             	address,
             	profile,
-            	(SELECT SUM(view) FROM shoeBoard WHERE memberId = m.id) totalView
+            	(SELECT SUM(view) FROM shoeBoard WHERE memberId = m.id) totalView,
+            	(SELECT COUNT(*) FROM shoeBoard WHERE memberId = m.id) totalWork,
+            	(SELECT COUNT(*) FROM subscribe WHERE artistId = m.id) subscribe
             FROM Member m
             WHERE memberType = 'artist' AND
                   nickName LIKE #{pattern}
-            ORDER BY id DESC
+            ORDER BY #{order} DESC
             LIMIT #{startIndex}, #{rowPerPage}
             </script>
             """)
-    List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type);
+    List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type, String order);
+
+    @Select("""
+            SELECT
+                 profile,
+                 nickName,
+                 address,
+                 introduce,
+                 (SELECT SUM(view) FROM shoeBoard WHERE memberId = m.id) totalView,
+                 (SELECT COUNT(*) FROM shoeBoard WHERE memberId = m.id) workCount,
+                 (SELECT COUNT(*) FROM subscribe WHERE artistId = m.id) subCount
+            FROM Member m
+            WHERE id = #{id}
+            ORDER BY id DESC
+            LIMIT #{startIndex}, #{rowPerPage}
+            """)
+    Member getMemberById(Integer startIndex, Integer rowPerPage, Integer id);
+
+    @Select("""
+            SELECT COUNT(*) FROM shoeBoard
+            WHERE memberId = #{id}
+            """)
+    Integer getmyShoeBoardNum(Integer id);
 /*
     COUNT(f.id) fileCount,
             	(SELECT COUNT(*) FROM BoardLike WHERE boardId = b.id) likeCount,

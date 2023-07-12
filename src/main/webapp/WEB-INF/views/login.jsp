@@ -40,11 +40,11 @@ input[type="text"], input[type="password"] {
 				<br />
 				<form method="post">
 					<div class="mb-3" style="margin-left:120px;">
-						<label for="" class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%EC%95%84%EC%9D%B4%EB%94%94.png" alt="" /></label>
+						<label class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%EC%95%84%EC%9D%B4%EB%94%94.png" alt="" /></label>
 						<input class="form-control" type="text" name="username" />
 					</div>
 					<div class="mb-3" style="margin-left:120px;">
-						<label for="" class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%ED%8C%A8%EC%8A%A4%EC%9B%8C%EB%93%9C.png" alt="" /></label>
+						<label class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%ED%8C%A8%EC%8A%A4%EC%9B%8C%EB%93%9C.png" alt="" /></label>
 						<input class="form-control" type="password" name="password" />
 					</div>
 					<br />
@@ -52,54 +52,9 @@ input[type="text"], input[type="password"] {
 						<input class="btn btn-dark" style="width: 412.8px; height: 39px;" type="submit" value="Login">
 					</div>
 				</form>
-				<%--<h2>Kakao Login</h2>
-				<button id="loginBtn">Kakao 로그인</button>--%>
 			</div>
 		</div>
 	</div>
-
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script>
-	// 1603e23f210e1265c0074871a6496f28
-		/*window.Kakao.init("1603e23f210e1265c0074871a6496f28");
-
-		function loginWithKakao() {
-			window.Kakao.Auth.login({
-				scope: 'profile_nickname, account_email, gender, birthday',
-				success: function (authObj) {
-					console.log(authObj);
-					window.Kakao.API.request({
-						url:'/v2/user/me',
-						success: res => {
-							const kakao_account = res.kakao_account;
-							console.log(kakao_account);
-							var accessToken = authObj.access_token;
-							console.log(accessToken);
-						}
-					});
-				}
-			})
-		};*/
-
-	/*Kakao.init("1603e23f210e1265c0074871a6496f28")
-
-	// Kakao 로그인 버튼 클릭 이벤트 처리
-	document.getElementById('loginBtn').addEventListener('click', function() {
-		Kakao.Auth.login({
-			success: function(authObj) {
-				var accessToken = authObj.access_token;
-				// 로그인 성공 시, Spring 컨트롤러로 액세스 토큰 전송
-				window.location.href = '/kakao-login?accessToken=' + accessToken;
-			},
-			fail: function(error) {
-				// 로그인 실패 시 처리할 내용을 작성합니다.
-			}
-		});
-	});
-*/
-
-
-	</script>
 
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=582f704fa0e967e05cc4fbdd7327de24&libraries=services"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>

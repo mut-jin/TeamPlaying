@@ -48,6 +48,7 @@ public interface ShoeBoardMapper {
             SELECT
             	id,
             	shoeName,
+            	title,
             	nickName,
             	view,
             	price,

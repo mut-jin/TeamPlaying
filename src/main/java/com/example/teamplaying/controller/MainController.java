@@ -1,11 +1,13 @@
 package com.example.teamplaying.controller;
 
 import com.example.teamplaying.domain.Member;
+import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.ShoeBoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -142,25 +144,40 @@ public class MainController {
 	public void artist(Model model,
 					   @RequestParam(value = "page", defaultValue = "1") Integer page,
 					   @RequestParam(value = "search", defaultValue = "") String search,
-					   @RequestParam(value = "type", required = false) String type) {
-		Map<String, Object> result = memberService.getArtistBoard(page, search, type);
+					   @RequestParam(value = "type", required = false) String type,
+					   @RequestParam(value = "name", defaultValue = "선택") String name,
+					   @RequestParam(value = "order", defaultValue = "id") String order) {
+		Map<String, Object> result = memberService.getArtistBoard(page, search, type, order, name);
 
 		model.addAllAttributes(result);
 
-	}@GetMapping("work")
-	public void work(Model model,
+	}
+	@GetMapping("workadd")
+	@PreAuthorize("hasAuthority('artist')")
+	public void workadd(Model model, Authentication authentication) {
+		model.addAttribute("member", memberService.get(authentication.getName()));
+
+	}
+
+	@GetMapping("work")
+	public void work(Model model, Authentication authentication,
 					 @RequestParam(value = "page", defaultValue = "1") Integer page,
 					 @RequestParam(value = "search", defaultValue = "") String search,
 					 @RequestParam(value = "type", required = false) String type) {
+
+		// work
 		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type);
 
 		model.addAllAttributes(result);
 	}
 
-
-	@GetMapping("workadd")
-	public void workadd() {
-
+	@GetMapping("artist/{id}")
+	public String artistPage(Model model,
+							 @PathVariable Integer id,
+							 @RequestParam(value = "page", defaultValue = "1") Integer page) {
+		Map<String, Object> result = memberService.getMember(id, page);
+		model.addAllAttributes(result);
+		return "artistPage";
 	}
 
 	@GetMapping("/getShoeModels")
@@ -185,6 +202,9 @@ public class MainController {
 
 	@GetMapping("canvas1")
 	public void canvas1() {
+  
+	@GetMapping("cs")
+	public void cs() {
 
 	}
 

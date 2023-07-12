@@ -50,6 +50,16 @@
             height: 50px;
         }
 
+        /* 노란색 테두리 스타일 */
+        .yellow-border {
+            border: 1px solid yellow !important;
+        }
+
+        .yellow-label {
+            color: yellow !important;
+        }
+
+
         .dropdown-item.active {
             background-color: orange;
         }
@@ -90,12 +100,12 @@
             <br/>
             <div class="mb-3">
                 <label for="inputTitle" class="form-label">작품명</label>
-                <input id="inputTitle" type="title" class="form-control" name="title" value="${member.title }"
-                       placeholder="작품명"/>
+                <input id="inputTitle" type="title" class="form-control" name="title" value="${shoeBoard.title}"
+                       placeholder="작품명" onclick="highlightInput(this)"/>
             </div>
             <div class="mb-3">
                 <label class="form-label">신발 브랜드</label>
-                <div class="dropdown">
+                <div class="dropdown" onclick="highlightInput(this)">
                     <button style="background-color: white;" class="btn dropdown-toggle" type="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                         <input id="brand" style="border: 0; width: 420px;" placeholder="신발 브랜드"/>
@@ -118,11 +128,13 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">신발 모델명</label>
-                <div class="dropdown">
-                    <button style="background-color: white; width: 466px; border: 1px solid black; text-align: left; height: 50px;"
-                            class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <input id="shoeModel" style="border: 0; width: 420px;" placeholder="신발 모델명"/>
+                <div class="dropdown" onclick="highlightInput(this)">
+                    <button style="background-color: white;" class="btn dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <input id="shoeModel" style="border: 0; width: 420px;" placeholder="신발 브랜드"/>
                     </button>
+
+
                     <ul class="dropdown-menu" id="shoeModelDropdown"
                         style="width: 466px; font-size: 22px; font-weight: bolder">
                         <!-- 나이키 브랜드의 신발 모델 -->
@@ -162,7 +174,8 @@
                 <div class="form-text">1MB 크기의 파일, 총 10MB 크기만 허용</div>
                 <div class="form-group">
                     <!-- <label for="fileInput" class="form-label"></label>  -->
-                    <input class="form-control form-control-user" style="height: 38px;" type="file" multiple name="files" accept="image/*"
+                    <input class="form-control form-control-user" style="height: 38px;" type="file" multiple
+                           name="files" accept="image/*"
                            id="fileInput" onchange="setDetailImage(event);"/>
                 </div>
                 <div id="images_container" style="width: 250px; height: 200px; object-fit: cover;"></div>
@@ -170,27 +183,31 @@
                 <div>
                     <label for="inputPrice" class="form-label">작업 비용</label>
                     <input id="inputPrice" type="title" class="form-control" name="title" value="${shoeBoard.price }"
-                           placeholder="작업 비용"/>
+                           placeholder="작업 비용" onclick="highlightInput(this)"/>
                 </div>
                 <br>
                 <div class="mb-3">
                     <label for="inputMakeTime" class="form-label">작업 일수</label>
-                    <input id="inputMakeTime" type="makeTime" class="form-control" name="makeTime" value="${shoeBoard.makeTime }"
-                           placeholder="작업 일수"/>
+                    <input id="inputMakeTime" type="makeTime" class="form-control" name="makeTime"
+                           value="${shoeBoard.makeTime }"
+                           placeholder="작업 일수" onclick="highlightInput(this)"/>
                 </div>
 
                 <div class="mb-3">
                     <label for="inputBody" class="form-label">작품 설명</label>
-                    <input id="inputBody" style="height: 250px;" type="body" class="form-control" name="body" value="${shoeBoard.body }"
-                           placeholder="작품 설명"/>
+                    <input id="inputBody" style="height: 250px;" type="body" class="form-control" name="body"
+                           value="${shoeBoard.body }"
+                           placeholder="작품 설명" onclick="highlightInput(this)"/>
                 </div>
 
                 <div class="mb-3">
-                    <form method="post" action="/artist/id">
-                        <input class="btn btn-warning" style="width: 466px; height: 50px; color: white; font-size: 20px;" type="submit" value="등록하기">
+                    <form id="registerForm" method="post" action="/artist/${member.id}">
+                        <input type="hidden" name="memberId" id="memberId" value="${member.id}">
+                        <button class="btn btn-warning"
+                                style="width: 466px; height: 50px; color: white; font-size: 20px;" type="submit">등록하기
+                        </button>
                     </form>
                 </div>
-
 
 
             </div>
@@ -209,5 +226,51 @@
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/js/workadd.js"></script>
+<script>
+    // 이전에 클릭한 요소를 저장하는 변수
+    let previousClickedElement = null;
+
+    function highlightInput(input) {
+        console.log(input);
+        // 이전에 클릭한 요소의 테두리와 텍스트 색상을 원래 색으로 되돌림
+        if (previousClickedElement !== null) {
+            previousClickedElement.classList.remove('yellow-border');
+            const labelElement = previousClickedElement.parentNode.querySelector('.form-label');
+            labelElement.classList.remove('yellow-label');
+        }
+
+        // 현재 클릭한 요소에 노란색 테두리를 적용
+        input.classList.add('yellow-border');
+        const labelElement = input.parentNode.querySelector('.form-label');
+        labelElement.classList.add('yellow-label');
+
+        // 이전에 클릭한 요소를 현재 클릭한 요소로 업데이트
+        previousClickedElement = input;
+    }
+
+
+</script>
+
+<script>
+    function setDetailImage(event) {
+        var container = document.getElementById('images_container');
+        container.innerHTML = ''; // 이전에 표시된 이미지를 제거합니다.
+
+        var files = event.target.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var image = document.createElement('img');
+                image.src = e.target.result;
+                image.style.maxWidth = '100%';
+                image.style.maxHeight = '100%';
+                container.appendChild(image);
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
 </body>
 </html>
