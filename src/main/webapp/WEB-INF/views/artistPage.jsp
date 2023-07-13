@@ -55,7 +55,7 @@
 <my:navBar></my:navBar>
 <div class="container" style="margin-top: 86px;">
     <div class="layout" style="flex-wrap: nowrap">
-        <div style="flex-basis: 25%; padding: 0 8px;">
+        <div style="flex-basis: 25%; max-width: 25%; padding: 0 8px;">
             <div class="layout box" style="flex-direction: column;">
                 <div style="padding: 24px 16px;">
                     <div class="layout" style="align-items: center; flex-direction: column">
@@ -91,9 +91,13 @@
                 </div>
             </div>
         </div>
-        <div style="flex-basis: 75%;">
+        <div style="flex-basis: 75%; max-width: 75%;">
             <div></div>
-            <div></div>
+            <div class="layout">
+                <c:forEach items="${memberInfo.shoeImgList}" var="list">
+                    <img src="${list}" alt="">
+                </c:forEach>
+            </div>
             <div class="row">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">

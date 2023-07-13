@@ -28,7 +28,7 @@
 <body>
 <my:navBar></my:navBar>
 <div class="container" style="padding-top: 84px;">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="layout shadow" style="flex-direction: column; align-items: center">
             <h1>1:1 문의하기</h1>
             <hr>
@@ -41,23 +41,25 @@
                     </button>
                     <ul class="dropdown-menu" style="width: 100%;">
                         <li>
-                            <button class="dropdown-item" value="결제">결제</button>
+                            <button type="button" class="dropdown-item" value="결제">결제</button>
                         </li>
                         <li>
-                            <button class="dropdown-item" value="회원정보">회원정보</button>
+                            <button type="button" class="dropdown-item" value="회원정보">회원정보</button>
                         </li>
                         <li>
-                            <button class="dropdown-item" value="서비스">서비스</button>
+                            <button type="button" class="dropdown-item" value="서비스">서비스</button>
                         </li>
                         <li>
-                            <button class="dropdown-item" value="기타">기타</button>
+                            <button type="button" class="dropdown-item" value="기타">기타</button>
                         </li>
                     </ul>
                 </div>
             </div>
-            <textarea name="body" rows="20" style="margin-bottom: 10px; width: 70%;" placeholder="  문의 내용"></textarea>
-            <div style="width: 70%;">
-                <input type="file" name="files" style="margin-bottom: 50px;" multiple>
+            <input type="text" name="title" style="width: 70%; height: 5vh; padding-left: 10px;" placeholder="제 목">
+            <textarea name="body" rows="20" style="padding: 10px 0 0 10px; margin-bottom: 10px; width: 70%;" placeholder="문의 내용"></textarea>
+            <div style="width: 70%; margin-bottom: 50px;">
+                <input class="form-control" style="height: 38px;" type="file" multiple
+                       name="files" accept="image/*">
             </div>
             <div style="margin-bottom: 30px;">
                 <input type="submit" value="작성하기">

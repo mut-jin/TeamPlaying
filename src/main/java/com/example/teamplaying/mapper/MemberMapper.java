@@ -302,11 +302,11 @@ public interface MemberMapper {
             FROM Member m
             WHERE memberType = 'artist' AND
                   nickName LIKE #{pattern}
-            ORDER BY #{order} DESC
+            ORDER BY ${order} DESC
             LIMIT #{startIndex}, #{rowPerPage}
             </script>
             """)
-    List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type, String order);
+    List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String order);
 
     @Select("""
             SELECT

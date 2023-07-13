@@ -157,10 +157,9 @@ public class MainController {
 	public void artist(Model model,
 					   @RequestParam(value = "page", defaultValue = "1") Integer page,
 					   @RequestParam(value = "search", defaultValue = "") String search,
-					   @RequestParam(value = "type", required = false) String type,
 					   @RequestParam(value = "name", defaultValue = "선택") String name,
 					   @RequestParam(value = "order", defaultValue = "id") String order) {
-		Map<String, Object> result = memberService.getArtistBoard(page, search, type, order, name);
+		Map<String, Object> result = memberService.getArtistBoard(page, search, order, name);
 
 		model.addAllAttributes(result);
 
@@ -231,6 +230,7 @@ public class MainController {
 
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("cs")
 	public void cs() {
 
@@ -240,7 +240,7 @@ public class MainController {
 	public String csProcess(CsBoard csBoard,
 							RedirectAttributes rttr,
 							Authentication authentication,
-							@RequestParam("files") MultipartFile[] files) {
+							@RequestParam("files") MultipartFile[] files) throws Exception {
 		csBoard.setWriter(memberService.getNickName(authentication.getName()));
 		boolean ok = csService.add(csBoard, files);
 		if(ok) {
@@ -251,6 +251,13 @@ public class MainController {
 			rttr.addFlashAttribute("message", "1:1 문의중 문제가 발생했습니다.");
 			return "redirect:cs";
 		}
+	}
+
+	@GetMapping("myCs")
+	public void myCs(Authentication authentication, Model model) {
+		String writer = memberService.getNickName(authentication.getName());
+		List<CsBoard> list = csService.getCsBoardByWriter(writer);
+		model.addAttribute("csBoardList", list);
 	}
 
 }

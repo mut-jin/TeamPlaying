@@ -26,7 +26,7 @@ public interface ShoeBoardMapper {
             WHERE boardId = #{boardId}
             LIMIT 1
             """)
-    ShoeFileName getMyShoeFileName(Integer boardId);
+    String getMyShoeFileName(Integer boardId);
 
     @Select("""
             SELECT COUNT(*) FROM subscribe
