@@ -294,7 +294,7 @@ public class MemberService {
 	}
 
 	public Integer getIdByUserId(String userId) {
-		return mapper.getNickNameByUserId(userId);
+		return mapper.getId(userId);
 	}
 
 }
