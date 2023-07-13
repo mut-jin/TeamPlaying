@@ -89,9 +89,9 @@
                 <li class="nav-item">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
-                            고객센터
+                              고객센터
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="min-width: 0; width: -webkit-fill-available;">
                             <li><a class="dropdown-item" href="cs">1:1 문의</a></li>
                             <li><a class="dropdown-item" href="myCs">내 문의</a></li>
                         </ul>

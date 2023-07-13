@@ -1,7 +1,9 @@
 package com.example.teamplaying.controller;
 
+import com.example.teamplaying.domain.CsBoard;
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
+import com.example.teamplaying.service.CsService;
 import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.ShoeBoardService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
@@ -27,6 +30,9 @@ public class MainController {
 
 	@Autowired
 	private ShoeBoardService shoeBoardService;
+
+	@Autowired
+	private CsService csService;
 
 	@GetMapping("checkEmail/{email}")
 	@ResponseBody
@@ -203,6 +209,23 @@ public class MainController {
 	@GetMapping("cs")
 	public void cs() {
 
+	}
+
+	@PostMapping("cs")
+	public String csProcess(CsBoard csBoard,
+							RedirectAttributes rttr,
+							Authentication authentication,
+							@RequestParam("files") MultipartFile[] files) {
+		csBoard.setWriter(memberService.getId(authentication.getName()));
+		boolean ok = csService.add(csBoard, files);
+		if(ok) {
+
+			rttr.addFlashAttribute("message", "1:1 문의가 등록되었습니다..");
+			return "redirect:myCs";
+		} else {
+			rttr.addFlashAttribute("message", "1:1 문의중 문제가 발생했습니다.");
+			return "redirect:cs";
+		}
 	}
 
 }

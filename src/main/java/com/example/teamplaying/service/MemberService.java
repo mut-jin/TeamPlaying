@@ -247,4 +247,8 @@ public class MemberService {
 		member.setProfile(bucketUrl + "/Member/" + member.getId() + "/" + member.getProfile());
 		return Map.of("pageInfo", pageInfo, "memberInfo", member);
 	}
+
+	public String getId(String userId) {
+		return mapper.getNickNameByUserId(userId);
+	}
 }

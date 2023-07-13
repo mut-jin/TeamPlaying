@@ -36,9 +36,9 @@
         <div class="dropdown" style="flex-grow: 0; flex-basis: 25%;">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                <input type="text" value="${name}" id="typeSelect">
+                <input type="text" value="${name}" id="typeSelect" readonly>
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="width: 228.92px;">
                 <li><a class="dropdown-item" href="/artist?name=선택">선택</a></li>
                 <li><a class="dropdown-item" href="/artist?order=subscribe&name=구독자 순">구독자 순</a></li>
                 <li><a class="dropdown-item" href="/artist?order=totalWork&name=최다 작품 순">최다 작품 순 </a></li>
@@ -121,6 +121,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="../../js/artist.js"></script>
+<script src="../../js/cs.js"></script>
 </body>
 </html>
