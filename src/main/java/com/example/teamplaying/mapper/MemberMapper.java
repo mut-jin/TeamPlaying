@@ -41,7 +41,7 @@ public interface MemberMapper {
             FROM Member
             WHERE userId = #{userId}
             """)
-    Member selectById(String integer);
+    Member selectById(String userId);
 
     @Delete("""
             DELETE FROM Member

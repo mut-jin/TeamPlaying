@@ -1,8 +1,11 @@
 package com.example.teamplaying.mapper;
 
+import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.domain.ShoeFileName;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -74,7 +77,28 @@ public interface ShoeBoardMapper {
             WHERE brand = #{brand}
             """)
     List<String> getShoeModelsByBrand(String brand);
-//    @Select("""
+    
+    @Select("""
+			SELECT * FROM Member
+			WHERE userId = #{userId}
+			""")
+    Member selectMemberById(String userId);
+
+    @Insert("""
+			INSERT INTO shoeBoard (nickName, title, body, shoeName, memberId, makeTime, price, brand)
+			VALUES (#{nickName}, #{title}, #{body}, #{shoeName}, #{memberId}, #{makeTime}, #{price}, #{brand})
+			""")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert(ShoeBoard shoeBoard);
+
+    @Insert("""
+			INSERT INTO shoeFileName (boardId, fileName)
+			VALUES (#{boardId}, #{fileName})
+			""")
+    void insertFileName(Integer boardId, String fileName);
+
+
+    //    @Select("""
 //            SELECT shoeName FROM shoeBoard
 //            WHERE brand = #{shoeBrand}
 //            """)

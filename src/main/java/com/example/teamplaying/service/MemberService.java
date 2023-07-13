@@ -1,13 +1,20 @@
 package com.example.teamplaying.service;
 
 import com.example.teamplaying.domain.Member;
+import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.mapper.MemberMapper;
 import com.example.teamplaying.mapper.ShoeBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +24,9 @@ import java.util.Map;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class MemberService {
+	@Autowired
+	private S3Client s3;
+
 	@Autowired
 	private ShoeBoardMapper shoeMapper;
 
@@ -28,6 +38,13 @@ public class MemberService {
 
 	@Value("${aws.s3.bucketUrl}")
 	private String bucketUrl;
+
+	@Value("${aws.s3.bucketName}")
+	private String bucketName;
+
+	public int getId(String name) {
+		return mapper.getId(name);
+	}
 
 	public String getNickName(String userId) {
 
@@ -213,6 +230,7 @@ public class MemberService {
 				shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
 
 			}
+			i.setProfile(bucketUrl + "/Member/" + i.getId() + "/" + i.getProfile());
 			i.setSubCount(shoeMapper.getMySubscribe(i.getId()));
 			i.setShoeImgList(shoeList);
 			if(i.getTotalView() == null) {
@@ -245,7 +263,38 @@ public class MemberService {
 
 		Member member = mapper.getMemberById(startIndex, rowPerPage, id);
 		member.setProfile(bucketUrl + "/Member/" + member.getId() + "/" + member.getProfile());
+		List<Integer> boardIdList = shoeMapper.getBoardIdList(member.getId());
+		List<String> shoeList = new ArrayList<>();
+		for(Integer boardID : boardIdList) {
+			shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
+		}
+		member.setShoeImgList(shoeList);
 		return Map.of("pageInfo", pageInfo, "memberInfo", member);
+	}
+
+	public boolean addShoeBoard(ShoeBoard shoeBoard, MultipartFile[] files, Authentication authentication) throws  Exception {
+		Member member = shoeMapper.selectMemberById(authentication.getName());
+		shoeBoard.setNickName(member.getNickName());
+		shoeBoard.setMemberId(member.getId());
+
+		int cnt = shoeMapper.insert(shoeBoard);
+		for (MultipartFile file : files) {
+			if (file.getSize() > 0) {
+				String objectKey = "/shoeBoard/" + shoeBoard.getId() + "/" + file.getOriginalFilename();
+				PutObjectRequest por = PutObjectRequest.builder()
+						.acl(ObjectCannedACL.PUBLIC_READ)
+						.bucket(bucketName)
+						.key(objectKey)
+						.build();
+				RequestBody rb = RequestBody.fromInputStream(file.getInputStream(), file.getSize());
+
+				s3.putObject(por, rb);
+				shoeMapper.insertFileName(shoeBoard.getId(), file.getOriginalFilename());
+
+			}
+		}
+		return cnt == 1;
+
 	}
 
 	public String getId(String userId) {

@@ -172,4 +172,3 @@
 <%--        <div id="climbingMemberAlarm"></div>--%>
 <%--    </div>--%>
 <%--</div>--%>
-
