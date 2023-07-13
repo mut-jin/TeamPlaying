@@ -16,6 +16,7 @@ public class ShoeBoard {
     private Integer makeTime;
     private Integer price;
     private Integer view;
+    private String brand;
     private LocalDateTime inserted;
 
     private List<String> imgUrlList;
