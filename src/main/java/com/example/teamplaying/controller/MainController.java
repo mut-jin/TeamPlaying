@@ -179,7 +179,7 @@ public class MainController {
 							 Authentication authentication) throws Exception {
 		boolean ok = memberService.addShoeBoard(shoeBoard, files, authentication);
 		if (ok) {
-			return "redirect:/artist/" + memberService.getId(authentication.getName());
+			return "redirect:/artist/" + memberService.getIdByUserId(authentication.getName());
 		} else {
 			return "redirect:/workadd";
 		}
@@ -241,7 +241,7 @@ public class MainController {
 							RedirectAttributes rttr,
 							Authentication authentication,
 							@RequestParam("files") MultipartFile[] files) {
-		csBoard.setWriter(memberService.getId(authentication.getName()));
+		csBoard.setWriter(memberService.getNickName(authentication.getName()));
 		boolean ok = csService.add(csBoard, files);
 		if(ok) {
 

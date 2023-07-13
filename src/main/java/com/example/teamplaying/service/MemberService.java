@@ -42,10 +42,6 @@ public class MemberService {
 	@Value("${aws.s3.bucketName}")
 	private String bucketName;
 
-	public int getId(String name) {
-		return mapper.getId(name);
-	}
-
 	public String getNickName(String userId) {
 
 		return mapper.getNickNameByUserId(userId);
@@ -297,7 +293,8 @@ public class MemberService {
 
 	}
 
-	public String getId(String userId) {
+	public Integer getIdByUserId(String userId) {
 		return mapper.getNickNameByUserId(userId);
 	}
+
 }
