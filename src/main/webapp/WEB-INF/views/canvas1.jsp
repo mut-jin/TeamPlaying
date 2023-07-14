@@ -124,48 +124,42 @@
 
     const shoeImage = [];
     // left-div의 이미지를 클릭했을 때
+
     leftDivImages.forEach((image) => {
         image.addEventListener('click', () => {
-            const newImage = {
-                image: new Image(),
-                offsetX: 0,
-                offsetY: 0,
-                loaded: false
-            };
-            newImage.image.onload = () => {
-                newImage.loaded = true;
-                const canvasCenterX = canvas.width / 2 - newImage.image.width / 2;
-                const canvasCenterY = canvas.height / 2 - newImage.image.height / 2;
-                newImage.offsetX = canvasCenterX;
-                newImage.offsetY = canvasCenterY;
-                shoeImage.push(newImage);
+            const newImage = new Image();
+            newImage.onload = () => {
+                const canvasCenterX = canvas.width / 2 - newImage.width / 2;
+                const canvasCenterY = canvas.height / 2 - newImage.height / 2;
+                ctx.drawImage(newImage, canvasCenterX, canvasCenterY);
+                shoeImage.push({
+                    image: newImage,
+                    offsetX: canvasCenterX,
+                    offsetY: canvasCenterY,
+                    loaded: true
+                });
                 drawCanvas();
             };
-            newImage.image.src = image.src;
-            image.style.display = 'none'; // 이미지를 클릭한 후에는 해당 이미지를 숨깁니다.
+            newImage.src = image.src;
         });
     });
 
-    // right-div의 이미지를 클릭했을 때
     rightDivImages.forEach((image) => {
         image.addEventListener('click', () => {
-            const newImage = {
-                image: new Image(),
-                offsetX: 0,
-                offsetY: 0,
-                loaded: false
-            };
-            newImage.image.onload = () => {
-                newImage.loaded = true;
-                const canvasCenterX = canvas.width / 2 - newImage.image.width / 2;
-                const canvasCenterY = canvas.height / 2 - newImage.image.height / 2;
-                newImage.offsetX = canvasCenterX;
-                newImage.offsetY = canvasCenterY;
-                shoeImage.push(newImage);
+            const newImage = new Image();
+            newImage.onload = () => {
+                const canvasCenterX = canvas.width / 2 - newImage.width / 2;
+                const canvasCenterY = canvas.height / 2 - newImage.height / 2;
+                ctx.drawImage(newImage, canvasCenterX, canvasCenterY);
+                shoeImage.push({
+                    image: newImage,
+                    offsetX: canvasCenterX,
+                    offsetY: canvasCenterY,
+                    loaded: true
+                });
                 drawCanvas();
             };
-            newImage.image.src = image.src;
-            image.style.display = 'none'; // 이미지를 클릭한 후에는 해당 이미지를 숨깁니다.
+            newImage.src = image.src;
         });
     });
 
@@ -183,9 +177,9 @@
 
     function drawCanvas() {
         clearCanvas();
+        drawShoeImage();
         drawImages();
         drawPainting();
-        drawShoeImage();
     }
 
     function centerImage(image) {
@@ -236,20 +230,23 @@
         }
     }
 
-
     let isPainting = false;
     let lineWidth = 5;
     let images = [];
     let paintingPoints = [];
 
+    let currentPath; // 현재 그리기 경로
+
     const saveButton = document.getElementById('save');
     saveButton.addEventListener('click', () => {
         const image = canvas.toDataURL('image/png'); // 캔버스 이미지를 Data URL 형식으로 가져옵니다.
         const link = document.createElement('a');
+        console.log(link);
         link.href = image;
         link.download = 'canvas_image.png'; // 다운로드할 이미지 파일의 이름을 설정합니다.
         link.click(); // 링크를 클릭하여 이미지를 다운로드합니다.
     });
+
 
     function clearCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -269,6 +266,21 @@
             ctx.strokeStyle = event.target.value;
         }
 
+        if (event.target.id === 'stroke') {
+            // 그리기 경로마다 독립적인 스타일 적용
+            ctx.strokeStyle = event.target.value;
+            for (const points of paintingPoints) {
+                ctx.beginPath();
+                if (points.length > 0) {
+                    ctx.moveTo(points[0].x, points[0].y);
+                    for (let i = 1; i < points.length; i++) {
+                        ctx.lineTo(points[i].x, points[i].y);
+                    }
+                    ctx.stroke();
+                }
+            }
+        }
+
         if (event.target.id === 'lineWidth') {
             lineWidth = event.target.value;
         }
@@ -284,7 +296,8 @@
                 offsetY: 0,
                 buttonOffsetX: 0,
                 buttonOffsetY: 0,
-                loaded: false
+                loaded: false,
+                layer: 'front'
             };
             newImage.image.onload = () => {
                 newImage.loaded = true;
@@ -318,6 +331,12 @@
             isPainting = true;
             paintingPoints.push([]);
         }
+
+        if (!isDragging) {
+            // 새로운 그리기 경로 생성
+            currentPath = [];
+            paintingPoints.push(currentPath);
+        }
     });
 
     canvas.addEventListener('mouseup', () => {
@@ -342,7 +361,8 @@
             drawCanvas();
         } else {
             if (isPainting) {
-                paintingPoints[paintingPoints.length - 1].push({ x: currentX, y: currentY });
+                //paintingPoints[paintingPoints.length - 1].push({ x: currentX, y: currentY });
+                currentPath.push({ x: currentX, y: currentY });
                 drawCanvas();
             }
         }
@@ -351,7 +371,7 @@
     function drawImages() {
         for (const image of images) {
             if (image.loaded) {
-                ctx.drawImage(image.image, image.offsetX, image.offsetY);
+                ctx.drawImage(image.image, image.offsetX, image.offsetY, image.image.width, image.image.height);
                 drawDeleteButton(image.buttonOffsetX, image.buttonOffsetY);
             }
         }
@@ -361,18 +381,33 @@
         ctx.lineWidth = lineWidth;
         ctx.lineCap = 'round';
 
-        for (const points of paintingPoints) {
+        for (let i = 0; i < paintingPoints.length; i++) {
+            const points = paintingPoints[i];
+
             ctx.beginPath();
             if (points.length > 0) {
                 ctx.moveTo(points[0].x, points[0].y);
 
-                for (let i = 1; i < points.length; i++) {
-                    ctx.lineTo(points[i].x, points[i].y);
+                for (let j = 1; j < points.length; j++) {
+                    ctx.lineTo(points[j].x, points[j].y);
                 }
 
                 ctx.stroke();
             }
         }
+
+        // for (const points of paintingPoints) {
+        //     ctx.beginPath();
+        //     if (points.length > 0) {
+        //         ctx.moveTo(points[0].x, points[0].y);
+        //
+        //         for (let i = 1; i < points.length; i++) {
+        //             ctx.lineTo(points[i].x, points[i].y);
+        //         }
+        //
+        //         ctx.stroke();
+        //     }
+        // }
     }
 
     function drawDeleteButton(x, y) {
@@ -470,6 +505,8 @@
     // 초기화
     adjustCanvasSize();
 </script>
+
+
 
 
 
