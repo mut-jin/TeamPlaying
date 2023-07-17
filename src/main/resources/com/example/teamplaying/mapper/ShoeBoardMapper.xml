@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.teamplaying.mapper.ShoeBoardMapper">
+
+    <resultMap type="com.example.teamplaying.domain.ShoeBoard" id="shoeBoardResultMap">
+        <id column="id" property="id" />
+        <result column="shoeName" property="shoeName" />
+        <result column="title" property="title" />
+        <result column="nickName" property="nickName" />
+        <result column="view" property="view" />
+        <result column="price" property="price" />
+        <result column="likeCount" property="likeCount" />
+        <result column="userId" property="userId" />
+        <result column="makeTime" property="makeTime" />
+        <result column="brand" property="brand" />
+        <result column="body" property="body" />
+<!--        <result column="commentCount" property="commentCount" />-->
+        <result column="fileName" property="fileName" />
+    </resultMap>
+
+</mapper>

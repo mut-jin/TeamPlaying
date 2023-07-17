@@ -28,9 +28,12 @@
         .search-input {
             flex: 1;
         }
+
     </style>
+
 </head>
 <body>
+
 <my:navBar></my:navBar>
 <div class="container" style="margin-top: 86px;">
     <form action="/work" class="search-form" role="workSearch">
@@ -47,12 +50,11 @@
                 모든 작품
             </button>
             <ul class="dropdown-menu" style="width: 300px;">
-                <li><a class="dropdown-item" href="#">모든 작품</a></li>
-                <li><a class="dropdown-item" href="#">좋아요한 작품</a></li>
-                <li><a class="dropdown-item" href="#">나이키</a></li>
-                <li><a class="dropdown-item" href="#">아디다스</a></li>
-                <li><a class="dropdown-item" href="#">반스</a></li>
-                <li><a class="dropdown-item" href="#">컨버스</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterByBrand('all')">모든 작품</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="#" id="nike" onclick="filterByBrand('나이키')">나이키</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="#" id="adidas" onclick="filterByBrand('아디다스')">아디다스</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="#" id="vans" onclick="filterByBrand('반스')">반스</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="#" id="converse" onclick="filterByBrand('컨버스')">컨버스</a></li>
             </ul>
         </div>
         <div class="dropdown">
@@ -71,37 +73,63 @@
 
     <br><br>
 
+    <%
+        // 선택한 브랜드에 따라 brand 변수에 값을 할당합니다.
+        String selectedBrand = ""; // 선택한 브랜드에 따라 값을 설정해주세요.
 
-    <div id="workListData">
-        <c:forEach items="${workList}" var="board">
-            <div class="col-md-4">
-                <div class="card my-card" style="width: 18rem; margin-bottom: 20px;">
-                    <div onclick="openModal(${board.id})">
-                        <div class="card-body">
-                            <c:forEach items="${board.imgUrlList }" var="img" varStatus="status">
-                                <c:if test="${status.count lt 2 }">
-                                    <div>
-                                        <img class="img-thumbnail" src="${img}" alt=""
-                                             style="width: 285px; height: 260px !important;"/>
+        if (selectedBrand.equals("나이키")) {
+            pageContext.setAttribute("brand", "나이키");
+        } else if (selectedBrand.equals("아디다스")) {
+            pageContext.setAttribute("brand", "아디다스");
+        } else if (selectedBrand.equals("반스")) {
+            pageContext.setAttribute("brand", "반스");
+        } else if (selectedBrand.equals("컨버스")) {
+            pageContext.setAttribute("brand", "컨버스");
+        } else {
+            pageContext.setAttribute("brand", "all"); // 모든 브랜드를 선택한 경우
+        }
+    %>
+
+
+    <div id="workListData" class="row" style="display: flex; flex-wrap: wrap;">
+        <c:forEach items="${shoeBoardList}" var="board">
+            <c:choose>
+                <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
+                    <div class="col-md-2" style="flex: 0 0 calc(16.666% - 5px); max-width: calc(16.666% - 5px); padding: 5px;">
+                        <div class="card my-card" data-brand="${board.brand}"
+                             style="width: 250px; height: 100%; display: block;">
+                            <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
+                                <div onclick="location.href='artist/${board.memberId}'">
+                                    <div class="card-body">
+                                        <h5 class="card-title d-flex justify-content-between">
+                                            <span>🌄 ${board.nickName}</span>
+                                            <span>${board.brand}</span>
+                                            <p style="font-size: medium;">${board.inserted}</p>
+                                        </h5>
+                                        <p class="card-text">${board.title}</p>
                                     </div>
-                                </c:if>
-                            </c:forEach>
-                            <h5 class="card-title d-flex justify-content-between">
-                                <span> ${board.nickName}</span>
-                                <p style="font-size: medium;">${board.inserted}</p>
-                            </h5>
-                            <p class="card-text">${board.title}</p>
-                            <p class="card-text">
-                                <i class="fa-solid fa-heart"></i> ${board.likeCount } <i
-                                    class="fa-regular fa-comments"></i> ${board.commentCount }
-                            </p>
+                                    <c:forEach items="${board.imgUrlList}" var="imgUrl" varStatus="status">
+                                        <c:if test="${status.count < 6}">
+                                            <div>
+                                                <img class="img-thumbnail" src="${imgUrl}" alt=""
+                                                     style="width: 100%; height: 100%;"/>
+                                            </div>
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </c:when>
+            </c:choose>
         </c:forEach>
     </div>
+
+
 </div>
+
+<br>
+
 <div class="container-lg">
     <div class="row">
         <nav aria-label="Page navigation example">
@@ -145,6 +173,21 @@
         });
     });
 </script>
+
+<script>
+    function filterByBrand(brand) {
+        $('.my-card').each(function () {
+            var cardBrand = $(this).data('brand');
+            if (brand === 'all' || cardBrand === brand) {
+                $(this).parent().show();
+            } else {
+                $(this).parent().hide();
+            }
+        });
+    }
+</script>
+
+
 <style>
     .btn.btn-warning.dropdown-toggle::after {
         position: absolute;

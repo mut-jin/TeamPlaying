@@ -2,6 +2,8 @@ package com.example.teamplaying.service;
 
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
+import com.example.teamplaying.domain.ShoeLike;
+import com.example.teamplaying.mapper.ShoeBoardLikeMapper;
 import com.example.teamplaying.mapper.ShoeBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,12 @@ public class ShoeBoardService {
 
     @Autowired
     private ShoeBoardMapper mapper;
+
+    @Autowired
+    private ShoeBoardLikeMapper likeMapper;
+
+    @Autowired
+    private ShoeBoardMapper shoeBoardMapper;
 
     public Map<String, Object> getshoeBoard(Integer page, String search, String type) {
         Integer rowPerPage = 18;
@@ -48,7 +56,7 @@ public class ShoeBoardService {
             }
             i.setImgUrlList(shoeList);
         }
-        return Map.of("pageInfo", pageInfo, "boardList", list);
+        return Map.of("pageInfo", pageInfo, "shoeBoardList", list);
     }
 
     public List<String> getShoeModelsByBrand(String brand) {
@@ -56,6 +64,36 @@ public class ShoeBoardService {
         return shoeNameList;
     }
 
+    public List<ShoeBoard> workListBoard() {
+        return mapper.selectShoeBoardList();
+    }
+
+    public List<ShoeBoard> getShoeBoard(Integer id, String myUserId) {
+
+        List<ShoeBoard> list = mapper.selectById(id);
+        for (ShoeBoard shoeBoard : list) {
+            if (myUserId != null) {
+                ShoeLike like = likeMapper.select(id, myUserId);
+                if (like != null) {
+                    shoeBoard.setLiked(true);
+                }
+            }
+        }
+        return list;
+    }
+
+    public Member getNickName(String name) {
+
+        return mapper.getNickName(name);
+    }
+
+    public List<ShoeBoard> getShoesByBrand(String brand) {
+        return shoeBoardMapper.getShoesByBrand(brand);
+    }
+
+    public List<ShoeBoard> getAllShoesByBrand(String brand) {
+        return shoeBoardMapper.getAllShoesByBrand(brand);
+    }
 
 
 

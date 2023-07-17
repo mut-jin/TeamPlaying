@@ -41,6 +41,7 @@ public class MainController {
 	@Autowired
 	private CsService csService;
 
+
 	@GetMapping("checkEmail/{email}")
 	@ResponseBody
 	public Map<String, Object> checkEmail(@PathVariable("email") String email) {
@@ -61,8 +62,12 @@ public class MainController {
 	}
 
 	@GetMapping({ "/", "main" })
-	public void main() {
+	public void main(Model model, Authentication authentication) {
 
+		Map<String, Object> listMap = new HashMap<>();
+
+		List<ShoeBoard> board = shoeBoardService.workListBoard();
+		listMap.put("shoeBoardList", board);
 	}
 
 	// 서재권 작업 내용***********************
@@ -184,17 +189,47 @@ public class MainController {
 		}
 	}
 
-	@GetMapping("work")
-	public void work(Model model, Authentication authentication,
-					 @RequestParam(value = "page", defaultValue = "1") Integer page,
-					 @RequestParam(value = "search", defaultValue = "") String search,
-					 @RequestParam(value = "type", required = false) String type) {
+	@GetMapping("/shoeBoardId/{id}")
+	public String ShoeBoardDetail(@PathVariable("id") Integer id, Model model, Authentication authentication) {
 
-		// work
-		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type);
+		Map<String,Object> list = new HashMap();
 
-		model.addAllAttributes(result);
+		List<ShoeBoard> shoeBoardList = shoeBoardService.getShoeBoard(id, authentication.getName());
+		list.put("board", shoeBoardList);
+		Member member = shoeBoardService.getNickName(authentication.getName());
+		list.put("member", member);
+
+		model.addAllAttributes(list);
+
+		return "teamPlaying/shoeBoardGet";
+
 	}
+
+	@GetMapping("/work")
+	public String work(Model model, Authentication authentication,
+					   @RequestParam(value = "page", defaultValue = "1") Integer page,
+					   @RequestParam(value = "search", defaultValue = "") String search,
+					   @RequestParam(value = "type", required = false) String type,
+					   @RequestParam(value = "brand", required = false) String brand) {
+		if (brand != null && brand.equals("나이키")) {
+			model.addAttribute("shoeBoardList", shoeBoardService.getShoesByBrand("나이키"));
+		} else if (brand != null && brand.equals("아디다스")) {
+			model.addAttribute("shoeBoardList", shoeBoardService.getShoesByBrand("아디다스"));
+		} else if (brand != null && brand.equals("반스")) {
+			model.addAttribute("shoeBoardList", shoeBoardService.getShoesByBrand("반스"));
+		} else if (brand != null && brand.equals("컨버스")) {
+			model.addAttribute("shoeBoardList", shoeBoardService.getShoesByBrand("컨버스"));
+		} else if (brand != null) {
+			model.addAttribute("shoeBoardList", shoeBoardService.getAllShoesByBrand(brand));
+		}
+
+		// 기존의 코드는 그대로 유지합니다
+		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type);
+		model.addAllAttributes(result);
+
+		return "work";
+	}
+
 
 	@GetMapping("artist/{id}")
 	public String artistPage(Model model,
