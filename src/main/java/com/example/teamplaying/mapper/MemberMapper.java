@@ -1,6 +1,7 @@
 package com.example.teamplaying.mapper;
 
 import com.example.teamplaying.domain.Member;
+import com.example.teamplaying.domain.ShoeBoard;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -329,6 +330,18 @@ public interface MemberMapper {
             WHERE memberId = #{id}
             """)
     Integer getmyShoeBoardNum(Integer id);
+
+    @Select("""
+            SELECT * FROM Member
+            WHERE id = #{id}
+            """)
+    Member getArtistInfo(Integer id);
+
+    @Select("""
+            SELECT * FROM ShoeBoard
+            WHERE memberId = #{memberId}
+            """)
+    List<ShoeBoard> getShoeBoardList(Integer memberId);
 /*
     COUNT(f.id) fileCount,
             	(SELECT COUNT(*) FROM BoardLike WHERE boardId = b.id) likeCount,

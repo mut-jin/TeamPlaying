@@ -24,18 +24,26 @@
             max-width: 100%;
             outline: none;
             text-decoration: none;
-            transition-property: box-shadow,opacity;
+            transition-property: box-shadow, opacity;
             word-wrap: break-word;
             position: relative;
             white-space: normal;
         }
 
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .mb-10 {
+            margin-bottom: 10px;
+        }
+
         .hrLine {
-            border-color: rgba(0,0,0x);
+            border-color: rgba(0, 0, 0);
         }
 
         .box {
-            box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+            box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
         }
 
         .mla {
@@ -62,6 +70,10 @@
                         <img src="${memberInfo.profile}">
                         <div>${memberInfo.nickName}</div>
                         <div>${memberInfo.address}</div>
+                        <button type="button" class="btn btn-warning customRequestBtn" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" value="${memberInfo.id}">
+                            커스텀 의뢰
+                        </button>
                     </div>
                 </div>
                 <hr class="hrLine">
@@ -127,12 +139,41 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">커스텀 작품의뢰</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="layout" style="flex-direction: column">
+                        <div class="mb-10">커스텀할 신발을 입력해주세요.</div>
+                        <input type="text" style="height: 40px;" name="brand" class="mb-20">
+                        <input type="text" style="height: 40px;" name="shoeName" class="mb-20">
+                        <div class="mb-10">요청 사항을 적어주세요.</div>
+                        <textarea name="requestBody" class="mb-20" id="" rows="7"></textarea>
+                        <div class="mb-10">참고할 이미지가 있다면 등록해주세요.</div>
+                        <input class="form-control" style="height: 38px;" type="file" multiple
+                               name="files" accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="../../js/cs.js"></script>
+<script src="../../js/artistPage.js"></script>
 </body>
 </html>

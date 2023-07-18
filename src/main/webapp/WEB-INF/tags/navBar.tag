@@ -92,8 +92,8 @@
                               고객센터
                         </button>
                         <ul class="dropdown-menu" style="min-width: 0; width: -webkit-fill-available;">
-                            <li><a class="dropdown-item" href="cs">1:1 문의</a></li>
-                            <li><a class="dropdown-item" href="myCs">내 문의</a></li>
+                            <li><a class="dropdown-item" href="/cs">1:1 문의</a></li>
+                            <li><a class="dropdown-item" href="/myCs">내 문의</a></li>
                         </ul>
                     </div>
                 </li>
