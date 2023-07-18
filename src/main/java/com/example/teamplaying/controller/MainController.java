@@ -342,5 +342,14 @@ public class MainController {
 //        return map;
 //    }
 
+	}
 
+	@GetMapping("canvas1")
+	public void canvas1() {
+
+	}
+	@GetMapping("cs")
+	public void cs() {
+
+	}
 }
