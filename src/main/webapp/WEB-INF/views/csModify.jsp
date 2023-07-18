@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 윤보상
+  Date: 2023-07-16
+  Time: 오후 6:29
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -30,14 +37,14 @@
 <div class="container" style="padding-top: 84px;">
     <form method="post" enctype="multipart/form-data">
         <div class="layout shadow" style="flex-direction: column; align-items: center">
-            <h1>1:1 문의하기</h1>
+            <h1>내문의 수정하기</h1>
             <hr>
             <div class="layout" style="width: 70%; border: 1px solid black; border-bottom: 0;">
                 <div class="dropdown" style="width: 100%;">
                     <button style="width: inherit; background-color: white" class="btn dropdown-toggle" type="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                         <input style="border: 0; width: 98%;" type="text" placeholder="문의 유형" name="category"
-                               id="category" readonly>
+                               id="category" readonly value="${csBoard.category}">
                     </button>
                     <ul class="dropdown-menu" style="width: 100%;">
                         <li>
@@ -55,20 +62,34 @@
                     </ul>
                 </div>
             </div>
-            <input type="text" name="title" style="width: 70%; height: 5vh; padding-left: 10px;" placeholder="제 목">
-            <textarea name="body" rows="20" style="padding: 10px 0 0 10px; margin-bottom: 10px; width: 70%;" placeholder="문의 내용"></textarea>
-            <div style="width: 70%; margin-bottom: 50px;">
+            <input type="text" name="title" style="width: 70%; height: 5vh; padding-left: 10px;" placeholder="제 목"
+                   value="${csBoard.title}">
+            <textarea name="body" rows="20" style="padding: 10px 0 0 10px; margin-bottom: 10px; width: 70%;"
+                      placeholder="문의 내용">${csBoard.body}</textarea>
+            <div style="width: 70%; margin-bottom: 30px;">
                 <input class="form-control" style="height: 38px;" type="file" multiple
                        name="files" accept="image/*">
             </div>
+            <div class="layout" style="margin-bottom: 30px;">
+                <c:forEach items="${files}" var="file" varStatus="status">
+                    <div style="position: relative; display: inline-block;" id="file${status.index}">
+                        <img src="${bucketUrl }/csBoard/${csBoard.id }/${file}" alt="">
+                        <button type="button" class="removeFile" data-board-fileId="file${status.index}" data-board-file="${file}" style="border: 0; color: #ec2a2a; padding: 3px; background-color: #ffffff00; position: absolute; top: 0; right: 0;">
+                            <i class="fa-solid fa-xmark" style="font-size: x-large"></i>
+                        </button>
+                    </div>
+                </c:forEach>
+            </div>
             <div style="margin-bottom: 30px;">
-                <input type="submit" value="작성하기">
-                <%--            <button onclick="location.href='/main'">취소하기</button>--%>
-                <input type="button" onclick="location.href='/main'" value="취소하기">
+                <input type="hidden" name="id" value="${csBoard.id }" />
+                <input type="hidden" name="removeFileList" id="removeFileList" value="">
+                <input type="submit" value="수정하기">
+                <input type="button" onclick="location.href='/myCs/${csBoard.id}'" value="취소하기">
             </div>
         </div>
     </form>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

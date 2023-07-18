@@ -1,13 +1,20 @@
 package com.example.teamplaying.service;
 
 import com.example.teamplaying.domain.Member;
+import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.mapper.MemberMapper;
 import com.example.teamplaying.mapper.ShoeBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,234 +24,282 @@ import java.util.Map;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class MemberService {
-	@Autowired
-	private ShoeBoardMapper shoeMapper;
+    @Autowired
+    private S3Client s3;
 
-	@Autowired
-	private MemberMapper mapper;
+    @Autowired
+    private ShoeBoardMapper shoeMapper;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    @Autowired
+    private MemberMapper mapper;
 
-	@Value("${aws.s3.bucketUrl}")
-	private String bucketUrl;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-	public String getNickName(String userId) {
+    @Value("${aws.s3.bucketUrl}")
+    private String bucketUrl;
 
-		return mapper.getNickNameByUserId(userId);
-	}
+    @Value("${aws.s3.bucketName}")
+    private String bucketName;
 
-	// 서재권 추가내용 ***********
-	public boolean signup(Member member) {
-		// 암호를 새롭게 세팅해 준다.
-		// plain은 입력해서 받아들여지는 암호
-		// setPasswordEncoder를 통해서 다시 password를 set
-		String plain = member.getPassword();
-		member.setPassword(passwordEncoder.encode(plain));
+    public String getNickName(String userId) {
 
-		int cnt = mapper.insertMember(member);
+        return mapper.getNickNameByUserId(userId);
+    }
 
-		return cnt == 1;
+    // 서재권 추가내용 ***********
+    public boolean signup(Member member) {
+        // 암호를 새롭게 세팅해 준다.
+        // plain은 입력해서 받아들여지는 암호
+        // setPasswordEncoder를 통해서 다시 password를 set
+        String plain = member.getPassword();
+        member.setPassword(passwordEncoder.encode(plain));
 
-	}
+        int cnt = mapper.insertMember(member);
 
-	public String getUserId(String yourNickName) {
-		return mapper.getUserIdSelectByNickName(yourNickName);
-	}
+        return cnt == 1;
 
-	public List<Member> listMember() {
+    }
 
-		return mapper.selectAll();
-	}
+    public String getUserId(String yourNickName) {
+        return mapper.getUserIdSelectByNickName(yourNickName);
+    }
 
-	public Member get(String userId) {
-		return mapper.selectById(userId);
-	}
+    public List<Member> listMember() {
 
-	public boolean modify(Member member, String oldPassword) {
-		Member oldMember = mapper.selectById(member.getUserId());
+        return mapper.selectAll();
+    }
 
-		int cnt = 0;
-		if (oldMember.getPassword().equals(oldPassword)) {
+    public Member get(String userId) {
+        return mapper.selectById(userId);
+    }
 
-			cnt = mapper.update(member);
-		}
+    public boolean modify(Member member, String oldPassword) {
+        Member oldMember = mapper.selectById(member.getUserId());
 
-		return cnt == 1;
-	}
+        int cnt = 0;
+        if (oldMember.getPassword().equals(oldPassword)) {
 
-	public boolean remove(Member member) {
+            cnt = mapper.update(member);
+        }
 
-		System.out.println(member);
+        return cnt == 1;
+    }
 
-		// 채팅 지우기
-		mapper.deleteChatByUserId(member.getUserId());
-		// 채팅방 지우기
-		mapper.deleteChatRoomByUserId(member.getUserId());
-		// 그룹 채팅방 지우기
-		mapper.deleteGroupChatRoomByUserId(member.getUserId());
+    public boolean remove(Member member) {
 
-		// 러닝메이트 관련 ---
-		// 러닝 ==========
-		// 신청 목록 지우기
-		mapper.deleteRunningPartyById(member.getUserId());
-		System.out.println(1);
 
-		// 러닝 today 관련 --
-		// 좋아요 지우기
-		mapper.deleteRunningTodayLikeById(member.getUserId());
-		System.out.println(3);
-		// 댓글 지우기
-		mapper.deleteRunningTodayCommentById(member.getUserId());
-		System.out.println(4);
-		// 러닝 게시물 파일 지우기
-		List<Integer> idList = mapper.selectIdByWriter(member.getNickName());
-		for (Integer id : idList) {
-			mapper.deleteRunningFileNameById(id);
-		}
-		System.out.println(5);
+        // 채팅 지우기
+        mapper.deleteChatByUserId(member.getUserId());
+        // 채팅방 지우기
+        mapper.deleteChatRoomByUserId(member.getUserId());
+        // 그룹 채팅방 지우기
+        mapper.deleteGroupChatRoomByUserId(member.getUserId());
 
-		// 러닝 today 지우기
-		mapper.deleteRunningTodayById(member.getNickName());
-		System.out.println(6);
+        // 러닝메이트 관련 ---
+        // 러닝 ==========
+        // 신청 목록 지우기
+        mapper.deleteRunningPartyById(member.getUserId());
+        System.out.println(1);
 
-		// 등산 =========
-		// 등산메이트 관련
-		// 신청 목록 지우기
-		mapper.deleteClimbingPartyById(member.getUserId());
-		System.out.println(7);
+        // 러닝 today 관련 --
+        // 좋아요 지우기
+        mapper.deleteRunningTodayLikeById(member.getUserId());
+        System.out.println(3);
+        // 댓글 지우기
+        mapper.deleteRunningTodayCommentById(member.getUserId());
+        System.out.println(4);
+        // 러닝 게시물 파일 지우기
+        List<Integer> idList = mapper.selectIdByWriter(member.getNickName());
+        for (Integer id : idList) {
+            mapper.deleteRunningFileNameById(id);
+        }
+        System.out.println(5);
 
-		// 등산 today 관련
-		// 좋아요 지우기
-		mapper.deleteClimbingTodayLikeById(member.getUserId());
-		System.out.println(9);
-		// 댓글 지우기
-		mapper.deleteClimbingTodayCommentById(member.getUserId());
-		System.out.println(10);
+        // 러닝 today 지우기
+        mapper.deleteRunningTodayById(member.getNickName());
+        System.out.println(6);
 
-		// 등산 today 파일 지우기
-		List<Integer> climbingTodayIdList = mapper.selectClimbingTodayByWriter(member.getNickName());
-		for (Integer id : climbingTodayIdList) {
-			mapper.deleteClimbingTodayFileNameById(id);
-		}
-		System.out.println(11);
+        // 등산 =========
+        // 등산메이트 관련
+        // 신청 목록 지우기
+        mapper.deleteClimbingPartyById(member.getUserId());
+        System.out.println(7);
 
-		// 등산 today 지우기
-		mapper.deleteClimbingTodayById(member.getNickName());
-		System.out.println(12);
+        // 등산 today 관련
+        // 좋아요 지우기
+        mapper.deleteClimbingTodayLikeById(member.getUserId());
+        System.out.println(9);
+        // 댓글 지우기
+        mapper.deleteClimbingTodayCommentById(member.getUserId());
+        System.out.println(10);
 
-		// 등산 course 관련
-		// 등산 코스 like 지우기
-		mapper.deleteClimbingCourseLikeById(member.getUserId());
-		System.out.println(13);
-		// 등산코스 댓글 지우기
-		mapper.deleteClimbingCourseCommentById(member.getUserId());
-		System.out.println(14);
-		// 등산 코스 파일 지우기
-		List<Integer> climbingCourseIdList = mapper.selectClimbCourseIdByWriter(member.getNickName());
-		for (Integer id : climbingCourseIdList) {
-			mapper.deleteClimbingCourseFileNameById(id);
-		}
-		System.out.println(15);
-		// 등산 코스 지우기
-		mapper.deleteClimbingCourseById(member.getNickName());
-		System.out.println(16);
+        // 등산 today 파일 지우기
+        List<Integer> climbingTodayIdList = mapper.selectClimbingTodayByWriter(member.getNickName());
+        for (Integer id : climbingTodayIdList) {
+            mapper.deleteClimbingTodayFileNameById(id);
+        }
+        System.out.println(11);
 
-		// 러닝 게시물 지우기
-		mapper.deleteRunningBoardById(member.getNickName());
-		System.out.println(2);
+        // 등산 today 지우기
+        mapper.deleteClimbingTodayById(member.getNickName());
+        System.out.println(12);
 
-		mapper.deleteClimbingMateById(member.getNickName());
+        // 등산 course 관련
+        // 등산 코스 like 지우기
+        mapper.deleteClimbingCourseLikeById(member.getUserId());
+        System.out.println(13);
+        // 등산코스 댓글 지우기
+        mapper.deleteClimbingCourseCommentById(member.getUserId());
+        System.out.println(14);
+        // 등산 코스 파일 지우기
+        List<Integer> climbingCourseIdList = mapper.selectClimbCourseIdByWriter(member.getNickName());
+        for (Integer id : climbingCourseIdList) {
+            mapper.deleteClimbingCourseFileNameById(id);
+        }
+        System.out.println(15);
+        // 등산 코스 지우기
+        mapper.deleteClimbingCourseById(member.getNickName());
+        System.out.println(16);
 
-		int cnt = mapper.deleteMember(member.getUserId());
+        // 러닝 게시물 지우기
+        mapper.deleteRunningBoardById(member.getNickName());
+        System.out.println(2);
 
-		return cnt == 1;
-	}
+        mapper.deleteClimbingMateById(member.getNickName());
 
-	public boolean modify(Member member) {
-		System.out.println(member);
-		member.setId(mapper.getId(member.getUserId()));
-		int cnt = mapper.updateMember(member);
-		System.out.println("@@@" + cnt);
+        int cnt = mapper.deleteMember(member.getUserId());
 
-		return cnt == 1;
-	}
+        return cnt == 1;
+    }
 
-	public Map<String, Object> IDCheck(String userId) {
-		Member member = mapper.selectById(userId);
+    public boolean modify(Member member) {
+        System.out.println(member);
+        member.setId(mapper.getId(member.getUserId()));
+        int cnt = mapper.updateMember(member);
+        System.out.println("@@@" + cnt);
 
-		return Map.of("available", member == null);
-	}
+        return cnt == 1;
+    }
 
-	public Map<String, Object> checkNickName(String nickName) {
-		Member member = mapper.selectByNickName(nickName);
-		return Map.of("available", member == null);
-	}
+    public Map<String, Object> IDCheck(String userId) {
+        Member member = mapper.selectById(userId);
 
-	public Map<String, Object> checkEmail(String email) {
-		Member member = mapper.selectByEmail(email);
+        return Map.of("available", member == null);
+    }
 
-		return Map.of("available", member == null);
-	}
+    public Map<String, Object> checkNickName(String nickName) {
+        Member member = mapper.selectByNickName(nickName);
+        return Map.of("available", member == null);
+    }
 
-    public Map<String, Object> getArtistBoard(Integer page, String search, String type, String order, String name) {
-		Integer rowPerPage = 8;
-		Integer startIndex = (page - 1) * rowPerPage;
+    public Map<String, Object> checkEmail(String email) {
+        Member member = mapper.selectByEmail(email);
 
-		Integer artistNum = mapper.getArtistNum(search);
-		Integer lastPageNum = (artistNum - 1) / rowPerPage + 1;
+        return Map.of("available", member == null);
+    }
 
-		Integer rightPageNum = ((page - 1) / 5 + 1) * 5;
-		Integer leftPageNum = rightPageNum - 4;
-		leftPageNum = Math.max(leftPageNum, 1);
-		rightPageNum = Math.min(rightPageNum, lastPageNum);
+    public Map<String, Object> getArtistBoard(Integer page, String search, String order, String name) {
+        Integer rowPerPage = 8;
+        Integer startIndex = (page - 1) * rowPerPage;
 
-		Map<String, Object> pageInfo = new HashMap<>();
-		pageInfo.put("rightPageNum", rightPageNum);
-		pageInfo.put("leftPageNum", leftPageNum);
-		pageInfo.put("lastPageNum", lastPageNum);
-		pageInfo.put("currentPageNum", page);
+        Integer artistNum = mapper.getArtistNum(search);
+        Integer lastPageNum = (artistNum - 1) / rowPerPage + 1;
 
-		List<Member> list = mapper.selectAllPaging(startIndex ,rowPerPage, search, type, order);
-		for(Member i : list) {
-			List<String> shoeList = new ArrayList<>();
-			List<Integer> boardIdList = shoeMapper.getBoardIdList(i.getId());
-			for(Integer boardID : boardIdList) {
-				shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
+        Integer rightPageNum = ((page - 1) / 5 + 1) * 5;
+        Integer leftPageNum = rightPageNum - 4;
+        leftPageNum = Math.max(leftPageNum, 1);
+        rightPageNum = Math.min(rightPageNum, lastPageNum);
 
-			}
-			i.setSubCount(shoeMapper.getMySubscribe(i.getId()));
-			i.setShoeImgList(shoeList);
-			if(i.getTotalView() == null) {
-				i.setTotalView(0);
-			}
-			System.out.println(list);
-		}
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("rightPageNum", rightPageNum);
+        pageInfo.put("leftPageNum", leftPageNum);
+        pageInfo.put("lastPageNum", lastPageNum);
+        pageInfo.put("currentPageNum", page);
 
-		return Map.of("pageInfo", pageInfo, "boardList", list, "name", name);
+        List<Member> list = mapper.selectAllPaging(startIndex, rowPerPage, search, order);
+        for (Member i : list) {
+            List<String> shoeList = new ArrayList<>();
+            List<Integer> boardIdList = shoeMapper.getBoardIdList(i.getId());
+            for (Integer boardID : boardIdList) {
+                shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
+
+            }
+            i.setProfile(bucketUrl + "/Member/" + i.getId() + "/" + i.getProfile());
+            i.setSubCount(shoeMapper.getMySubscribe(i.getId()));
+            i.setShoeImgList(shoeList);
+            if (i.getTotalView() == null) {
+                i.setTotalView(0);
+            }
+        }
+
+        return Map.of("pageInfo", pageInfo, "boardList", list, "name", name);
     }
 
 
-	public Map<String, Object> getMember(Integer id, Integer page) {
-		Integer rowPerPage = 9;
-		Integer startIndex = (page - 1) * rowPerPage;
+    public Map<String, Object> getMember(Integer id, Integer page) {
+        Integer rowPerPage = 9;
+        Integer startIndex = (page - 1) * rowPerPage;
 
-		Integer shoeBoardNum = mapper.getmyShoeBoardNum(id);
-		Integer lastPageNum = (shoeBoardNum - 1) / rowPerPage + 1;
+        Integer shoeBoardNum = mapper.getmyShoeBoardNum(id);
+        Integer lastPageNum = (shoeBoardNum - 1) / rowPerPage + 1;
 
-		Integer rightPageNum = ((page - 1) / 5 + 1) * 5;
-		Integer leftPageNum = rightPageNum - 4;
-		leftPageNum = Math.max(leftPageNum, 1);
-		rightPageNum = Math.min(rightPageNum, lastPageNum);
+        Integer rightPageNum = ((page - 1) / 5 + 1) * 5;
+        Integer leftPageNum = rightPageNum - 4;
+        leftPageNum = Math.max(leftPageNum, 1);
+        rightPageNum = Math.min(rightPageNum, lastPageNum);
 
-		Map<String, Object> pageInfo = new HashMap<>();
-		pageInfo.put("rightPageNum", rightPageNum);
-		pageInfo.put("leftPageNum", leftPageNum);
-		pageInfo.put("lastPageNum", lastPageNum);
-		pageInfo.put("currentPageNum", page);
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("rightPageNum", rightPageNum);
+        pageInfo.put("leftPageNum", leftPageNum);
+        pageInfo.put("lastPageNum", lastPageNum);
+        pageInfo.put("currentPageNum", page);
 
-		Member member = mapper.getMemberById(startIndex, rowPerPage, id);
-		member.setProfile(bucketUrl + "/Member/" + member.getId() + "/" + member.getProfile());
-		return Map.of("pageInfo", pageInfo, "memberInfo", member);
-	}
+        Member member = mapper.getMemberById(startIndex, rowPerPage, id);
+        member.setProfile(bucketUrl + "/Member/" + id + "/" + member.getProfile());
+        List<Integer> boardIdList = shoeMapper.getBoardIdList(id);
+        List<String> shoeList = new ArrayList<>();
+        for (Integer boardID : boardIdList) {
+            shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
+        }
+        member.setShoeImgList(shoeList);
+
+        return Map.of("pageInfo", pageInfo, "memberInfo", member);
+    }
+
+    public boolean addShoeBoard(ShoeBoard shoeBoard, MultipartFile[] files, Authentication authentication) throws Exception {
+        Member member = shoeMapper.selectMemberById(authentication.getName());
+        shoeBoard.setNickName(member.getNickName());
+        shoeBoard.setMemberId(member.getId());
+
+        int cnt = shoeMapper.insert(shoeBoard);
+        for (MultipartFile file : files) {
+            if (file.getSize() > 0) {
+                String objectKey = "TeamPlay/shoeBoard/" + shoeBoard.getId() + "/" + file.getOriginalFilename();
+                PutObjectRequest por = PutObjectRequest.builder()
+                        .acl(ObjectCannedACL.PUBLIC_READ)
+                        .bucket(bucketName)
+                        .key(objectKey)
+                        .build();
+                RequestBody rb = RequestBody.fromInputStream(file.getInputStream(), file.getSize());
+
+                s3.putObject(por, rb);
+                shoeMapper.insertFileName(shoeBoard.getId(), file.getOriginalFilename());
+
+            }
+        }
+        return cnt == 1;
+
+    }
+
+    public Integer getIdByUserId(String userId) {
+        return mapper.getId(userId);
+    }
+
+    public Map<String, Object> getArtistBoard(Integer artistId) {
+        Member member = mapper.getArtistInfo(artistId);
+        List<ShoeBoard> shoeList = mapper.getShoeBoardList(member.getId());
+
+        return Map.of("member", member, "shoeList", shoeList);
+    }
 }

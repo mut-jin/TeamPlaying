@@ -1,7 +1,9 @@
 package com.example.teamplaying.controller;
 
+import com.example.teamplaying.domain.CsBoard;
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
+import com.example.teamplaying.service.CsService;
 import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.ShoeBoardService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,21 +14,33 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Controller
 @RequestMapping("/")
 public class MainController {
+	private final MemberService memberService;
 
 	@Autowired
-	private MemberService memberService;
+	public MainController(MemberService memberService) {
+		this.memberService = memberService;
+	}
+
+//	@Autowired
+//	private MemberService memberService;
 
 	@Autowired
 	private ShoeBoardService shoeBoardService;
+
+	@Autowired
+	private CsService csService;
+
 
 	@GetMapping("checkEmail/{email}")
 	@ResponseBody
@@ -48,8 +62,12 @@ public class MainController {
 	}
 
 	@GetMapping({ "/", "main" })
-	public void main() {
+	public void main(Model model, Authentication authentication) {
 
+		Map<String, Object> listMap = new HashMap<>();
+
+		List<ShoeBoard> board = shoeBoardService.workListBoard();
+		listMap.put("shoeBoardList", board);
 	}
 
 	// 서재권 작업 내용***********************
@@ -144,32 +162,67 @@ public class MainController {
 	public void artist(Model model,
 					   @RequestParam(value = "page", defaultValue = "1") Integer page,
 					   @RequestParam(value = "search", defaultValue = "") String search,
-					   @RequestParam(value = "type", required = false) String type,
 					   @RequestParam(value = "name", defaultValue = "선택") String name,
 					   @RequestParam(value = "order", defaultValue = "id") String order) {
-		Map<String, Object> result = memberService.getArtistBoard(page, search, type, order, name);
+		Map<String, Object> result = memberService.getArtistBoard(page, search, order, name);
 
 		model.addAllAttributes(result);
 
 	}
 	@GetMapping("workadd")
 	@PreAuthorize("hasAuthority('artist')")
-	public void workadd(Model model, Authentication authentication) {
-		model.addAttribute("member", memberService.get(authentication.getName()));
+	public void workadd() {
+	}
+
+
+
+	@PostMapping("workadd")
+	public String workResult(ShoeBoard shoeBoard,
+							 RedirectAttributes rttr,
+							 @RequestParam("files") MultipartFile[] files,
+							 Authentication authentication) throws Exception {
+		boolean ok = memberService.addShoeBoard(shoeBoard, files, authentication);
+		if (ok) {
+			return "redirect:/artist/" + memberService.getIdByUserId(authentication.getName());
+		} else {
+			return "redirect:/workadd";
+		}
+	}
+
+	@GetMapping("/shoeBoardId/{id}")
+	public String ShoeBoardDetail(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+
+		Map<String,Object> list = new HashMap();
+
+		List<ShoeBoard> shoeBoardList = shoeBoardService.getShoeBoard(id, authentication.getName());
+		list.put("board", shoeBoardList);
+		Member member = shoeBoardService.getNickName(authentication.getName());
+		list.put("member", member);
+
+		model.addAllAttributes(list);
+
+		return "teamPlaying/shoeBoardGet";
 
 	}
 
-	@GetMapping("work")
-	public void work(Model model, Authentication authentication,
-					 @RequestParam(value = "page", defaultValue = "1") Integer page,
-					 @RequestParam(value = "search", defaultValue = "") String search,
-					 @RequestParam(value = "type", required = false) String type) {
+	@GetMapping("/work")
+	public String work(Model model, Authentication authentication,
+					   @RequestParam(value = "page", defaultValue = "1") Integer page,
+					   @RequestParam(value = "search", defaultValue = "") String search,
+					   @RequestParam(value = "type", required = false) String type,
+					   @RequestParam(value = "brand", required = false) String brand,
+					   @RequestParam(value = "order", defaultValue = "id") String order,
+					   @RequestParam(value = "direction", defaultValue = "DESC") String direction
+					   )
+	{
 
-		// work
-		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type);
-
+		// 기존의 코드는 그대로 유지합니다
+		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type, brand, order, direction);
 		model.addAllAttributes(result);
+
+		return "work";
 	}
+
 
 	@GetMapping("artist/{id}")
 	public String artistPage(Model model,
@@ -187,6 +240,7 @@ public class MainController {
 	}
 
 
+
 //	@GetMapping("workadd/shoeBrand")
 //	public Map<String, Object> shoeBrand(String shoeBrand) {
 //		Map<String, Object> map = new HashMap<>();
@@ -195,8 +249,98 @@ public class MainController {
 //	}
 
 
-	@GetMapping("canvas")
-	public void canvas() {
+    @GetMapping("canvas")
+    public void canvas() {
+
+    }
+
+    @GetMapping("canvas1")
+    public void canvas1() {
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("cs")
+    public void cs() {
+
+    }
+
+    @PostMapping("cs")
+    public String csProcess(CsBoard csBoard,
+                            RedirectAttributes rttr,
+                            Authentication authentication,
+                            @RequestParam("files") MultipartFile[] files) throws Exception {
+        csBoard.setWriter(memberService.getNickName(authentication.getName()));
+        boolean ok = csService.add(csBoard, files);
+        if (ok) {
+
+            rttr.addFlashAttribute("message", "1:1 문의가 등록되었습니다..");
+            return "redirect:/myCs";
+        } else {
+            rttr.addFlashAttribute("message", "1:1 문의중 문제가 발생했습니다.");
+            return "redirect:/cs";
+        }
+    }
+
+    @GetMapping("myCs")
+    public void myCs(Authentication authentication,
+                     Model model,
+                     @RequestParam(value = "page", defaultValue = "1") Integer page,
+                     @RequestParam(value = "search", defaultValue = "") String search) {
+        String writer = memberService.getNickName(authentication.getName());
+        Map<String, Object> result = csService.getCsBoardByWriter(writer, search, page);
+        model.addAllAttributes(result);
+    }
+
+    @GetMapping("myCs/{id}")
+    public String myCsPage(Model model,
+                           @PathVariable Integer id) {
+        Map<String, Object> result = csService.getCsBoardById(id);
+        model.addAllAttributes(result);
+        return "myCsPage";
+    }
+
+    @PostMapping("csRemove")
+    public String csRemove(Integer id, RedirectAttributes rttr) {
+        boolean ok = csService.remove(id);
+        if (ok) {
+            rttr.addFlashAttribute("message", "문의가 삭제되었습니다..");
+        } else {
+            rttr.addFlashAttribute("message", "문의삭제중 문제가 발생했습니다.");
+        }
+        return "redirect:/myCs";
+    }
+
+    @GetMapping("csModify")
+    public void csModify(Integer id, Model model) {
+        Map<String, Object> result = csService.getCsBoardById(id);
+        model.addAllAttributes(result);
+    }
+
+    @PostMapping("csModify")
+    public String csModifyProcess(CsBoard csBoard,
+                                  @RequestParam(value = "removeFileList", required = false) List<String> removeFileName,
+                                  @RequestParam(value = "files", required = false) MultipartFile[] addFiles,
+                                  RedirectAttributes rttr) throws Exception {
+        boolean ok = csService.modify(csBoard, removeFileName, addFiles);
+        if (ok) {
+            // 해당 게시물 보기로 리디렉션
+            rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되었습니다.");
+            return "redirect:/myCs/" + csBoard.getId();
+        } else {
+//			rttr.addAttribute("fail", "modifyfail");
+            rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되지 않았습니다.");
+            return "redirect:/csModify/" + csBoard.getId();
+        }
+
+    }
+
+//    @GetMapping("artistInfo")
+//    public Map<String, Object> artistInfo(Integer artistId) {
+//        Map<String, Object> map = memberService.getArtistBoard(artistId);
+//
+//        return map;
+//    }
 
 	}
 

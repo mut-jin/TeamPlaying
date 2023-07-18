@@ -1,6 +1,7 @@
 package com.example.teamplaying.mapper;
 
 import com.example.teamplaying.domain.Member;
+import com.example.teamplaying.domain.ShoeBoard;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public interface MemberMapper {
             FROM Member
             WHERE userId = #{userId}
             """)
-    Member selectById(String integer);
+    Member selectById(String userId);
 
     @Delete("""
             DELETE FROM Member
@@ -302,11 +303,11 @@ public interface MemberMapper {
             FROM Member m
             WHERE memberType = 'artist' AND
                   nickName LIKE #{pattern}
-            ORDER BY #{order} DESC
+            ORDER BY ${order} DESC
             LIMIT #{startIndex}, #{rowPerPage}
             </script>
             """)
-    List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type, String order);
+    List<Member> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String order);
 
     @Select("""
             SELECT
@@ -329,6 +330,18 @@ public interface MemberMapper {
             WHERE memberId = #{id}
             """)
     Integer getmyShoeBoardNum(Integer id);
+
+    @Select("""
+            SELECT * FROM Member
+            WHERE id = #{id}
+            """)
+    Member getArtistInfo(Integer id);
+
+    @Select("""
+            SELECT * FROM ShoeBoard
+            WHERE memberId = #{memberId}
+            """)
+    List<ShoeBoard> getShoeBoardList(Integer memberId);
 /*
     COUNT(f.id) fileCount,
             	(SELECT COUNT(*) FROM BoardLike WHERE boardId = b.id) likeCount,

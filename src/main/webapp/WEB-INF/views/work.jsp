@@ -12,6 +12,7 @@
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
+        @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
         .layout {
             display: flex;
             flex: 1 1 auto;
@@ -28,31 +29,110 @@
         .search-input {
             flex: 1;
         }
+
+        .card {
+            height: 670px; /* 카드의 높이를 원하는 값으로 설정해주세요 */
+            max-height: 53vh;
+        }
+
+        .card .card-img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        .col-md-2 {
+            flex: 0 0 calc(16.666% - 5px);
+            max-width: calc(16.666% - 5px);
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-family: 'Jeju Gothic', sans-serif;
+            font-size: 25px;
+            fort-weight: bold;
+            height: 35px;
+            overflow: hidden;
+        }
+
+        .card-img {
+            max-width: 30vh;
+            max-height: 30vh;
+            width: 30vh;
+            height: 30vh;
+        }
     </style>
+
 </head>
 <body>
+
 <my:navBar></my:navBar>
 <div class="container" style="margin-top: 86px;">
-    <form action="/work" class="search-form" role="workSearch">
-        <input id="searchInput" value="${param.workSearch}" name="workSearch" class="form-control search-input"
-               type="text" placeholder="Search" aria-label="workSearch">
+    <form action="/work" class="search-form" role="search">
+        <input id="searchInput" value="${param.search}" name="search" class="form-control search-input"
+               type="text" placeholder="Search" aria-label="search">
         <button id="search" class="btn btn-outline-success" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </form>
-    <div class="d-flex">
+    <div class="d-flex" style="margin-left: -165px;">
         <div class="dropdown" style="margin-right: 20px;">
-            <button id="allWork" class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            <button id="brandDropDown" class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false" style="width: 300px; text-align: left;">
                 모든 작품
             </button>
+            <c:url value="/work" var="nikeBrandUrl">
+                <c:if test="${not empty param.page}">
+                    <c:param name="page" value="${param.page}"></c:param>
+                </c:if>
+                <c:if test="${not empty param.search}">
+                    <c:param name="search" value="${param.search}"></c:param>
+                </c:if>
+                <c:param name="brand" value="나이키"></c:param>
+            </c:url>
+            <c:url value="/work" var="adidasBrandUrl">
+                <c:if test="${not empty param.page}">
+                    <c:param name="page" value="${param.page}"></c:param>
+                </c:if>
+                <c:if test="${not empty param.search}">
+                    <c:param name="search" value="${param.search}"></c:param>
+                </c:if>
+                <c:param name="brand" value="아디다스"></c:param>
+            </c:url>
+            <c:url value="/work" var="vansBrandUrl">
+                <c:if test="${not empty param.page}">
+                    <c:param name="page" value="${param.page}"></c:param>
+                </c:if>
+                <c:if test="${not empty param.search}">
+                    <c:param name="search" value="${param.search}"></c:param>
+                </c:if>
+                <c:param name="brand" value="반스"></c:param>
+            </c:url>
+            <c:url value="/work" var="converseBrandUrl">
+                <c:if test="${not empty param.page}">
+                    <c:param name="page" value="${param.page}"></c:param>
+                </c:if>
+                <c:if test="${not empty param.search}">
+                    <c:param name="search" value="${param.search}"></c:param>
+                </c:if>
+                <c:param name="brand" value="컨버스"></c:param>
+            </c:url>
+            <c:url value="/work" var="allBrandUrl">
+                <c:if test="${not empty param.page}">
+                    <c:param name="page" value="${param.page}"></c:param>
+                </c:if>
+                <c:if test="${not empty param.search}">
+                    <c:param name="search" value="${param.search}"></c:param>
+                </c:if>
+            </c:url>
             <ul class="dropdown-menu" style="width: 300px;">
-                <li><a class="dropdown-item" href="#">모든 작품</a></li>
-                <li><a class="dropdown-item" href="#">좋아요한 작품</a></li>
-                <li><a class="dropdown-item" href="#">나이키</a></li>
-                <li><a class="dropdown-item" href="#">아디다스</a></li>
-                <li><a class="dropdown-item" href="#">반스</a></li>
-                <li><a class="dropdown-item" href="#">컨버스</a></li>
+
+                <li><a class="dropdown-item" href="${allBrandUrl}">모든 작품</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="${nikeBrandUrl}" id="nike">나이키</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="${adidasBrandUrl}" id="adidas">아디다스</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="${vansBrandUrl}" id="vans">반스</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="${converseBrandUrl}" id="converse">컨버스</a></li>
             </ul>
         </div>
         <div class="dropdown">
@@ -61,10 +141,11 @@
                 정렬
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">좋아요순</a></li>
-                <li><a class="dropdown-item" href="#">조회수순</a></li>
-                <li><a class="dropdown-item" href="#">낮은가격순</a></li>
-                <li><a class="dropdown-item" href="#">높은가격순</a></li>
+                <li><a class="dropdown-item" href="/work?name=최신순">최신순</a></li>
+                <li><a class="dropdown-item" href="/work?order=likeCount&direction=DESC&name=좋아요순">좋아요순</a></li>
+                <li><a class="dropdown-item" href="/work?order=view&direction=DESC&name=조회수순">조회수순</a></li>
+                <li><a class="dropdown-item" href="/work?order=price&direction=DESC&name=높은가격순">높은가격순</a></li>
+                <li><a class="dropdown-item" href="/work?order=price&direction=ASC&name=낮은가격순">낮은가격순</a></li>
             </ul>
         </div>
     </div>
@@ -72,36 +153,44 @@
     <br><br>
 
 
-    <div id="workListData">
-        <c:forEach items="${workList}" var="board">
-            <div class="col-md-4">
-                <div class="card my-card" style="width: 18rem; margin-bottom: 20px;">
-                    <div onclick="openModal(${board.id})">
-                        <div class="card-body">
-                            <c:forEach items="${board.imgUrlList }" var="img" varStatus="status">
-                                <c:if test="${status.count lt 2 }">
-                                    <div>
-                                        <img class="img-thumbnail" src="${img}" alt=""
-                                             style="width: 285px; height: 260px !important;"/>
+    <div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+        <c:forEach items="${shoeBoardList}" var="board">
+            <c:choose>
+                <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
+                    <div class="col-md-2" style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 53vh; padding: 5px;">
+                        <div class="card my-card" data-brand="${board.brand}">
+                            <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
+                                <div onclick="location.href='artist/${board.memberId}'">
+                                    <img class="card-img" src="${board.imgUrlList[0]}" alt=""/>
+                                    <div class="card-body">
+                                        <p class="card-text">${board.title}</p>
+                                        <div class="flex caption">
+                                            🌄 ${board.nickName}
+                                        </div>
+                                        <div class="flex grey--text text--lighten-1">
+                                            ―
+                                        </div>
+                                        <p class="card-price">${board.price}</p>
                                     </div>
-                                </c:if>
-                            </c:forEach>
-                            <h5 class="card-title d-flex justify-content-between">
-                                <span> ${board.nickName}</span>
-                                <p style="font-size: medium;">${board.inserted}</p>
-                            </h5>
-                            <p class="card-text">${board.title}</p>
-                            <p class="card-text">
-                                <i class="fa-solid fa-heart"></i> ${board.likeCount } <i
-                                    class="fa-regular fa-comments"></i> ${board.commentCount }
-                            </p>
+                                    <div class="card-footer" style="margin-top: auto;">
+                                        <small class="text-body-secondary">${board.likeCount}</small>
+                                        <small class="text-body-secondary">${board.commentCount}</small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </c:when>
+            </c:choose>
         </c:forEach>
     </div>
+
+
+
 </div>
+
+<br>
+
 <div class="container-lg">
     <div class="row">
         <nav aria-label="Page navigation example">
@@ -137,14 +226,28 @@
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    // 드롭다운 메뉴 항목 선택 시 버튼 텍스트 변경
-    document.querySelectorAll('.dropdown-menu a.dropdown-item').forEach(function (element) {
+    document.querySelectorAll('.dropdown-menu a.dropdown-item.ShoeBrand').forEach(function (element) {
         element.addEventListener('click', function () {
-            var dropdownButton = this.closest('.dropdown').querySelector('.dropdown-toggle');
-            dropdownButton.textContent = this.textContent;
+            var brand = this.textContent;
+            document.querySelector('#brandDropdown').textContent = brand;
         });
     });
 </script>
+
+<script>
+    function filterByBrand(brand) {
+        $('.my-card').each(function () {
+            var cardBrand = $(this).data('brand');
+            if (brand === 'all' || cardBrand === brand) {
+                $(this).parent().show();
+            } else {
+                $(this).parent().hide();
+            }
+        });
+    }
+</script>
+
+
 <style>
     .btn.btn-warning.dropdown-toggle::after {
         position: absolute;

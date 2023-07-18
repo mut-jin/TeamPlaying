@@ -24,8 +24,7 @@
             flex: 1 1 auto;
             flex-wrap: nowrap;
             min-width: 0;
-            flex-direction: column;
-        }
+        }m
 
     </style>
 </head>
@@ -33,12 +32,12 @@
 <my:navBar></my:navBar>
 <div class="container" style="margin-top: 86px;">
     <div class="d-flex mb-4">
-        <div class="dropdown" style="flex-grow: 0; flex-basis: 25%;">
+        <div class="dropdown" style="flex-grow: 0; flex-basis: 25%; max-width: 25%;">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                <input type="text" value="${name}" id="typeSelect">
+                <input type="text" value="${name}" id="typeSelect" readonly>
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="width: 228.92px;">
                 <li><a class="dropdown-item" href="/artist?name=선택">선택</a></li>
                 <li><a class="dropdown-item" href="/artist?order=subscribe&name=구독자 순">구독자 순</a></li>
                 <li><a class="dropdown-item" href="/artist?order=totalWork&name=최다 작품 순">최다 작품 순 </a></li>
@@ -48,8 +47,8 @@
         <div style="flex-grow: 1;"></div>
         <form action="/artist" class="d-flex"
               style="flex-bottom: 25%; flex-grow: 0;" role="search">
-            <input value="${param.search }" name="search" type="search" style="flex-basis: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
-            <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; flex-grow: 0" type="submit"><i
+            <input value="${param.search }" name="search" type="search" style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
+            <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0" type="submit"><i
                     class="fa-solid fa-magnifying-glass"></i></button>
         </form>
     </div>
@@ -64,7 +63,7 @@
                                  src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/runningMate/%EB%8B%AC%EB%A6%AC%EA%B8%B04.jpg"
                                  alt="">
                         </div>
-                        <div class="layout" style="flex-basis: 66.7%; max-width: 66.7%">
+                        <div class="layout" style="flex-direction: column; flex-basis: 66.7%; max-width: 66.7%">
                             <div style="margin-bottom: 8px; flex: 0 0 auto; font-weight: bolder">${list.nickName}</div>
                             <div style="margin-bottom: 8px; flex: 0 0 auto;">${list.address}</div>
                             <div style="margin-bottom: 8px; flex: 0 0 auto;"><i
@@ -73,13 +72,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="layout" style="flex-basis: 50%; flex-wrap: wrap;">
-                        <c:forEach items="${list.shoeImgList}" var="img">
-                            <div style="padding: 4px; flex-basis: 25%;">
-                                <img style="width: 110px; height: 110px; border-radius: 4px;"
-                                     src="${img}"
-                                     alt="">
-                            </div>
+                    <div class="layout" style="flex-basis: 50%; max-width: 50%; flex-wrap: wrap;">
+                        <c:forEach items="${list.shoeImgList}" var="img" varStatus="status">
+                            <c:if test="${status.index < 4}">
+                                <div style="padding: 4px; flex-basis: 25%; max-width: 25%;">
+                                    <img style="width: 110px; height: 110px; border-radius: 4px;"
+                                         src="${img}"
+                                         alt="">
+                                </div>
+                            </c:if>
                         </c:forEach>
                     </div>
                 </div>
@@ -121,6 +122,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="../../js/artist.js"></script>
 </body>
 </html>
