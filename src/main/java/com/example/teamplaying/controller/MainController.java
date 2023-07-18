@@ -6,7 +6,6 @@ import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.service.CsService;
 import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.ShoeBoardService;
-import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Controller
 @RequestMapping("/")
@@ -240,6 +240,7 @@ public class MainController {
 	}
 
 
+
 //	@GetMapping("workadd/shoeBrand")
 //	public Map<String, Object> shoeBrand(String shoeBrand) {
 //		Map<String, Object> map = new HashMap<>();
@@ -248,44 +249,98 @@ public class MainController {
 //	}
 
 
-	@GetMapping("canvas")
-	public void canvas() {
+    @GetMapping("canvas")
+    public void canvas() {
 
-	}
+    }
 
-	@GetMapping("canvas1")
-	public void canvas1() {
+    @GetMapping("canvas1")
+    public void canvas1() {
 
-	}
+    }
 
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping("cs")
-	public void cs() {
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("cs")
+    public void cs() {
 
-	}
+    }
 
-	@PostMapping("cs")
-	public String csProcess(CsBoard csBoard,
-							RedirectAttributes rttr,
-							Authentication authentication,
-							@RequestParam("files") MultipartFile[] files) throws Exception {
-		csBoard.setWriter(memberService.getNickName(authentication.getName()));
-		boolean ok = csService.add(csBoard, files);
-		if(ok) {
+    @PostMapping("cs")
+    public String csProcess(CsBoard csBoard,
+                            RedirectAttributes rttr,
+                            Authentication authentication,
+                            @RequestParam("files") MultipartFile[] files) throws Exception {
+        csBoard.setWriter(memberService.getNickName(authentication.getName()));
+        boolean ok = csService.add(csBoard, files);
+        if (ok) {
 
-			rttr.addFlashAttribute("message", "1:1 문의가 등록되었습니다..");
-			return "redirect:myCs";
-		} else {
-			rttr.addFlashAttribute("message", "1:1 문의중 문제가 발생했습니다.");
-			return "redirect:cs";
-		}
-	}
+            rttr.addFlashAttribute("message", "1:1 문의가 등록되었습니다..");
+            return "redirect:/myCs";
+        } else {
+            rttr.addFlashAttribute("message", "1:1 문의중 문제가 발생했습니다.");
+            return "redirect:/cs";
+        }
+    }
 
-	@GetMapping("myCs")
-	public void myCs(Authentication authentication, Model model) {
-		String writer = memberService.getNickName(authentication.getName());
-		List<CsBoard> list = csService.getCsBoardByWriter(writer);
-		model.addAttribute("csBoardList", list);
-	}
+    @GetMapping("myCs")
+    public void myCs(Authentication authentication,
+                     Model model,
+                     @RequestParam(value = "page", defaultValue = "1") Integer page,
+                     @RequestParam(value = "search", defaultValue = "") String search) {
+        String writer = memberService.getNickName(authentication.getName());
+        Map<String, Object> result = csService.getCsBoardByWriter(writer, search, page);
+        model.addAllAttributes(result);
+    }
+
+    @GetMapping("myCs/{id}")
+    public String myCsPage(Model model,
+                           @PathVariable Integer id) {
+        Map<String, Object> result = csService.getCsBoardById(id);
+        model.addAllAttributes(result);
+        return "myCsPage";
+    }
+
+    @PostMapping("csRemove")
+    public String csRemove(Integer id, RedirectAttributes rttr) {
+        boolean ok = csService.remove(id);
+        if (ok) {
+            rttr.addFlashAttribute("message", "문의가 삭제되었습니다..");
+        } else {
+            rttr.addFlashAttribute("message", "문의삭제중 문제가 발생했습니다.");
+        }
+        return "redirect:/myCs";
+    }
+
+    @GetMapping("csModify")
+    public void csModify(Integer id, Model model) {
+        Map<String, Object> result = csService.getCsBoardById(id);
+        model.addAllAttributes(result);
+    }
+
+    @PostMapping("csModify")
+    public String csModifyProcess(CsBoard csBoard,
+                                  @RequestParam(value = "removeFileList", required = false) List<String> removeFileName,
+                                  @RequestParam(value = "files", required = false) MultipartFile[] addFiles,
+                                  RedirectAttributes rttr) throws Exception {
+        boolean ok = csService.modify(csBoard, removeFileName, addFiles);
+        if (ok) {
+            // 해당 게시물 보기로 리디렉션
+            rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되었습니다.");
+            return "redirect:/myCs/" + csBoard.getId();
+        } else {
+//			rttr.addAttribute("fail", "modifyfail");
+            rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되지 않았습니다.");
+            return "redirect:/csModify/" + csBoard.getId();
+        }
+
+    }
+
+//    @GetMapping("artistInfo")
+//    public Map<String, Object> artistInfo(Integer artistId) {
+//        Map<String, Object> map = memberService.getArtistBoard(artistId);
+//
+//        return map;
+//    }
+
 
 }

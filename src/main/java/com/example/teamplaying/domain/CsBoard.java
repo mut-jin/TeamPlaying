@@ -13,6 +13,7 @@ public class CsBoard {
     private String body;
     private LocalDateTime inserted;
     private String writer;
+    private String answer;
 
     private LocalDate insert;
 }

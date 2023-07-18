@@ -263,7 +263,6 @@ public class MemberService {
             shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
         }
         member.setShoeImgList(shoeList);
-        System.out.println(shoeList);
 
         return Map.of("pageInfo", pageInfo, "memberInfo", member);
     }
@@ -297,4 +296,10 @@ public class MemberService {
         return mapper.getId(userId);
     }
 
+    public Map<String, Object> getArtistBoard(Integer artistId) {
+        Member member = mapper.getArtistInfo(artistId);
+        List<ShoeBoard> shoeList = mapper.getShoeBoardList(member.getId());
+
+        return Map.of("member", member, "shoeList", shoeList);
+    }
 }
