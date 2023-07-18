@@ -210,21 +210,14 @@ public class MainController {
 					   @RequestParam(value = "page", defaultValue = "1") Integer page,
 					   @RequestParam(value = "search", defaultValue = "") String search,
 					   @RequestParam(value = "type", required = false) String type,
-					   @RequestParam(value = "brand", required = false) String brand) {
-		if (brand != null && brand.equals("나이키")) {
-			model.addAttribute("shoeBoardList", shoeBoardService.getShoesByBrand("나이키"));
-		} else if (brand != null && brand.equals("아디다스")) {
-			model.addAttribute("shoeBoardList", shoeBoardService.getShoesByBrand("아디다스"));
-		} else if (brand != null && brand.equals("반스")) {
-			model.addAttribute("shoeBoardList", shoeBoardService.getShoesByBrand("반스"));
-		} else if (brand != null && brand.equals("컨버스")) {
-			model.addAttribute("shoeBoardList", shoeBoardService.getShoesByBrand("컨버스"));
-		} else if (brand != null) {
-			model.addAttribute("shoeBoardList", shoeBoardService.getAllShoesByBrand(brand));
-		}
+					   @RequestParam(value = "brand", required = false) String brand,
+					   @RequestParam(value = "order", defaultValue = "id") String order,
+					   @RequestParam(value = "direction", defaultValue = "DESC") String direction
+					   )
+	{
 
 		// 기존의 코드는 그대로 유지합니다
-		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type);
+		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type, brand, order, direction);
 		model.addAllAttributes(result);
 
 		return "work";

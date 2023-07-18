@@ -2,7 +2,6 @@ package com.example.teamplaying.mapper;
 
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
-import com.example.teamplaying.domain.ShoeFileName;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -81,11 +80,14 @@ public interface ShoeBoardMapper {
             	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
             FROM shoeBoard s
             WHERE shoeName LIKE #{pattern}
-            ORDER BY id DESC
+            <if test="brand != null">
+                AND brand = #{brand}
+            </if>
+            ORDER BY ${order} ${direction}
             LIMIT #{startIndex}, #{rowPerPage}
             </script>
             """)
-    List<ShoeBoard> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type);
+    List<ShoeBoard> selectAllPaging(String direction, Integer startIndex, Integer rowPerPage, String search, String type, String brand, String order);
 
     @Select("""
             SELECT fileName FROM shoeFileName

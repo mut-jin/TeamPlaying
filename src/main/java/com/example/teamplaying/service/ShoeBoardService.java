@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+
+
 
 @Service
 public class ShoeBoardService {
@@ -30,7 +32,7 @@ public class ShoeBoardService {
     @Autowired
     private ShoeBoardMapper shoeBoardMapper;
 
-    public Map<String, Object> getshoeBoard(Integer page, String search, String type) {
+    public Map<String, Object> getshoeBoard(Integer page, String search, String type, String brand, String order, String direction) {
         Integer rowPerPage = 18;
         Integer startIndex = (page - 1) * rowPerPage;
 
@@ -47,8 +49,10 @@ public class ShoeBoardService {
         pageInfo.put("leftPageNum", leftPageNum);
         pageInfo.put("lastPageNum", lastPageNum);
         pageInfo.put("currentPageNum", page);
+        pageInfo.put("brand", brand);
+        pageInfo.put("order", order);
 
-        List<ShoeBoard> list = mapper.selectAllPaging(startIndex, rowPerPage, search, type);
+        List<ShoeBoard> list = mapper.selectAllPaging(direction ,startIndex, rowPerPage, search, type, brand, order);
         for (ShoeBoard i : list) {
             List<String> shoeList = new ArrayList<>();
             for (String j : mapper.getMyShoeFileNameList(i.getId())) {
