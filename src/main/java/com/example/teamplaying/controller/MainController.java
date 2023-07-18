@@ -25,185 +25,220 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class MainController {
+	private final MemberService memberService;
 
-    @Autowired
-    private MemberService memberService;
+	@Autowired
+	public MainController(MemberService memberService) {
+		this.memberService = memberService;
+	}
 
-    @Autowired
-    private ShoeBoardService shoeBoardService;
+//	@Autowired
+//	private MemberService memberService;
 
-    @Autowired
-    private CsService csService;
+	@Autowired
+	private ShoeBoardService shoeBoardService;
 
-    @GetMapping("checkEmail/{email}")
-    @ResponseBody
-    public Map<String, Object> checkEmail(@PathVariable("email") String email) {
-        return memberService.checkEmail(email);
-    }
-
-    @GetMapping("checkNickName/{nickName}")
-    @ResponseBody
-    public Map<String, Object> checkNickName(@PathVariable("nickName") String nickName) {
-        return memberService.checkNickName(nickName);
-    }
-
-    @GetMapping("IDCheck/{userId}")
-    @ResponseBody
-    public Map<String, Object> checkId(@PathVariable("userId") String id) {
-
-        return memberService.IDCheck(id);
-    }
-
-    @GetMapping({"/", "main"})
-    public void main() {
-
-    }
-
-    // 서재권 작업 내용***********************
-    @GetMapping("login")
-    public void loginForm() {
-
-    }
-
-    @GetMapping("signup")
-    public void signupForm() {
-
-    }
-
-    @PostMapping("signup")
-    public String signupProcess(Member member, RedirectAttributes rttr) {
-
-        try {
-            memberService.signup(member);
-            // 정보 제공을 위한 것
-            rttr.addFlashAttribute("member", member);
-            // alert를 위한 것
-            rttr.addFlashAttribute("message", "회원 가입되었습니다 ⭕⭕");
-            return "redirect:/login";
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            rttr.addFlashAttribute("member", member);
-            rttr.addFlashAttribute("message", "회원 가입 실패 ❌❌");
-            return "redirect:/main";
-        }
-    }
-
-    @GetMapping("list")
-    public void list(Model model) {
-        List<Member> list = memberService.listMember();
-        model.addAttribute("memberList", list);
-    }
-
-    // 경로 : /member/info?userid=asdf
-    @GetMapping("info")
-    public void info(String userId, Model model) {
-        Member member = memberService.get(userId);
-        System.out.println(member);
-        model.addAttribute("member", member);
-    }
-
-    @GetMapping("totalMyPage")
-    public void myapge(Authentication authentication, Model model) {
-        Member member = memberService.get(authentication.getName());
-        System.out.println(member);
-        model.addAttribute("member", member);
-    }
-
-    @GetMapping("modify")
-    public void modifyForm(Authentication authentication, Model model) {
-        Member member = memberService.get(authentication.getName());
-        model.addAttribute("member", member);
-    }
-
-    // 2.
-    @PostMapping("modify")
-    public String modifyProcess(Member member, RedirectAttributes rttr) {
-        boolean ok = memberService.modify(member);
-
-        if (ok) {
-            rttr.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
-            return "redirect:/info?userId=" + member.getUserId();
-        } else {
-            rttr.addFlashAttribute("message", "회원 정보시 문제가 발생했습니다.");
-            return "redirect:/modify?userId=" + member.getUserId();
-        }
-    }
-
-    @GetMapping("welcomeMain")
-    public void welcomMain() {
-
-    }
-
-    @PostMapping("remove")
-    public String remove(Member member, RedirectAttributes rttr, HttpServletRequest request) throws Exception {
-        boolean ok = memberService.remove(member);
-        if (ok) {
-            request.logout();
-            rttr.addFlashAttribute("message", "회원 탈퇴하였습니다.");
-        } else {
-            rttr.addFlashAttribute("message", "회원 탈퇴시 문제가 발생하였습니다.");
-        }
-        return "redirect:/main";
-    }
-
-    @GetMapping("artist")
-    public void artist(Model model,
-                       @RequestParam(value = "page", defaultValue = "1") Integer page,
-                       @RequestParam(value = "search", defaultValue = "") String search,
-                       @RequestParam(value = "name", defaultValue = "선택") String name,
-                       @RequestParam(value = "order", defaultValue = "id") String order) {
-        Map<String, Object> result = memberService.getArtistBoard(page, search, order, name);
-
-        model.addAllAttributes(result);
-
-    }
-
-    @GetMapping("workadd")
-    @PreAuthorize("hasAuthority('artist')")
-    public void workadd() {
-    }
+	@Autowired
+	private CsService csService;
 
 
-    @PostMapping("workadd")
-    public String workResult(ShoeBoard shoeBoard,
-                             RedirectAttributes rttr,
-                             @RequestParam("files") MultipartFile[] files,
-                             Authentication authentication) throws Exception {
-        boolean ok = memberService.addShoeBoard(shoeBoard, files, authentication);
-        if (ok) {
-            return "redirect:/artist/" + memberService.getIdByUserId(authentication.getName());
-        } else {
-            return "redirect:/workadd";
-        }
-    }
+	@GetMapping("checkEmail/{email}")
+	@ResponseBody
+	public Map<String, Object> checkEmail(@PathVariable("email") String email) {
+		return memberService.checkEmail(email);
+	}
 
-    @GetMapping("work")
-    public void work(Model model, Authentication authentication,
-                     @RequestParam(value = "page", defaultValue = "1") Integer page,
-                     @RequestParam(value = "search", defaultValue = "") String search,
-                     @RequestParam(value = "type", required = false) String type) {
+	@GetMapping("checkNickName/{nickName}")
+	@ResponseBody
+	public Map<String, Object> checkNickName(@PathVariable("nickName") String nickName) {
+		return memberService.checkNickName(nickName);
+	}
 
-        // work
-        Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type);
+	@GetMapping("IDCheck/{userId}")
+	@ResponseBody
+	public Map<String, Object> checkId(@PathVariable("userId") String id) {
 
-        model.addAllAttributes(result);
-    }
+		return memberService.IDCheck(id);
+	}
 
-    @GetMapping("artist/{id}")
-    public String artistPage(Model model,
-                             @PathVariable Integer id,
-                             @RequestParam(value = "page", defaultValue = "1") Integer page) {
-        Map<String, Object> result = memberService.getMember(id, page);
-        model.addAllAttributes(result);
-        return "artistPage";
-    }
+	@GetMapping({ "/", "main" })
+	public void main(Model model, Authentication authentication) {
 
-    @GetMapping("/getShoeModels")
-    public ResponseEntity<List<String>> getShoeModels(@RequestParam String brand) {
-        List<String> shoeModels = shoeBoardService.getShoeModelsByBrand(brand);
-        return ResponseEntity.ok(shoeModels);
-    }
+		Map<String, Object> listMap = new HashMap<>();
+
+		List<ShoeBoard> board = shoeBoardService.workListBoard();
+		listMap.put("shoeBoardList", board);
+	}
+
+	// 서재권 작업 내용***********************
+	@GetMapping("login")
+	public void loginForm() {
+
+	}
+
+	@GetMapping("signup")
+	public void signupForm() {
+
+	}
+
+	@PostMapping("signup")
+	public String signupProcess(Member member, RedirectAttributes rttr) {
+
+		try {
+			memberService.signup(member);
+			// 정보 제공을 위한 것
+			rttr.addFlashAttribute("member", member);
+			// alert를 위한 것
+			rttr.addFlashAttribute("message", "회원 가입되었습니다 ⭕⭕");
+			return "redirect:/login";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			rttr.addFlashAttribute("member", member);
+			rttr.addFlashAttribute("message", "회원 가입 실패 ❌❌");
+			return "redirect:/main";
+		}
+	}
+
+	@GetMapping("list")
+	public void list(Model model) {
+		List<Member> list = memberService.listMember();
+		model.addAttribute("memberList", list);
+	}
+
+	// 경로 : /member/info?userid=asdf
+	@GetMapping("info")
+	public void info(String userId, Model model) {
+		Member member = memberService.get(userId);
+		System.out.println(member);
+		model.addAttribute("member", member);
+	}
+
+	@GetMapping("totalMyPage")
+	public void myapge(Authentication authentication, Model model) {
+		Member member = memberService.get(authentication.getName());
+		System.out.println(member);
+		model.addAttribute("member", member);
+	}
+
+	@GetMapping("modify")
+	public void modifyForm(Authentication authentication, Model model) {
+		Member member = memberService.get(authentication.getName());
+		model.addAttribute("member", member);
+	}
+
+	// 2.
+	@PostMapping("modify")
+	public String modifyProcess(Member member, RedirectAttributes rttr) {
+		boolean ok = memberService.modify(member);
+
+		if (ok) {
+			rttr.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
+			return "redirect:/info?userId=" + member.getUserId();
+		} else {
+			rttr.addFlashAttribute("message", "회원 정보시 문제가 발생했습니다.");
+			return "redirect:/modify?userId=" + member.getUserId();
+		}
+	}
+
+	@GetMapping("welcomeMain")
+	public void welcomMain() {
+
+	}
+
+	@PostMapping("remove")
+	public String remove(Member member, RedirectAttributes rttr, HttpServletRequest request) throws Exception {
+		boolean ok = memberService.remove(member);
+		if (ok) {
+			request.logout();
+			rttr.addFlashAttribute("message", "회원 탈퇴하였습니다.");
+		} else {
+			rttr.addFlashAttribute("message", "회원 탈퇴시 문제가 발생하였습니다.");
+		}
+		return "redirect:/main";
+	}
+
+	@GetMapping("artist")
+	public void artist(Model model,
+					   @RequestParam(value = "page", defaultValue = "1") Integer page,
+					   @RequestParam(value = "search", defaultValue = "") String search,
+					   @RequestParam(value = "name", defaultValue = "선택") String name,
+					   @RequestParam(value = "order", defaultValue = "id") String order) {
+		Map<String, Object> result = memberService.getArtistBoard(page, search, order, name);
+
+		model.addAllAttributes(result);
+
+	}
+	@GetMapping("workadd")
+	@PreAuthorize("hasAuthority('artist')")
+	public void workadd() {
+	}
+
+
+
+	@PostMapping("workadd")
+	public String workResult(ShoeBoard shoeBoard,
+							 RedirectAttributes rttr,
+							 @RequestParam("files") MultipartFile[] files,
+							 Authentication authentication) throws Exception {
+		boolean ok = memberService.addShoeBoard(shoeBoard, files, authentication);
+		if (ok) {
+			return "redirect:/artist/" + memberService.getIdByUserId(authentication.getName());
+		} else {
+			return "redirect:/workadd";
+		}
+	}
+
+	@GetMapping("/shoeBoardId/{id}")
+	public String ShoeBoardDetail(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+
+		Map<String,Object> list = new HashMap();
+
+		List<ShoeBoard> shoeBoardList = shoeBoardService.getShoeBoard(id, authentication.getName());
+		list.put("board", shoeBoardList);
+		Member member = shoeBoardService.getNickName(authentication.getName());
+		list.put("member", member);
+
+		model.addAllAttributes(list);
+
+		return "teamPlaying/shoeBoardGet";
+
+	}
+
+	@GetMapping("/work")
+	public String work(Model model, Authentication authentication,
+					   @RequestParam(value = "page", defaultValue = "1") Integer page,
+					   @RequestParam(value = "search", defaultValue = "") String search,
+					   @RequestParam(value = "type", required = false) String type,
+					   @RequestParam(value = "brand", required = false) String brand,
+					   @RequestParam(value = "order", defaultValue = "id") String order,
+					   @RequestParam(value = "direction", defaultValue = "DESC") String direction
+					   )
+	{
+
+		// 기존의 코드는 그대로 유지합니다
+		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type, brand, order, direction);
+		model.addAllAttributes(result);
+
+		return "work";
+	}
+
+
+	@GetMapping("artist/{id}")
+	public String artistPage(Model model,
+							 @PathVariable Integer id,
+							 @RequestParam(value = "page", defaultValue = "1") Integer page) {
+		Map<String, Object> result = memberService.getMember(id, page);
+		model.addAllAttributes(result);
+		return "artistPage";
+	}
+
+	@GetMapping("/getShoeModels")
+	public ResponseEntity<List<String>> getShoeModels(@RequestParam String brand) {
+		List<String> shoeModels = shoeBoardService.getShoeModelsByBrand(brand);
+		return ResponseEntity.ok(shoeModels);
+	}
+
 
 
 //	@GetMapping("workadd/shoeBrand")
