@@ -69,14 +69,14 @@
 
 <my:navBar></my:navBar>
 <div class="container" style="margin-top: 86px;">
-    <form action="/work" class="search-form" role="workSearch">
-        <input id="searchInput" value="${param.workSearch}" name="workSearch" class="form-control search-input"
-               type="text" placeholder="Search" aria-label="workSearch">
+    <form action="/work" class="search-form" role="search">
+        <input id="searchInput" value="${param.search}" name="search" class="form-control search-input"
+               type="text" placeholder="Search" aria-label="search">
         <button id="search" class="btn btn-outline-success" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </form>
-    <div class="d-flex">
+    <div class="d-flex" style="margin-left: -165px;">
         <div class="dropdown" style="margin-right: 20px;">
             <button id="brandDropDown" class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false" style="width: 300px; text-align: left;">
@@ -141,7 +141,7 @@
                 정렬
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/work?name=정렬">정렬</a></li>
+                <li><a class="dropdown-item" href="/work?name=최신순">최신순</a></li>
                 <li><a class="dropdown-item" href="/work?order=likeCount&direction=DESC&name=좋아요순">좋아요순</a></li>
                 <li><a class="dropdown-item" href="/work?order=view&direction=DESC&name=조회수순">조회수순</a></li>
                 <li><a class="dropdown-item" href="/work?order=price&direction=DESC&name=높은가격순">높은가격순</a></li>
