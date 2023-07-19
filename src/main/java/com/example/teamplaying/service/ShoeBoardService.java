@@ -96,7 +96,11 @@ public class ShoeBoardService {
     }
 
     public List<ShoeBoard> getAllShoesByBrand(String brand) {
-        return shoeBoardMapper.getAllShoesByBrand(brand);
+        List<ShoeBoard> list = shoeBoardMapper.getAllShoesByBrand(brand);
+        for(ShoeBoard shoeBoard : list) {
+            shoeBoard.setFileName(bucketUrl + "/shoeBoard/" + shoeBoard.getId() + "/" + shoeBoard.getFileName());
+        }
+        return list;
     }
 
 

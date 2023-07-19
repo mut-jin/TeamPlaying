@@ -30,6 +30,32 @@
         font-size: 25px;
         font-weight: bold;
     }
+
+    /*.card {*/
+    /*    height: 670px; !* 카드의 높이를 원하는 값으로 설정해주세요 *!*/
+    /*    max-height: 53vh;*/
+    /*}*/
+
+    /*.card .card-img {*/
+    /*    object-fit: cover;*/
+    /*    height: 100%;*/
+    /*    width: 100%;*/
+    /*}*/
+
+    /*.col-md-2 {*/
+    /*    flex: 0 0 calc(16.666% - 5px);*/
+    /*    max-width: calc(16.666% - 5px);*/
+    /*    padding: 5px;*/
+    /*    margin-bottom: 10px;*/
+    /*}*/
+
+
+    .card-img {
+        max-width: 30vh;
+        max-height: 30vh;
+        width: 30vh;
+        height: 30vh;
+    }
 </style>
 
 
@@ -95,7 +121,7 @@
     </div>
 </div>
 
-<div class="flex headline" style="margin-left: 300px;">
+<div class="flex headline" style="margin-left: 140px;">
     나이키
 </div>
 <div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
@@ -106,7 +132,7 @@
                     <div class="card my-card" data-brand="${board.brand}" >
                         <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
                             <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}" data-member-id="${board.memberId}">
-                                <img class="card-img" src="${board.imgUrlList[0]}" alt=""/>
+                                <img class="card-img" src="${board.fileName}" alt=""/>
                                 <div class="card-body">
                                     <p class="card-text">${board.title}</p>
                                     <div class="flex caption">
@@ -139,8 +165,141 @@
         </c:choose>
     </c:forEach>
 </div>
+<br><br>
+<div class="flex headline" style="margin-left: 140px;">
+    아디다스
+</div>
+<div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+    <c:forEach items="${adidas}" var="board" varStatus="status">
+        <c:choose>
+            <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
+                <div class="col-md-2" style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 53vh; padding: 5px;">
+                    <div class="card my-card" data-brand="${board.brand}" >
+                        <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
+                            <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}" data-member-id="${board.memberId}">
+                                <img class="card-img" src="${board.fileName}" alt=""/>
+                                <div class="card-body">
+                                    <p class="card-text">${board.title}</p>
+                                    <div class="flex caption">
+                                        🌄 ${board.nickName}
+                                    </div>
+                                    <div class="flex grey--text text--lighten-1">
+                                        ―
+                                    </div>
+                                    <p class="card-price">${board.price}</p>
 
+                                    <button>모달창</button>
+                                    <div class="modal">
+                                        <div class="modal_content"
+                                             title="클릭하면 창이 닫힙니다.">
+                                            여기에 모달창 내용을 적어줍니다.<br>
+                                            이미지여도 좋고 글이어도 좋습니다.
+                                        </div>
+                                    </div>
 
+                                </div>
+                                <div class="card-footer" style="margin-top: auto;">
+                                    <small class="text-body-secondary">${board.likeCount}</small>
+                                    <small class="text-body-secondary">${board.commentCount}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+        </c:choose>
+    </c:forEach>
+</div>
+<br><br>
+<div class="flex headline" style="margin-left: 140px;">
+    반스
+</div>
+<div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+    <c:forEach items="${vans}" var="board" varStatus="status">
+        <c:choose>
+            <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
+                <div class="col-md-2" style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 53vh; padding: 5px;">
+                    <div class="card my-card" data-brand="${board.brand}" >
+                        <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
+                            <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}" data-member-id="${board.memberId}">
+                                <img class="card-img" src="${board.fileName}" alt=""/>
+                                <div class="card-body">
+                                    <p class="card-text">${board.title}</p>
+                                    <div class="flex caption">
+                                        🌄 ${board.nickName}
+                                    </div>
+                                    <div class="flex grey--text text--lighten-1">
+                                        ―
+                                    </div>
+                                    <p class="card-price">${board.price}</p>
+
+                                    <button>모달창</button>
+                                    <div class="modal">
+                                        <div class="modal_content"
+                                             title="클릭하면 창이 닫힙니다.">
+                                            여기에 모달창 내용을 적어줍니다.<br>
+                                            이미지여도 좋고 글이어도 좋습니다.
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-footer" style="margin-top: auto;">
+                                    <small class="text-body-secondary">${board.likeCount}</small>
+                                    <small class="text-body-secondary">${board.commentCount}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+        </c:choose>
+    </c:forEach>
+</div>
+<br><br>
+<div class="flex headline" style="margin-left: 140px;">
+    컨버스
+</div>
+<div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+    <c:forEach items="${converse}" var="board" varStatus="status">
+        <c:choose>
+            <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
+                <div class="col-md-2" style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 53vh; padding: 5px;">
+                    <div class="card my-card" data-brand="${board.brand}" >
+                        <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
+                            <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}" data-member-id="${board.memberId}">
+                                <img class="card-img" src="${board.fileName}" alt=""/>
+                                <div class="card-body">
+                                    <p class="card-text">${board.title}</p>
+                                    <div class="flex caption">
+                                        🌄 ${board.nickName}
+                                    </div>
+                                    <div class="flex grey--text text--lighten-1">
+                                        ―
+                                    </div>
+                                    <p class="card-price">${board.price}</p>
+
+                                    <button>모달창</button>
+                                    <div class="modal">
+                                        <div class="modal_content"
+                                             title="클릭하면 창이 닫힙니다.">
+                                            여기에 모달창 내용을 적어줍니다.<br>
+                                            이미지여도 좋고 글이어도 좋습니다.
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-footer" style="margin-top: auto;">
+                                    <small class="text-body-secondary">${board.likeCount}</small>
+                                    <small class="text-body-secondary">${board.commentCount}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+        </c:choose>
+    </c:forEach>
+</div>
 <sec:authorize access="isAuthenticated()">
     <my:chatBtn></my:chatBtn>
     <script src="/js/groupChat.js"></script>
