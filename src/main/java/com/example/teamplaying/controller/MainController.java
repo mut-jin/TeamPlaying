@@ -61,7 +61,7 @@ public class MainController {
 		return memberService.IDCheck(id);
 	}
 
-	@GetMapping({ "/", "main" })
+	@GetMapping({"/", "main"})
 	public void main(Model model, Authentication authentication) {
 
 		Map<String, Object> listMap = new HashMap<>();
@@ -104,6 +104,8 @@ public class MainController {
 	public void list(Model model) {
 		List<Member> list = memberService.listMember();
 		model.addAttribute("memberList", list);
+
+
 	}
 
 	// 경로 : /member/info?userid=asdf
@@ -169,11 +171,11 @@ public class MainController {
 		model.addAllAttributes(result);
 
 	}
+
 	@GetMapping("workadd")
 	@PreAuthorize("hasAuthority('artist')")
 	public void workadd() {
 	}
-
 
 
 	@PostMapping("workadd")
@@ -192,7 +194,7 @@ public class MainController {
 	@GetMapping("/shoeBoardId/{id}")
 	public String ShoeBoardDetail(@PathVariable("id") Integer id, Model model, Authentication authentication) {
 
-		Map<String,Object> list = new HashMap();
+		Map<String, Object> list = new HashMap();
 
 		List<ShoeBoard> shoeBoardList = shoeBoardService.getShoeBoard(id, authentication.getName());
 		list.put("board", shoeBoardList);
@@ -213,8 +215,7 @@ public class MainController {
 					   @RequestParam(value = "brand", required = false) String brand,
 					   @RequestParam(value = "order", defaultValue = "id") String order,
 					   @RequestParam(value = "direction", defaultValue = "DESC") String direction
-					   )
-	{
+	) {
 
 		// 기존의 코드는 그대로 유지합니다
 		Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type, brand, order, direction);
@@ -240,7 +241,6 @@ public class MainController {
 	}
 
 
-
 //	@GetMapping("workadd/shoeBrand")
 //	public Map<String, Object> shoeBrand(String shoeBrand) {
 //		Map<String, Object> map = new HashMap<>();
@@ -249,91 +249,92 @@ public class MainController {
 //	}
 
 
-    @GetMapping("canvas")
-    public void canvas() {
+	@GetMapping("canvas")
+	public void canvas() {
 
-    }
+	}
 
-    @GetMapping("canvas1")
-    public void canvas1() {
+	@GetMapping("canvas1")
+	public void canvas1() {
 
-    }
+	}
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("cs")
-    public void cs() {
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("cs")
+	public void cs() {
 
-    }
+	}
 
-    @PostMapping("cs")
-    public String csProcess(CsBoard csBoard,
-                            RedirectAttributes rttr,
-                            Authentication authentication,
-                            @RequestParam("files") MultipartFile[] files) throws Exception {
-        csBoard.setWriter(memberService.getNickName(authentication.getName()));
-        boolean ok = csService.add(csBoard, files);
-        if (ok) {
+	@PostMapping("cs")
+	public String csProcess(CsBoard csBoard,
+							RedirectAttributes rttr,
+							Authentication authentication,
+							@RequestParam("files") MultipartFile[] files) throws Exception {
+		csBoard.setWriter(memberService.getNickName(authentication.getName()));
+		boolean ok = csService.add(csBoard, files);
+		if (ok) {
 
-            rttr.addFlashAttribute("message", "1:1 문의가 등록되었습니다..");
-            return "redirect:/myCs";
-        } else {
-            rttr.addFlashAttribute("message", "1:1 문의중 문제가 발생했습니다.");
-            return "redirect:/cs";
-        }
-    }
+			rttr.addFlashAttribute("message", "1:1 문의가 등록되었습니다..");
+			return "redirect:/myCs";
+		} else {
+			rttr.addFlashAttribute("message", "1:1 문의중 문제가 발생했습니다.");
+			return "redirect:/cs";
+		}
+	}
 
-    @GetMapping("myCs")
-    public void myCs(Authentication authentication,
-                     Model model,
-                     @RequestParam(value = "page", defaultValue = "1") Integer page,
-                     @RequestParam(value = "search", defaultValue = "") String search) {
-        String writer = memberService.getNickName(authentication.getName());
-        Map<String, Object> result = csService.getCsBoardByWriter(writer, search, page);
-        model.addAllAttributes(result);
-    }
+	@GetMapping("myCs")
+	public void myCs(Authentication authentication,
+					 Model model,
+					 @RequestParam(value = "page", defaultValue = "1") Integer page,
+					 @RequestParam(value = "search", defaultValue = "") String search) {
+		String writer = memberService.getNickName(authentication.getName());
+		Map<String, Object> result = csService.getCsBoardByWriter(writer, search, page);
+		model.addAllAttributes(result);
+	}
 
-    @GetMapping("myCs/{id}")
-    public String myCsPage(Model model,
-                           @PathVariable Integer id) {
-        Map<String, Object> result = csService.getCsBoardById(id);
-        model.addAllAttributes(result);
-        return "myCsPage";
-    }
+	@GetMapping("myCs/{id}")
+	public String myCsPage(Model model,
+						   @PathVariable Integer id) {
+		Map<String, Object> result = csService.getCsBoardById(id);
+		model.addAllAttributes(result);
+		return "myCsPage";
+	}
 
-    @PostMapping("csRemove")
-    public String csRemove(Integer id, RedirectAttributes rttr) {
-        boolean ok = csService.remove(id);
-        if (ok) {
-            rttr.addFlashAttribute("message", "문의가 삭제되었습니다..");
-        } else {
-            rttr.addFlashAttribute("message", "문의삭제중 문제가 발생했습니다.");
-        }
-        return "redirect:/myCs";
-    }
+	@PostMapping("csRemove")
+	public String csRemove(Integer id, RedirectAttributes rttr) {
+		boolean ok = csService.remove(id);
+		if (ok) {
+			rttr.addFlashAttribute("message", "문의가 삭제되었습니다..");
+		} else {
+			rttr.addFlashAttribute("message", "문의삭제중 문제가 발생했습니다.");
+		}
+		return "redirect:/myCs";
+	}
 
-    @GetMapping("csModify")
-    public void csModify(Integer id, Model model) {
-        Map<String, Object> result = csService.getCsBoardById(id);
-        model.addAllAttributes(result);
-    }
+	@GetMapping("csModify")
+	public void csModify(Integer id, Model model) {
+		Map<String, Object> result = csService.getCsBoardById(id);
+		model.addAllAttributes(result);
+	}
 
-    @PostMapping("csModify")
-    public String csModifyProcess(CsBoard csBoard,
-                                  @RequestParam(value = "removeFileList", required = false) List<String> removeFileName,
-                                  @RequestParam(value = "files", required = false) MultipartFile[] addFiles,
-                                  RedirectAttributes rttr) throws Exception {
-        boolean ok = csService.modify(csBoard, removeFileName, addFiles);
-        if (ok) {
-            // 해당 게시물 보기로 리디렉션
-            rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되었습니다.");
-            return "redirect:/myCs/" + csBoard.getId();
-        } else {
+	@PostMapping("csModify")
+	public String csModifyProcess(CsBoard csBoard,
+								  @RequestParam(value = "removeFileList", required = false) List<String> removeFileName,
+								  @RequestParam(value = "files", required = false) MultipartFile[] addFiles,
+								  RedirectAttributes rttr) throws Exception {
+		boolean ok = csService.modify(csBoard, removeFileName, addFiles);
+		if (ok) {
+			// 해당 게시물 보기로 리디렉션
+			rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되었습니다.");
+			return "redirect:/myCs/" + csBoard.getId();
+		} else {
 //			rttr.addAttribute("fail", "modifyfail");
-            rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되지 않았습니다.");
-            return "redirect:/csModify/" + csBoard.getId();
-        }
+			rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되지 않았습니다.");
+			return "redirect:/csModify/" + csBoard.getId();
+		}
 
-    }
+	}
+}
 
 //    @GetMapping("artistInfo")
 //    public Map<String, Object> artistInfo(Integer artistId) {
@@ -342,14 +343,14 @@ public class MainController {
 //        return map;
 //    }
 
-	}
-
-	@GetMapping("canvas1")
-	public void canvas1() {
-
-	}
-	@GetMapping("cs")
-	public void cs() {
-
-	}
-}
+//	}
+////
+////	@GetMapping("canvas1")
+////	public void canvas1() {
+////
+//////	}
+//	@GetMapping("cs")
+//	public void cs() {
+//
+//	}
+//}

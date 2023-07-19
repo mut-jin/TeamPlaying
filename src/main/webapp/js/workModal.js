@@ -1,327 +1,138 @@
-function handleListUpButtonClick() {
-    // 아이디 얻는 코드
-    const boardId = $(this).attr("data-board-id");
-    const boardNickName = $(this).attr("data-board-userId");
-    let today = new Date();
-    console.log(boardId);
-    console.log(today);
-    console.log(boardNickName);
+// // // Card 클릭 시 모달 열기
+// // $(document).on('click', '[data-toggle="modal"]', function() {
+// //     var brand = $(this).data('brand');
+// //     var memberId = $(this).data('member-id');
+// //
+// //     // 모달 내용을 업데이트
+// //     // 필요한 데이터를 가져와서 모달 내용을 동적으로 설정하는 작업을 수행합니다.
+// //     // 예: AJAX 요청을 통해 데이터를 가져와 모달 내용을 업데이트할 수 있습니다.
+// //     var imageUrl = '이미지 URL'; // 이미지 URL 가져오기
+// //     var description = '설명'; // 설명 가져오기
+// //
+// //     // 모달 내용 업데이트
+// //     var modalBody = $('#myModal').find('.modal-body');
+// //     modalBody.empty(); // 모달 내용 초기화
+// //     modalBody.append('<img src="' + imageUrl + '" alt=""/>'); // 이미지 추가
+// //     modalBody.append('<p>' + description + '</p>'); // 설명 추가
+// //
+// //     // 모달 열기
+// //     $('#myModal').modal('show');
+// // });
+//
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//     <meta charSet="UTF-8">
+//         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+//             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//                 <title>Modal</title>
+//                 <style>
+//                     #modal.modal-overlay {
+//                     width: 100%;
+//                     height: 100%;
+//                     position: absolute;
+//                     left: 0;
+//                     top: 0;
+//                     display: flex;
+//                     flex-direction: column;
+//                     align-items: center;
+//                     justify-content: center;
+//                     background: rgba(255, 255, 255, 0.25);
+//                     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+//                     backdrop-filter: blur(1.5px);
+//                     -webkit-backdrop-filter: blur(1.5px);
+//                     border-radius: 10px;
+//                     border: 1px solid rgba(255, 255, 255, 0.18);
+//                 }
+//                     #modal .modal-window {
+//                     background: rgba( 69, 139, 197, 0.70 );
+//                     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+//                     backdrop-filter: blur( 13.5px );
+//                     -webkit-backdrop-filter: blur( 13.5px );
+//                     border-radius: 10px;
+//                     border: 1px solid rgba( 255, 255, 255, 0.18 );
+//                     width: 400px;
+//                     height: 500px;
+//                     position: relative;
+//                     top: -100px;
+//                     padding: 10px;
+//                 }
+//                     #modal .title {
+//                     padding - left: 10px;
+//                     display: inline;
+//                     text-shadow: 1px 1px 2px gray;
+//                     color: white;
+//
+//                 }
+//                     #modal .title h2 {
+//                     display: inline;
+//                 }
+//                     #modal .close-area {
+//                     display: inline;
+//                     float: right;
+//                     padding-right: 10px;
+//                     cursor: pointer;
+//                     text-shadow: 1px 1px 2px gray;
+//                     color: white;
+//                 }
+//
+//                     #modal .content {
+//                     margin - top: 20px;
+//                     padding: 0px 10px;
+//                     text-shadow: 1px 1px 2px gray;
+//                     color: white;
+//                 }
+//                 </style>
+// </head>
+// <body>
+// <div id="container">
+//     <h2>모달창 예제</h2>
+//     <div id="">모달창 예제 입니다.</div>
+// </div>
+//
+// <div id="modal" className="modal-overlay">
+//     <div className="modal-window">
+//         <div className="title">
+//             <h2>모달</h2>
+//         </div>
+//         <div className="close-area">X</div>
+//         <div className="content">1. 첫번쨰 공지사항</div>
+//         <div className="content">2. 두번째 공지사항</div>
+//         <div className="content">3. 세번째 공지사항</div>
+//         <div className="content">4. 네번째 공지사항</div>
+//     </div>
+// </div>
+//
+// <script>
+//     const modal = document.getElementById("modal")
+//     function modalOn() {
+//     modal.style.display = "flex"
+// }
+//     function isModalOn() {
+//     return modal.style.display === "flex"
+// }
+//     function modalOff() {
+//     modal.style.display = "none"
+// }
+//
+//     const closeBtn = modal.querySelector(".close-area")
+//     closeBtn.addEventListener("click", e => {
+//     modalOff();
+// })
+//     })
+// </script>
+//
+// </body>
+// </html>
 
+$(function(){
 
-
-    $.ajax("/climbing/getClimbingDetail?boardId=" + boardId, {
-        success: function(data) {
-            let latNum = `${data.board.lat}`;
-            let lngNum = `${data.board.lng}`;
-            let people = `${data.board.people}`;
-            let currentNum = `${data.board.currentNum}`;
-            let nickName = `${data.myNickName.nickName}`;
-            let time = `${data.board.time}`
-            let compareTime = new Date(time);
-
-            console.log(nickName)
-
-
-
-            $(".chatRoomModalBody").remove();
-            $("#chatRoomModalBefore").after('<div class="modal-body chatRoomModalBody">' + data.board.writer + 'Chat Room with &nbsp; 을 생성하시겠습니까?</div>');
-
-            $("#resMate").empty();
-
-            $("#resMate").append(`
-			<div>
-
-        <div class="mb-3">
-          <label for="" class="form-label">게시물</label>
-          <br />
-          <h2><span>${data.board.title}</span></h2>
-        </div>
-        <div class="mb-3">
-          <label for="" class="form-label">작성자</label>
-          <br />
-          <span>${data.board.writer}</span>
-		  <button style="display: none;"type="hidden" class="createChatRoomCheckBtn" data-bs-toggle="modal" data-bs-target="#createChatRoom">${data.board.writer}</button>
-        </div>
-        <div class="mb-3">
-          <label for="" class="form-label">모임 시간</label>
-          <br />
-          <span>${data.board.time}</span>
-        </div>
-        <div id="map" class="map-container mb-2" ></div>
-
-        <div>
-			<label for="" class="form-label">참여자</label>
-
-      `);
-
-            let memberIds = [];
-            let waitingMemberIds = [];
-            let isMine = false;
-            let isWaitingMember = false;
-            let isRejectMember = false;
-
-            // 대기자 인지
-            for (let i = 0; i < data.waitingMembers.length; i++) {
-                if (nickName === data.waitingMembers[i].memberId) {
-                    isWaitingMember = true;
-                }
-            }
-
-            // 거절된 사람인지
-            for (let i = 0; i < data.rejectMembers.length; i++) {
-                if (nickName === data.rejectMembers[i].memberId) {
-                    isRejectMember = true;
-                }
-            }
-
-            // 신청 수락된 사람인지
-            for (let i = 0; i < data.members.length; i++) {
-                if (boardNickName === data.members[i].memberId) {
-                    continue;
-                }
-
-                let memberId = data.members[i].memberId;
-                memberIds.push(memberId); // 배열에 memberId 추가
-
-                if (nickName === data.members[i].memberId) {
-                    isMine = true;
-                }
-
-                $("#resMate").append(`
-				<span type="text" class="form-control">${memberId}</span>
-				 <div style="height: 10px;"></div>
-				`);
-            }
-
-            console.log("*** " + isMine)
-
-            $("#resMate").append(`</div>`)
-
-
-            // 필요한 경우에 각각의 memberId 값을 가져올 수 있음
-            console.log(memberIds[0]); // 첫 번째 memberId 값
-            console.log(memberIds[1]); // 두 번째 memberId 값
-
-            if (today < compareTime) {
-                if (!isRejectMember) {
-                    if (isWaitingMember) {
-                        $("#resMate").append(`</div>
-
-<div class="mb-2" style="display: flex; justify-content: space-between; width: 100%;">
-  <button class="btn btn-warning" data-board-id="${data.board.id}" data-board-userId="${data.board.writer}" style="flex-grow: 1;">신청대기중👼👼👼</button>
-    <div style="width: 10px;"></div>
-
-  <button class="joinPartyBtn btn btn-danger" data-board-id="${data.board.id}" data-board-userId="${data.board.writer}" style="flex-grow: 1;">취소하기🙋‍♂️🙋‍♀️🙋‍♂️🙋‍♀</button>
-</div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button class="btn btn-success" type="button" onclick="location.href='/climbing/id/${data.board.id}' ">상세보기</button></div>
-			 <div style="width: 10px;"></div>
-			<div style="display: flex;">
-			<div class = "mt-2">모집인원 : ${data.board.people} / 현재인원 : ${data.board.currentNum - 1 < 0 ? 0 : data.board.currentNum - 1}</div>
-      <button class="chatRoomCheckBtn btn btn-light" type="button" style="margin-left: auto;">${data.board.writer}님과의 채팅방 만들기</button></div>
-			`);
-                    } else if (people > currentNum && isMine) {
-                        $("#resMate").append(`</div>
-						<div class="mb-2" style="display: grid; grid-template-columns: 1fr;">
-			<button  class = "joinPartyBtn btn btn-danger" data-board-id = "${data.board.id}" data-board-userId = "${data.board.writer}">취소하기🙋‍♂️🙋‍♀️🙋‍♂️🙋‍♀</button></div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button class="btn btn-success" type="button" onclick="location.href='/climbing/id/${data.board.id}' ">상세보기</button></div>
-			 <div style="width: 10px;"></div>
-			<div style="display: flex;">
-			<div class = "mt-2">모집인원 : ${data.board.people}  / 현재인원 : ${data.board.currentNum - 1 < 0 ? 0 : data.board.currentNum - 1}</div>
-      <button class="chatRoomCheckBtn btn btn-light" type="button" style="margin-left: auto;">${data.board.writer}님과의 채팅방 만들기</button></div>
-			`);
-                    } else if (people > currentNum && !isMine) {
-                        $("#resMate").append(`</div>
-
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button  class = "joinPartyBtn btn btn-primary" data-board-id = "${data.board.id}" data-board-userId = "${data.board.writer}">참여하기🙋‍♂️🙋‍♀️🙋‍♂️🙋‍♀</button></div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button class="btn btn-success" type="button" onclick="location.href='/climbing/id/${data.board.id}' ">상세보기</button></div>
-			 <div style="width: 10px;"></div>
-			<div style="display: flex;">
-			<div class = "mt-2">모집인원 : ${data.board.people} / 현재인원 : ${data.board.currentNum - 1 < 0 ? 0 : data.board.currentNum - 1}</div>
-			<button class="chatRoomCheckBtn btn btn-light" type="button" style="margin-left: auto;">${data.board.writer}님과의 채팅방 만들기</button></div>
-			`);
-                    } else if (people <= currentNum && !isMine) {
-                        $("#resMate").append(`
-				</div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button   data-board-id = "${data.board.id}" data-board-userId = "${data.board.writer}">마감되었습니다.</button></div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button class="btn btn-success" type="button" onclick="location.href='/climbing/id/${data.board.id}' ">상세보기</button></div>
-			 <div style="width: 10px;"></div>
-			<div style="display: flex;">
-			<div class = "mt-2">모집인원 : ${data.board.people} / 현재인원 : ${data.board.currentNum - 1 < 0 ? 0 : data.board.currentNum - 1}</div>
-			<button class="chatRoomCheckBtn btn btn-light" type="button" style="margin-left: auto;">${data.board.writer}님과의 채팅방 만들기</button></div>
-			`);
-
-                    } else {
-                        $("#resMate").append(`</div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button  class = "joinPartyBtn btn btn-danger" data-board-id = "${data.board.id}" data-board-userId = "${data.board.writer}">취소하기🙋‍♂️🙋‍♀️🙋‍♂️🙋‍♀</button><div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button class="btn btn-success" type="button" onclick="location.href='/climbing/id/${data.board.id}' ">상세보기</button></div>
-			 <div style="width: 10px;"></div>
-			<div style="display: flex;">
-			<div class = "mt-2">모집인원 : ${data.board.people} / 현재인원 : ${data.board.currentNum - 1 < 0 ? 0 : data.board.currentNum - 1}</div>
-			<button class="chatRoomCheckBtn btn btn-light" type="button" style="margin-left: auto;">${data.board.writer}님과의 채팅방 만들기</button></div>
-			`);
-
-                    }
-                } else {
-                    $("#resMate").append(`</div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button  class = "btn btn-danger" data-board-id = "${data.board.id}" data-board-userId = "${data.board.writer}">거절된 러닝</button></div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button class="btn btn-success" type="button" onclick="location.href='/climbing/id/${data.board.id}' ">상세보기</button></div>
-			 <div style="width: 10px;"></div>
-			<div style="display: flex;">
-			<div class = "mt-2">모집인원 : ${data.board.people} / 현재인원 : ${data.board.currentNum - 1 < 0 ? 0 : data.board.currentNum - 1}</div>
-			<button class="chatRoomCheckBtn btn btn-light" type="button" style="margin-left: auto;">${data.board.writer}님과의 채팅방 만들기</button></div>
-			`);
-                }
-            } else {
-                $("#resMate").append(`</div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button  class = "btn btn-danger" data-board-id = "${data.board.id}" data-board-userId = "${data.board.writer}">종료된 러닝</button></div>
-			<div class="mb-2" style="display: grid; grid-template-columns: 1fr;"><button class="btn btn-success" type="button" onclick="location.href='/climbing/id/${data.board.id}' ">상세보기</button></div>
-			 <div style="width: 10px;"></div>
-			<div style="display: flex;">
-			<div class = "mt-2">모집인원 : ${data.board.people} / 현재인원 : ${data.board.currentNum - 1 < 0 ? 0 : data.board.currentNum - 1}</div>
-			<button class="chatRoomCheckBtn btn btn-light" type="button" style="margin-left: auto;">${data.board.writer}님과의 채팅방 만들기</button></div>
-			`);
-            }
-
-            $(".chatRoomCheckBtn").click(function() {
-                const yourNickNameLong = $(this).text();
-                const yourNickName = yourNickNameLong.substring(0, yourNickNameLong.indexOf("님과의"));
-                console.log(yourNickName);
-                $.ajax("/chat/roomCheck?yourNickName=" + yourNickName, {
-                    success: function(data) {
-                        console.log(data.check);
-                        if (data.check) {
-                            document.addEventListener('keyup', keyupHandler);
-                            $(".btn-close").click();
-                            $("#chatListContainer").remove("");
-                            $("#chatContainer").remove("");
-                            $("#chatButton").hide();
-                            $("#chatList").hide();
-                            $("#chatBox").show();
-                            $(".chatNameTag").remove();
-                            $("#dChat").show();
-                            $("#dGroupChat").hide();
-                            $("#chatMemberListBtn").hide();
-                            $(`#returnBtn`).after(`
-								<span style="white-space: nowrap; position: absolute; left: 50%; transform: translateX(-50%);" class="chatNameTag">${yourNickName}님과의 채팅방</span>
-							`);
-                            $.ajax("/chat/roomOpen", {
-                                data: { yourNickName: yourNickName },
-                                contentType: "application/json",
-                                success: function(response) {
-                                    var chatList = response.chatList;
-                                    var myId = response.myId;
-                                    lastChatRoomId = response.chatRoomId;
-                                    $("#chatBox").append(`
-			                			<div id="chatContainer"></div>
-			            			`)
-                                    if (chatList.length > 12) {
-                                        $("#chatList").css("width", "357px");
-                                        $(".input-group").css("width", "357px");
-                                        $("#chatSearchBox").css("width", "303px");
-                                        $("#chatSearch").css("width", "232px");
-                                    } else {
-                                        $("#chatList").css("width", "340px");
-                                        $(".input-group").css("width", "340px");
-                                        $("#chatSearchBox").css("width", "320px");
-                                        $("#chatSearch").css("width", "249px");
-                                    }
-                                    for (const chat of chatList) {
-                                        if (chat.senderId === myId) {
-                                            if (chat.fileName !== null) {
-                                                $("#chatContainer").append(`
-						                	        <div class="d-flex justify-content-end" style="padding-right: 10px;" id="${chat.id}">
-						            	                <div style="font-size: 12px; margin-top: auto; margin-right: 2px;">${chat.time}</div>
-						          						<div>
-															<img class="img-fluid img-thumbnail" src="${chat.imgUrl}" height="200" width="200" />
-														</div>
-						    	                    </div>
-							                    `)
-                                            } else {
-                                                $("#chatContainer").append(`
-						                	        <div class="d-flex justify-content-end" style="padding-right: 10px;" id="${chat.id}">
-						            	                <div style="font-size: 12px; margin-top: auto; margin-right: 2px;">${chat.time}</div>
-						        	                    <div style=" padding: 5px; background-color: #f0f0f0; border-radius: 15px; margin-bottom: 5px; word-break: break-all; max-width: 200px;">${chat.message}</div>
-						    	                    </div>
-							                    `)
-                                            }
-                                        } else {
-                                            if (chat.fileName !== null) {
-                                                $("#chatContainer").append(`
-							                        <div class="d-flex justify-content-start" style="padding-left: 10px;" id="${chat.id}">
-						          						<div>
-															<img class="img-fluid img-thumbnail" src="${chat.imgUrl}" height="200" width="200" />
-														</div>
-							                            <div style="font-size: 12px; margin-top: auto; margin-left: 2px;">${chat.time}</div>
-							                        </div>
-							                    `)
-                                            } else {
-                                                $("#chatContainer").append(`
-							                        <div class="d-flex justify-content-start" style="padding-left: 10px;" id="${chat.id}">
-							                            <div style=" padding: 5px; background-color: #f0f0f0; border-radius: 15px; margin-bottom: 5px; word-break: break-all; max-width: 200px;">${chat.message}</div>
-							                            <div style="font-size: 12px; margin-top: auto; margin-left: 2px;">${chat.time}</div>
-							                        </div>
-							                    `)
-                                            }
-                                        }
-                                    }
-                                    scrollToBottom();
-                                    lastChatId = chatList[chatList.length - 1].id;
-                                    repeat = setInterval(function() {
-                                        currentChatId(lastChatId, lastChatRoomId, $("#chatContainer"));
-                                    }, 500);
-
-                                }
-                            })
-                        } else {
-                            $(".createChatRoomCheckBtn").trigger("click");
-                        }
-                    }
-                })
-            })
-
-
-
-            $('#confirmModal').modal('show');
-        }
+    $("button").click(function(){
+        $(".modal").fadeIn();
     });
-}
 
-
-
-$(".listUpButton").click(handleListUpButtonClick);
-
-
-$(document).on('click', '.joinPartyBtn', function() {
-
-    const boardId = $(this).attr("data-board-id");
-    const userId = $(this).attr("data-board-userId");
-
-    console.log("&&" + boardId)
-    console.log("!!" + userId)
-
-    const data = { boardId, userId };
-    console.log(data)
-
-    $.ajax("/climbing/joinParty", {
-        method: "post",
-        contentType: "application/json",
-        data: JSON.stringify(data),
-
-        success: function(data) {
-            if (data.join) {
-                alert("신청되었습니다.");
-                location.href = "/climbing/id/" + boardId;
-            } else {
-                alert("취소되었습니다.");
-                location.reload();
-            }
-
-        },
-        error: function(jqXHR) {
-            alert("신청 실패");
-        }
-
-
+    $(".modal_content").click(function(){
+        $(".modal").fadeOut();
     });
+
 });
-

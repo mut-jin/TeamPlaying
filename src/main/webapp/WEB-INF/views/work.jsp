@@ -62,6 +62,20 @@
             width: 30vh;
             height: 30vh;
         }
+
+        .modal{
+            position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+        }
+
+        .modal_content{
+            width:400px; height:200px;
+            background:#fff; border-radius:10px;
+            position:relative; top:50%; left:50%;
+            margin-top:-100px; margin-left:-200px;
+            text-align:center;
+            box-sizing:border-box; padding:74px 0;
+            line-height:23px; cursor:pointer;
+        }
     </style>
 
 </head>
@@ -154,13 +168,13 @@
 
 
     <div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
-        <c:forEach items="${shoeBoardList}" var="board">
+        <c:forEach items="${shoeBoardList}" var="board" varStatus="status">
             <c:choose>
                 <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
                     <div class="col-md-2" style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 53vh; padding: 5px;">
-                        <div class="card my-card" data-brand="${board.brand}">
+                        <div class="card my-card" data-brand="${board.brand}" >
                             <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
-                                <div onclick="location.href='artist/${board.memberId}'">
+                                <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}" data-member-id="${board.memberId}">
                                     <img class="card-img" src="${board.imgUrlList[0]}" alt=""/>
                                     <div class="card-body">
                                         <p class="card-text">${board.title}</p>
@@ -171,6 +185,16 @@
                                             ―
                                         </div>
                                         <p class="card-price">${board.price}</p>
+
+                                        <button>모달창</button>
+                                        <div class="modal">
+                                            <div class="modal_content"
+                                                 title="클릭하면 창이 닫힙니다.">
+                                                여기에 모달창 내용을 적어줍니다.<br>
+                                                이미지여도 좋고 글이어도 좋습니다.
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="card-footer" style="margin-top: auto;">
                                         <small class="text-body-secondary">${board.likeCount}</small>
@@ -225,6 +249,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="workModal.js"></script>
 <script>
     document.querySelectorAll('.dropdown-menu a.dropdown-item.ShoeBrand').forEach(function (element) {
         element.addEventListener('click', function () {
