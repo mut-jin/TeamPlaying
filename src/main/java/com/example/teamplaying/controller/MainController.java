@@ -64,13 +64,28 @@ public class MainController {
 	@GetMapping({"/", "main"})
 	public void main(Model model, Authentication authentication) {
 
-		Map<String, Object> listMap = new HashMap<>();
+		Map<String, Object> getShoeList = new HashMap<>();
 
-		List<ShoeBoard> board = shoeBoardService.workListBoard();
-		listMap.put("shoeBoardList", board);
+		List<ShoeBoard> nike = shoeBoardService.getAllShoesByBrand("나이키");
+		getShoeList.put("nike", nike);
+
+		List<ShoeBoard> adidas = shoeBoardService.getAllShoesByBrand("아디다스");
+		getShoeList.put("adidas", adidas);
+
+		List<ShoeBoard> vans = shoeBoardService.getAllShoesByBrand("반스");
+		getShoeList.put("vans", vans);
+
+		List<ShoeBoard> converse = shoeBoardService.getAllShoesByBrand("컨버스");
+		getShoeList.put("converse", converse);
+
+		model.addAllAttributes(getShoeList);
+
+//		model.addAttribute("나이키", nike);
+//		model.addAttribute("아디다스", adidas);
+//		model.addAttribute("반스", vans);
+//		model.addAttribute("컨버스", converse);
 	}
 
-	// 서재권 작업 내용***********************
 	@GetMapping("login")
 	public void loginForm() {
 

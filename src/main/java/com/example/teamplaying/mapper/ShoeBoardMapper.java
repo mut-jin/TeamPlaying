@@ -154,7 +154,7 @@ public interface ShoeBoardMapper {
 
 
 
-    @Select("SELECT * FROM shoeBoard WHERE brand = #{brand}")
+    @Select("SELECT * FROM shoeBoard WHERE brand = #{brand} ORDER BY id DESC LIMIT 6")
     List<ShoeBoard> getAllShoesByBrand(@Param("brand") String brand);
 
 

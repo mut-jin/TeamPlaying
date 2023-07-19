@@ -99,7 +99,7 @@
     나이키
 </div>
 <div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
-    <c:forEach items="${shoeBoardList}" var="board" varStatus="status">
+    <c:forEach items="${nike}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
                 <div class="col-md-2" style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 53vh; padding: 5px;">
