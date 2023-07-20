@@ -344,6 +344,7 @@ public class MainController {
 
 	}
 
+/*
 	@GetMapping("canvas1")
 	public void canvas1() {
 
@@ -352,4 +353,4 @@ public class MainController {
 	public void cs() {
 
 	}
-}
+}*/
