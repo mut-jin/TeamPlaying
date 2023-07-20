@@ -153,9 +153,34 @@ public interface ShoeBoardMapper {
     List<ShoeBoard> getShoesByBrand(@Param("brand") String brand);
 
 
+    @Select("""
+    SELECT
+        s.id,
+        s.shoeName,
+        s.title,
+        s.nickName,
+        s.view,
+        s.price,
+        s.body,
+        s.makeTime,
+        f.fileName,
+        (SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
+        (SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
+    FROM
+        shoeBoard s
+        LEFT JOIN shoeFileName f ON s.id = f.boardId
+        LEFT JOIN shoeLike sl ON s.id = sl.boardId
+    WHERE
+        s.brand = #{brand}
+    GROUP BY
+        id
+    ORDER BY
+        s.id DESC
+    LIMIT 6
+    """)
+    List<ShoeBoard> getAllShoesByBrand(String brand);
 
-    @Select("SELECT * FROM shoeBoard WHERE brand = #{brand}")
-    List<ShoeBoard> getAllShoesByBrand(@Param("brand") String brand);
+
 
 
 
