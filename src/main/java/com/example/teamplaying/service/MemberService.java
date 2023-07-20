@@ -302,4 +302,5 @@ public class MemberService {
 
         return Map.of("member", member, "shoeList", shoeList);
     }
+
 }

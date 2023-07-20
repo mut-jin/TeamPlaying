@@ -35,7 +35,8 @@ public interface ChatMapper {
 			INSERT INTO Chat(chatRoomId, senderId, recipientId, message)
 			VALUES(#{chatRoomId}, #{senderId}, #{recipientId}, #{message})
 			""")
-	void addChat(Chat data);
+	@Options(useGeneratedKeys = true, keyProperty = "id")
+	int addChat(Chat chat);
 
 	@Select("""
 			SELECT recipientId FROM 
@@ -162,4 +163,9 @@ public interface ChatMapper {
 	List<Integer> searchChatId(String search, Integer chatRoomId);
 
 
+	@Select("""
+			SELECT inserted FROM ChatRoom
+			WHERE (creater = #{yourId} AND invited = #{myId}) OR (creater = #{myId} AND invited = #{yourId})
+			""")
+	LocalDateTime getChatRoomInserted(String yourId, String myId);
 }

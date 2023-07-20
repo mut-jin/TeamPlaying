@@ -293,19 +293,13 @@ public class MainController {
             rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되었습니다.");
             return "redirect:/myCs/" + csBoard.getId();
         } else {
-//			rttr.addAttribute("fail", "modifyfail");
             rttr.addFlashAttribute("message", csBoard.getId() + "번 게시물이 수정되지 않았습니다.");
             return "redirect:/csModify/" + csBoard.getId();
         }
 
     }
 
-//    @GetMapping("artistInfo")
-//    public Map<String, Object> artistInfo(Integer artistId) {
-//        Map<String, Object> map = memberService.getArtistBoard(artistId);
-//
-//        return map;
-//    }
+
 
 
 }

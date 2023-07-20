@@ -187,7 +187,6 @@
 
 <sec:authorize access="isAuthenticated()">
     <my:chatBtn></my:chatBtn>
-    <script src="/js/groupChat.js"></script>
     <script src="/js/chat.js" charset="UTF-8"></script>
 </sec:authorize>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
