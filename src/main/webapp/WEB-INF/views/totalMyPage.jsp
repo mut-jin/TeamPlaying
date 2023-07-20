@@ -94,8 +94,7 @@
             </div>
         </div>
         <div class="row justify-content-center myInfo">
-            <div class="shadow">
-
+            <div class="shadow" style="height: 800px;">
                 <h1><img
                         src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%ED%9A%8C%EC%9B%90%EC%A0%95%EB%B3%B4.png"
                         alt=""/></h1>

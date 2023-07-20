@@ -32,7 +32,7 @@
 
         .card {
             height: 670px; /* 카드의 높이를 원하는 값으로 설정해주세요 */
-            max-height: 53vh;
+            max-height: 56vh;
         }
 
         .card .card-img {
@@ -45,12 +45,12 @@
             flex: 0 0 calc(16.666% - 5px);
             max-width: calc(16.666% - 5px);
             padding: 5px;
-            margin-bottom: 10px;
+            margin-bottom: 40px;
         }
 
         .card-text {
             font-family: 'Jeju Gothic', sans-serif;
-            font-size: 25px;
+            font-size: 22px;
             fort-weight: bold;
             height: 35px;
             overflow: hidden;

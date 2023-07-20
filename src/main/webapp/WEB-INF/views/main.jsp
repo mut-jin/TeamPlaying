@@ -18,6 +18,8 @@
 <body>
 
 <style>
+    @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
     .custom-pa-4 {
         padding-left: 80px;
         padding-right: 80px;
@@ -55,6 +57,14 @@
         max-height: 30vh;
         width: 30vh;
         height: 30vh;
+    }
+
+    .card-text {
+        font-family: 'Jeju Gothic', sans-serif;
+        font-size: 22px;
+        fort-weight: bold;
+        height: 35px;
+        overflow: hidden;
     }
 </style>
 
@@ -121,9 +131,10 @@
     </div>
 </div>
 
-<div class="flex headline" style="margin-left: 140px;">
+<div class="flex headline" style="margin-left: 130px;">
     나이키
 </div>
+<br>
 <div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
     <c:forEach items="${nike}" var="board" varStatus="status">
         <c:choose>
@@ -165,10 +176,11 @@
         </c:choose>
     </c:forEach>
 </div>
-<br><br>
-<div class="flex headline" style="margin-left: 140px;">
+<br><br><br>
+<div class="flex headline" style="margin-left: 130px;">
     아디다스
 </div>
+<br>
 <div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
     <c:forEach items="${adidas}" var="board" varStatus="status">
         <c:choose>
@@ -210,10 +222,11 @@
         </c:choose>
     </c:forEach>
 </div>
-<br><br>
-<div class="flex headline" style="margin-left: 140px;">
+<br><br><br>
+<div class="flex headline" style="margin-left: 130px;">
     반스
 </div>
+<br>
 <div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
     <c:forEach items="${vans}" var="board" varStatus="status">
         <c:choose>
@@ -255,10 +268,11 @@
         </c:choose>
     </c:forEach>
 </div>
-<br><br>
-<div class="flex headline" style="margin-left: 140px;">
+<br><br><br>
+<div class="flex headline" style="margin-left: 130px;">
     컨버스
 </div>
+<br>
 <div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
     <c:forEach items="${converse}" var="board" varStatus="status">
         <c:choose>

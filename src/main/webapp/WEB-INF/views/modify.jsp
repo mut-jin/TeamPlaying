@@ -81,37 +81,47 @@
     <div></div>
     <form action="/modify" method="post">
         <div class="row justify-content-center">
-            <div class="registration-container">
-                <h1>회원 정보</h1>
+            <div class="shadow" style="height: 750px;">
+                <h1><img
+                        src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%ED%9A%8C%EC%9B%90%EC%A0%95%EB%B3%B4.png"
+                        alt=""/></h1>
                 <!-- .mb-3*4>label+input -->
                 <div class="mb-3">
-                    <label for="inputId"> 아이디 </label>
+                    <label for="inputId"><img
+                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%95%84%EC%9D%B4%EB%94%94.png"
+                            alt=""/></label>
                     <input id="inputId" class="form-control" type="text" name="userId" value="${member.userId }"
-                           readonly" />
+                           readonly />
                 </div>
-                <div class="mb-3" style="display: none;">
-                    <label for="inputPassWord"> 비밀번호 </label>
-                    <input id="inputPassword" class="form-control" type="text" name="password"
-                           value="${member.password }"/>
-                </div>
+<%--                <div class="mb-3" style="display: none;">--%>
+<%--                    <label for="inputPassWord"> 비밀번호 </label>--%>
+<%--                    <input id="inputPassword" class="form-control" type="text" name="password"--%>
+<%--                           value="${member.password }"/>--%>
+<%--                </div>--%>
+<%--                <div class="mb-3">--%>
+<%--                    <label for="inputName"> 이름 </label>--%>
+<%--                    <input id="inputName" type="text" class="form-control" name="name" value="${member.name }"/>--%>
+<%--                </div>--%>
                 <div class="mb-3">
-                    <label for="inputName"> 이름 </label>
-                    <input id="inputName" type="text" class="form-control" name="name" value="${member.name }"/>
-                </div>
-                <div class="mb-3">
-                    <label for="inputNickName"> 별명 </label>
+                    <label for="inputNickName"><img style="margin-left: -1px;"
+                                                    src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EB%B3%84%EB%AA%85.png"
+                                                    alt=""/></label>
                     <input id="inputNickName" class="form-control" type="text" name="nickName"
                            value="${member.nickName }" readonly/>
 
                 </div>
                 <div class="mb-3">
-                    <label for="inputBirth"> 생년월일 </label>
+                    <label for="inputBirth"><img
+                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%83%9D%EC%9D%BC.png"
+                            alt=""/></label>
                     <input id="inputBirth" class="form-control" type="text" name="birth" value="${member.birth }"
                            readonly/>
 
                 </div>
                 <div>
-                    <label for="inputAddress"> 주소 </label>
+                    <label for="inputAddress"><img style="margin-left: -3px;"
+                                                   src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%A3%BC%EC%86%8C.png"
+                                                   alt=""/></label>
                     <div class="search-container" id="inputAddress">
                         <input type="text" id="address_kakao" name="address" value="${member.address}" readonly
                                class="search-input" placeholder="주소">
@@ -123,23 +133,29 @@
                 </div>
                 <div class="mb-3">
                     <label for="inputPhone"></label>
-                    핸드폰 번호
+                    <img
+                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%A0%84%ED%99%94%EB%B2%88%ED%98%B8.png"
+                            alt=""/>
                     <input id="inputPhone" class="form-control" type="text" name="phone" value="${member.phone }"/>
 
                 </div>
                 <div class="mb-3">
-                    <label for="inputEmail"> 이메일 </label>
+                    <label for="inputEmail"><img style="margin-left: -3px;"
+                                                 src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%9D%B4%EB%A9%94%EC%9D%BC.png"
+                                                 alt=""/></label>
                     <input id="inputEmail" class="form-control" type="text" name="email" value="${member.email }"/>
 
                 </div>
                 <div class="mb-3">
-                    <label for="inputIntroduce"> 자기소개 </label>
+                    <label for="inputIntroduce"><img style="margin-left: -1px;"
+                                                     src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%86%8C%EA%B0%9C.png"
+                                                     alt=""/></label>
                     <input id="inputIntroduce" class="form-control" type="text" name="introduce"
                            value="${member.introduce }"/>
 
                 </div>
 
-                <button class="btn btn-primary">수정</button>
+                <button class="btn btn-primary">Modify</button>
             </div>
         </div>
     </form>
