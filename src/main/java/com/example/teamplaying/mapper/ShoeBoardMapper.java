@@ -2,17 +2,37 @@ package com.example.teamplaying.mapper;
 
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
-import com.example.teamplaying.domain.ShoeFileName;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
 public interface ShoeBoardMapper {
 
+
+    @Select("""
+            SELECT
+                s.id,
+                s.shoeName,
+                s.title,
+                s.nickName,
+                s.view,
+                s.price,
+                (SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
+                (SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
+            FROM
+                shoeBoard s
+            LEFT JOIN
+                shoeFileName f ON s.id = f.boardId
+            LEFT JOIN
+                shoeLike sl ON s.id = sl.boardId
+            LEFT JOIN
+                shoeComment st ON s.id = st.boardId
+            ORDER BY
+                s.id DESC
+            		""")
+//    @ResultMap("ShoeBoardResultMap")
+    List<ShoeBoard> selectShoeBoardList();
 
 
     @Select("""
@@ -51,6 +71,7 @@ public interface ShoeBoardMapper {
             SELECT
             	id,
             	shoeName,
+            	memberId,
             	title,
             	nickName,
             	view,
@@ -58,12 +79,15 @@ public interface ShoeBoardMapper {
             	(SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
             	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
             FROM shoeBoard s
-            WHERE shoeName LIKE #{pattern}
-            ORDER BY id DESC
+            WHERE title LIKE #{pattern}
+            <if test="brand != null">
+                AND brand = #{brand}
+            </if>
+            ORDER BY ${order} ${direction}
             LIMIT #{startIndex}, #{rowPerPage}
             </script>
             """)
-    List<ShoeBoard> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type);
+    List<ShoeBoard> selectAllPaging(String direction, Integer startIndex, Integer rowPerPage, String search, String type, String brand, String order);
 
     @Select("""
             SELECT fileName FROM shoeFileName
@@ -77,25 +101,87 @@ public interface ShoeBoardMapper {
             WHERE brand = #{brand}
             """)
     List<String> getShoeModelsByBrand(String brand);
-    
+
     @Select("""
-			SELECT * FROM Member
-			WHERE userId = #{userId}
-			""")
+            SELECT * FROM Member
+            WHERE userId = #{userId}
+            """)
     Member selectMemberById(String userId);
 
     @Insert("""
-			INSERT INTO shoeBoard (nickName, title, body, shoeName, memberId, makeTime, price, brand)
-			VALUES (#{nickName}, #{title}, #{body}, #{shoeName}, #{memberId}, #{makeTime}, #{price}, #{brand})
-			""")
+            INSERT INTO shoeBoard (nickName, title, body, shoeName, memberId, makeTime, price, brand)
+            VALUES (#{nickName}, #{title}, #{body}, #{shoeName}, #{memberId}, #{makeTime}, #{price}, #{brand})
+            """)
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ShoeBoard shoeBoard);
 
     @Insert("""
-			INSERT INTO shoeFileName (boardId, fileName)
-			VALUES (#{boardId}, #{fileName})
-			""")
+            INSERT INTO shoeFileName (boardId, fileName)
+            VALUES (#{boardId}, #{fileName})
+            """)
     void insertFileName(Integer boardId, String fileName);
+
+    @Select("""
+            SELECT
+                s.id,
+                s.shoeName,
+                s.title,
+                s.nickName,
+                s.view,
+                s.price,
+                s.body,
+                s.makeTime,
+                f.fileName,
+                m.userId,
+                (SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
+            FROM
+                shoeBoard s
+                LEFT JOIN shoeFileName f ON s.id = f.boardId
+				LEFT JOIN Member m ON s.nickName = m.nickName
+				LEFT JOIN shoeLike sl on s.id = sl.boardId
+			WHERE s.id = #{id}
+                    """)
+    @ResultMap("shoeBoardResultMap")
+    List<ShoeBoard> selectById(Integer id);
+
+    @Select("""
+			select * from Member where userId = #{userId}
+			""")
+    Member getNickName(String name);
+
+    @Select("SELECT * FROM shoeBoard WHERE brand = #{brand}")
+    List<ShoeBoard> getShoesByBrand(@Param("brand") String brand);
+
+
+    @Select("""
+    SELECT
+        s.id,
+        s.shoeName,
+        s.title,
+        s.nickName,
+        s.view,
+        s.price,
+        s.body,
+        s.makeTime,
+        f.fileName,
+        (SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
+        (SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
+    FROM
+        shoeBoard s
+        LEFT JOIN shoeFileName f ON s.id = f.boardId
+        LEFT JOIN shoeLike sl ON s.id = sl.boardId
+    WHERE
+        s.brand = #{brand}
+    GROUP BY
+        id
+    ORDER BY
+        s.id DESC
+    LIMIT 6
+    """)
+    List<ShoeBoard> getAllShoesByBrand(String brand);
+
+
+
 
 
     //    @Select("""

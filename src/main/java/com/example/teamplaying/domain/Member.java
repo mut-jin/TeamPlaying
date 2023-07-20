@@ -23,6 +23,7 @@ public class Member {
 	private String memberType;
 	private String profile;
 
+	private Integer likeCount;
 	private Integer totalView;
 	private Integer subCount;
 	private List<String> shoeImgList;

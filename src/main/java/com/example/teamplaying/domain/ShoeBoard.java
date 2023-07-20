@@ -18,8 +18,11 @@ public class ShoeBoard {
     private Integer view;
     private String brand;
     private LocalDateTime inserted;
+    private String fileName;
 
     private List<String> imgUrlList;
     private Integer likeCount;
+    private boolean liked;
     private Integer commentCount;
+
 }

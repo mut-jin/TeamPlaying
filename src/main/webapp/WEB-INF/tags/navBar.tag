@@ -61,7 +61,7 @@
                        style="color: white;">아티스트</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/canvas"
+                    <a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/canvas1"
                        style="color: white;">커스텀</a>
                 </li>
                 <sec:authorize access="isAuthenticated()">
