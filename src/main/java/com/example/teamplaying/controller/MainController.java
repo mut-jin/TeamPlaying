@@ -282,7 +282,6 @@ public class MainController {
 	}
 
 }*/
-=======
 
 	@PostMapping("cs")
 	public String csProcess(CsBoard csBoard,

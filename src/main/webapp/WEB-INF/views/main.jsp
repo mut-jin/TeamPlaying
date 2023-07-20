@@ -53,9 +53,9 @@
 
 
     .card-img {
-        max-width: 30vh;
+        max-width: 28.7vh;
         max-height: 30vh;
-        width: 30vh;
+        width: 28.7vh;
         height: 30vh;
     }
 
