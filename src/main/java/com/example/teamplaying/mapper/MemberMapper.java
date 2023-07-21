@@ -311,6 +311,8 @@ public interface MemberMapper {
 
     @Select("""
             SELECT
+                 id,
+                 userId,
                  profile,
                  nickName,
                  address,

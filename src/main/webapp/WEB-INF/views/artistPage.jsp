@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <style>
@@ -70,8 +71,8 @@
                         <img src="${memberInfo.profile}">
                         <div>${memberInfo.nickName}</div>
                         <div>${memberInfo.address}</div>
-                        <button type="button" class="btn btn-warning customRequestBtn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" value="${memberInfo.id}">
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
                             커스텀 의뢰
                         </button>
                     </div>
@@ -144,7 +145,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="">
+<%--            <form action="">--%>
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">커스텀 작품의뢰</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -152,22 +153,31 @@
                 <div class="modal-body">
                     <div class="layout" style="flex-direction: column">
                         <div class="mb-10">커스텀할 신발을 입력해주세요.</div>
-                        <input type="text" style="height: 40px;" name="brand" class="mb-20">
-                        <input type="text" style="height: 40px;" name="shoeName" class="mb-20">
+                        <input type="text" id="brand" style="height: 40px;" name="brand" class="mb-20">
+                        <input type="text" id="shoeName" style="height: 40px;" name="shoeName" class="mb-20">
                         <div class="mb-10">요청 사항을 적어주세요.</div>
-                        <textarea name="requestBody" class="mb-20" id="" rows="7"></textarea>
+                        <textarea name="requestBody" id="requestBody" class="mb-20" id="" rows="7"></textarea>
                         <div class="mb-10">참고할 이미지가 있다면 등록해주세요.</div>
-                        <input class="form-control" style="height: 38px;" type="file" multiple
-                               name="files" accept="image/*">
+                        <input class="form-control mb-20" style="height: 38px;" type="file" multiple
+                               name="files" id="files" accept="image/*">
+                        <div class="mb-10">희망 가격을 입력해주세요</div>
+                        <input type="text" id="price" style="height: 40px;" name="price" class="mb-20">
+                        <div class="mb-10">제작 희망 기간을 입력해주세요</div>
+                        <input type="date" id="makeTime" name="makeTime" style="height: 40px;">
+                        <input type="hidden" id="artistUserId" value="${memberInfo.userId}">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="customRequestBtn">전송</button>
                 </div>
-            </form>
+<%--            </form>--%>
         </div>
     </div>
 </div>
+<sec:authorize access="isAuthenticated()">
+    <my:chatBtn></my:chatBtn>
+    <script src="/js/chat.js" charset="UTF-8"></script>
+</sec:authorize>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
