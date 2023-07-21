@@ -7,6 +7,7 @@ import com.example.teamplaying.service.CsService;
 import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.ShoeBoardService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -264,8 +271,8 @@ public class MainController {
 //	}
 
 
-	@GetMapping("canvas")
-	public void canvas() {
+	@GetMapping("canvas1")
+	public void canvas1() {
 
 	}
 
@@ -282,7 +289,6 @@ public class MainController {
 	}
 
 }*/
-=======
 
 	@PostMapping("cs")
 	public String csProcess(CsBoard csBoard,
@@ -352,6 +358,53 @@ public class MainController {
 			return "redirect:/csModify/" + csBoard.getId();
 		}
 
+	}
+
+	@GetMapping("shoppingList")
+	public ModelAndView main(ModelAndView mv, HttpSession s, RedirectView rv) {
+		mv.setViewName("shoppingList/test");
+		return(mv);
+	}
+	@GetMapping("pay.cls")
+	public ModelAndView serve(ModelAndView mv, HttpSession s, RedirectView rv) {
+		mv.setViewName("shoppingList/serve");
+		return mv;
+	}
+
+	@PostMapping("kakaopay.cls")
+	@ResponseBody
+	public String kakaopay() {
+		try {
+			URL address = new URL("https://kapi.kakao.com/v1/payment/ready");
+			HttpURLConnection sc = (HttpURLConnection) address.openConnection();
+			sc.setRequestMethod("POST");
+			sc.setRequestProperty("Authorization", "KakaoAK 0badd931172daf138c129bba6c6cf187");
+			sc.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			sc.setDoOutput(true);
+			String param1 = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name=초코파이&quantity=1&total_amount=2200&vat_amount=200&tax_free_amount=0&approval_url=http://localhost:8082/success&fail_url=http://localhost:8082/fail&cancel_url=http://localhost:8082/cancel";
+			OutputStream ops = sc.getOutputStream();
+			DataOutputStream dp = new DataOutputStream(ops);
+			dp.writeBytes(param1);
+			dp.flush();
+			dp.close();
+
+			int result = sc.getResponseCode();
+
+			InputStream is;
+			if(result == 200) {
+				is = sc.getInputStream();
+			} else {
+				is = sc.getErrorStream();
+			}
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+			return br.readLine();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return "{\"result\":\"NO\"}";
 	}
 }
 

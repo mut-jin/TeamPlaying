@@ -171,31 +171,6 @@
         });
     });
 
-    // Canvas 안의 painting과 image-list의 img를 모두 제거하는 함수
-    function clearCanvasAndImageList() {
-        // Canvas 초기화
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // image-list의 img 제거
-        const imageList = document.getElementById('image-list');
-        while (imageList.firstChild) {
-            imageList.removeChild(imageList.firstChild);
-        }
-    }
-
-    // 각 버튼을 클릭했을 때 clearCanvasAndImageList 함수를 호출
-    const outImageButton = document.getElementById('outImage');
-    const innerImageButton = document.getElementById('innerImage');
-    const leftImageButton = document.getElementById('leftImage');
-    const backImageButton = document.getElementById('backImage');
-    const rightImageButton = document.getElementById('rightImage');
-
-    outImageButton.addEventListener('click', clearCanvasAndImageList);
-    innerImageButton.addEventListener('click', clearCanvasAndImageList);
-    leftImageButton.addEventListener('click', clearCanvasAndImageList);
-    backImageButton.addEventListener('click', clearCanvasAndImageList);
-    rightImageButton.addEventListener('click', clearCanvasAndImageList);
-
     // 선택한 단면 이미지와 꾸밀 요소들을 저장하는 객체
     const selectedImages = {
         outImage: { image: null, decorations: [] },
