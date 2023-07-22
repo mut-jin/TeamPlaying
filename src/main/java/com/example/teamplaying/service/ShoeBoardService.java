@@ -1,8 +1,6 @@
 package com.example.teamplaying.service;
 
-import com.example.teamplaying.domain.Member;
-import com.example.teamplaying.domain.ShoeBoard;
-import com.example.teamplaying.domain.ShoeLike;
+import com.example.teamplaying.domain.*;
 import com.example.teamplaying.mapper.ShoeBoardLikeMapper;
 import com.example.teamplaying.mapper.ShoeBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;

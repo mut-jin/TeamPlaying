@@ -1,5 +1,6 @@
 package com.example.teamplaying.mapper;
 
+import com.example.teamplaying.domain.CustomRequest;
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
 import org.apache.ibatis.annotations.*;
@@ -179,9 +180,6 @@ public interface ShoeBoardMapper {
     LIMIT 6
     """)
     List<ShoeBoard> getAllShoesByBrand(String brand);
-
-
-
 
 
     //    @Select("""

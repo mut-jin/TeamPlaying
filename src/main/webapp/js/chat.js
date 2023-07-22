@@ -499,7 +499,6 @@ $("#customRequestBtn").click(function () {
     const files = filesInput.files;
     const price = $("#price").val();
     const makeTime = $("#makeTime").val();
-    // const customRequest = {artistUserId, shoeName, brand, requestBody, files, price, makeTime};
     var formData = new FormData();
     formData.append("artistUserId", artistUserId);
     formData.append("shoeName", shoeName);
@@ -543,79 +542,79 @@ $("#customRequestBtn").click(function () {
 		<span style="white-space: nowrap; position: absolute; left: 50%; transform: translateX(-50%);" class="chatNameTag">${nickName}님과의 채팅방</span>
 	`);
             var inserted = jqXHR.inserted;
-            $.ajax("/chat/room", {
-                data: {inserted: inserted},
-                contentType: "application/json",
-                success: function (data) {
-                    var chatList = data.chatList;
-                    var myId = data.myId;
-                    lastChatRoomId = data.chatRoomId;
-                    $("#chatBox").append(`
-                <div id="chatContainer"></div> 
-            `)
-                    if (chatList.length > 7) {
-                        // 스크롤바가 있을 때의 동작
-                        $("#chatBox").css("width", "357px");
-                        $(".input-group").css("width", "357px");
-                        $("#chatSearchBox").css("width", "303px");
-                        $("#chatSearch").css("width", "232px");
-                    } else {
-                        // 스크롤바가 없을 때의 동작
-                        $("#chatBox").css("width", "340px");
-                        $(".input-group").css("width", "340px");
-                        $("#chatSearchBox").css("width", "320px");
-                        $("#chatSearch").css("width", "249px");
-                    }
-                    for (const chat of chatList) {
-                        if (chat.senderId === myId) {
-                            if (chat.fileName !== null) {
-                                $("#chatContainer").append(`
-                	        <div class="d-flex justify-content-end" style="padding-right: 10px;" id="${chat.id}">
-            	                <div style="font-size: 7px; margin-top: auto; margin-right: 2px;">${chat.time}</div>
-          						<div>
-									<img class="img-fluid img-thumbnail" src="${chat.imgUrl}" height="200" width="200" />
-								</div>
-    	                    </div>
-	                    `)
-                            } else {
-                                $("#chatContainer").append(`
-                	        <div class="d-flex justify-content-end" style="padding-right: 10px;" id="${chat.id}">
-            	                <div style="font-size: 7px; margin-top: auto; margin-right: 2px;">${chat.time}</div>
-        	                    <div style=" padding: 5px; background-color: #f0f0f0; border-radius: 15px; margin-bottom: 5px; word-break: break-all; max-width: 200px;">${chat.message}</div> 
-    	                    </div>
-	                    `)
-                            }
-                        } else {
-                            if (chat.fileName !== null) {
-                                $("#chatContainer").append(`
-	                        <div class="d-flex justify-content-start" style="padding-left: 10px;" id="${chat.id}">
-          						<div>
-									<img class="img-fluid img-thumbnail" src="${chat.imgUrl}" height="200" width="200" />
-								</div>
-	                            <div style="font-size: 7px; margin-top: auto; margin-left: 2px;">${chat.time}</div>
-	                        </div>
-	                    `)
-                            } else {
-                                $("#chatContainer").append(`
-	                        <div class="d-flex justify-content-start" style="padding-left: 10px;" id="${chat.id}">
-	                            <div style=" padding: 5px; background-color: #f0f0f0; border-radius: 15px; margin-bottom: 5px; word-break: break-all; max-width: 200px;">${chat.message}</div>
-	                            <div style="font-size: 7px; margin-top: auto; margin-left: 2px;">${chat.time}</div>
-	                        </div>
-	                    `)
-                            }
-                        }
-                    }
-                    scrollToBottom();
-                    if (chatList[chatList.length - 1] === undefined) {
-                        lastChatId = 0;
-                    } else {
-                        lastChatId = chatList[chatList.length - 1].id;
-                    }
-                    repeat = setInterval(function () {
-                        currentChatId(lastChatId, lastChatRoomId);
-                    }, 500);
-                }
-            })
+            // $.ajax("/chat/room", {
+            //     data: {inserted: inserted},
+            //     contentType: "application/json",
+            //     success: function (data) {
+            //         var chatList = data.chatList;
+            //         var myId = data.myId;
+            //         lastChatRoomId = data.chatRoomId;
+            //         $("#chatBox").append(`
+            //     <div id="chatContainer"></div>
+            // `)
+            //         if (chatList.length > 7) {
+            //             // 스크롤바가 있을 때의 동작
+            //             $("#chatBox").css("width", "357px");
+            //             $(".input-group").css("width", "357px");
+            //             $("#chatSearchBox").css("width", "303px");
+            //             $("#chatSearch").css("width", "232px");
+            //         } else {
+            //             // 스크롤바가 없을 때의 동작
+            //             $("#chatBox").css("width", "340px");
+            //             $(".input-group").css("width", "340px");
+            //             $("#chatSearchBox").css("width", "320px");
+            //             $("#chatSearch").css("width", "249px");
+            //         }
+            //         for (const chat of chatList) {
+            //             if (chat.senderId === myId) {
+            //                 if (chat.fileName !== null) {
+            //                     $("#chatContainer").append(`
+            //     	        <div class="d-flex justify-content-end" style="padding-right: 10px;" id="${chat.id}">
+            // 	                <div style="font-size: 7px; margin-top: auto; margin-right: 2px;">${chat.time}</div>
+          	// 					<div>
+			// 						<img class="img-fluid img-thumbnail" src="${chat.imgUrl}" height="200" width="200" />
+			// 					</div>
+    	    //                 </div>
+	        //             `)
+            //                 } else {
+            //                     $("#chatContainer").append(`
+            //     	        <div class="d-flex justify-content-end" style="padding-right: 10px;" id="${chat.id}">
+            // 	                <div style="font-size: 7px; margin-top: auto; margin-right: 2px;">${chat.time}</div>
+        	//                     <div style=" padding: 5px; background-color: #f0f0f0; border-radius: 15px; margin-bottom: 5px; word-break: break-all; max-width: 200px;">${chat.message}</div>
+    	    //                 </div>
+	        //             `)
+            //                 }
+            //             } else {
+            //                 if (chat.fileName !== null) {
+            //                     $("#chatContainer").append(`
+	        //                 <div class="d-flex justify-content-start" style="padding-left: 10px;" id="${chat.id}">
+          	// 					<div>
+			// 						<img class="img-fluid img-thumbnail" src="${chat.imgUrl}" height="200" width="200" />
+			// 					</div>
+	        //                     <div style="font-size: 7px; margin-top: auto; margin-left: 2px;">${chat.time}</div>
+	        //                 </div>
+	        //             `)
+            //                 } else {
+            //                     $("#chatContainer").append(`
+	        //                 <div class="d-flex justify-content-start" style="padding-left: 10px;" id="${chat.id}">
+	        //                     <div style=" padding: 5px; background-color: #f0f0f0; border-radius: 15px; margin-bottom: 5px; word-break: break-all; max-width: 200px;">${chat.message}</div>
+	        //                     <div style="font-size: 7px; margin-top: auto; margin-left: 2px;">${chat.time}</div>
+	        //                 </div>
+	        //             `)
+            //                 }
+            //             }
+            //         }
+            //         scrollToBottom();
+            //         if (chatList[chatList.length - 1] === undefined) {
+            //             lastChatId = 0;
+            //         } else {
+            //             lastChatId = chatList[chatList.length - 1].id;
+            //         }
+            //         repeat = setInterval(function () {
+            //             currentChatId(lastChatId, lastChatRoomId);
+            //         }, 500);
+            //     }
+            // })
 
         }
     })
