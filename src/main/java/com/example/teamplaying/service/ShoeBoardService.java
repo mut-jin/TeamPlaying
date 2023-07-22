@@ -97,6 +97,8 @@ public class ShoeBoardService {
         List<ShoeBoard> list = shoeBoardMapper.getAllShoesByBrand(brand);
         for(ShoeBoard shoeBoard : list) {
             shoeBoard.setFileName(bucketUrl + "/shoeBoard/" + shoeBoard.getId() + "/" + shoeBoard.getFileName());
+            shoeBoard.setImgUrlList(shoeBoardMapper.getMyShoeFileNameList(shoeBoard.getId()));
+            shoeBoard.setProfile(bucketUrl + "/member/" + shoeBoard.getMemberId() + "/" + shoeBoard.getProfile());
         }
         return list;
     }

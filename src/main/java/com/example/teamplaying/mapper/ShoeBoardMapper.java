@@ -75,6 +75,10 @@ public interface ShoeBoardMapper {
             	memberId,
             	title,
             	nickName,
+            	body,
+            	makeTime,
+            	inserted,
+            	brand,
             	view,
             	price,
             	(SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
@@ -160,17 +164,21 @@ public interface ShoeBoardMapper {
         s.shoeName,
         s.title,
         s.nickName,
+        s.memberId,
         s.view,
         s.price,
         s.body,
         s.makeTime,
         f.fileName,
+        m.profile,
+        m.address,
         (SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
         (SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
     FROM
         shoeBoard s
         LEFT JOIN shoeFileName f ON s.id = f.boardId
         LEFT JOIN shoeLike sl ON s.id = sl.boardId
+        LEFT JOIN Member m ON m.id = s.memberId
     WHERE
         s.brand = #{brand}
     GROUP BY

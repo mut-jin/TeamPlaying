@@ -17,6 +17,7 @@ public class CustomRequest {
     private String artistUserId;
     private String customerUserId;
     private String progress;
+    private String title;
 
     private List<String> fileNameList;
 
