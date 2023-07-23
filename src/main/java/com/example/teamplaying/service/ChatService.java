@@ -216,59 +216,6 @@ public class ChatService {
         return count;
     }
 
-    public List<Integer> customRequest(CustomRequest customRequest, MultipartFile[] files) throws IOException {
-        int roomCnt = 0;
-        Chat chat = new Chat();
-        chat.setSenderId(customRequest.getCustomerUserId());
-        chat.setRecipientId(customRequest.getArtistUserId());
-        for (int i : mapper.checkChatRoom(customRequest.getArtistUserId(), customRequest.getCustomerUserId())) {
-            roomCnt += i;
-        }
-        if (roomCnt <= 0) {
-            mapper.createChatRoom(customRequest.getArtistUserId(), customRequest.getCustomerUserId());
-        }
-        chat.setChatRoomId(mapper.getChatRoomIdByYourId(chat.getSenderId(), chat.getRecipientId()));
-        String myDateTime = customRequest.getMakeTime().toString().substring(2);
-        String myDate = myDateTime.substring(0, 2);
-        String myTime = myDateTime.substring(3);
-        chat.setMessage(
-                "아래의 내용으로 커스텀 작업이 가능할까요?\n" +
-                        "커스텀 요청 신발\n" +
-                        customRequest.getBrand() + " " + customRequest.getShoeName() + "\n" +
-                        "커스텀 요청 사항\n" +
-                        customRequest.getBody() +
-                        "커스텀 희망 가격\n" +
-                        customRequest.getPrice() +
-                        "희망 수령일\n" +
-                        myDate + "월 " + myTime + "일" + "까지 작품 수령을 희망합니다.");
-        if(files[0].getSize() > 0) {
-            chat.setMessage(chat.getMessage() + "\n참고 이미지");
-        }
-        int cnt = mapper.addChat(chat);
-        for (MultipartFile file : files) {
-            if (file.getSize() > 0) {
-
-                // 이름이 될 내용
-                String objectKey = "TeamPlay/ChatRoom/" + chat.getChatRoomId() + "/" + file.getOriginalFilename();
-
-                // s3 첫번째 파라미터
-                PutObjectRequest por = PutObjectRequest.builder().bucket(bucketName).key(objectKey)
-                        .acl(ObjectCannedACL.PUBLIC_READ).build();
-
-                // s3 두번째 파라미터
-                RequestBody rb = RequestBody.fromInputStream(file.getInputStream(), file.getSize());
-
-                s3.putObject(por, rb);
-
-                chat.setFileName(file.getOriginalFilename());
-
-                mapper.insertFileChat(chat);
-            }
-        }
-
-        return List.of(cnt, chat.getId());
-    }
-
     public LocalDateTime getChatRoomInserted(String artistUserId, String customerUserId) {
         return mapper.getChatRoomInserted(artistUserId, customerUserId);
     }

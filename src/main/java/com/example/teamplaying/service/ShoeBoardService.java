@@ -1,8 +1,6 @@
 package com.example.teamplaying.service;
 
-import com.example.teamplaying.domain.Member;
-import com.example.teamplaying.domain.ShoeBoard;
-import com.example.teamplaying.domain.ShoeLike;
+import com.example.teamplaying.domain.*;
 import com.example.teamplaying.mapper.ShoeBoardLikeMapper;
 import com.example.teamplaying.mapper.ShoeBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +97,8 @@ public class ShoeBoardService {
         List<ShoeBoard> list = shoeBoardMapper.getAllShoesByBrand(brand);
         for(ShoeBoard shoeBoard : list) {
             shoeBoard.setFileName(bucketUrl + "/shoeBoard/" + shoeBoard.getId() + "/" + shoeBoard.getFileName());
+            shoeBoard.setImgUrlList(shoeBoardMapper.getMyShoeFileNameList(shoeBoard.getId()));
+            shoeBoard.setProfile(bucketUrl + "/member/" + shoeBoard.getMemberId() + "/" + shoeBoard.getProfile());
         }
         return list;
     }

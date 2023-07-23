@@ -30,6 +30,9 @@ public class ChatController {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private RequestService requestService;
+
     @GetMapping("list")
     public void list() {
 
@@ -227,10 +230,9 @@ public class ChatController {
                                              RedirectAttributes rttr,
                                              CustomRequest customRequest,
                                              MultipartFile[] files) throws Exception{
-        System.out.println(customRequest);
         customRequest.setArtistUserId(artistUserId);
         customRequest.setCustomerUserId(authentication.getName());
-        List<Integer> list = service.customRequest(customRequest, files);
+        List<Integer> list = requestService.customRequest(customRequest, files);
         String yourNickName = memberService.getNickName(artistUserId);
         LocalDateTime localDateTime = service.getChatRoomInserted(artistUserId, authentication.getName());
         if (list.get(0) == 1) {

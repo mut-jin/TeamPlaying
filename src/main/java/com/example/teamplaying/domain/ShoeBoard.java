@@ -24,5 +24,7 @@ public class ShoeBoard {
     private Integer likeCount;
     private boolean liked;
     private Integer commentCount;
+    private String profile;
+    private String address;
 
 }

@@ -65,8 +65,8 @@
         }
 
         .myPageOption {
-            flex-basis: 25%;
-            max-width: 25%;
+            flex-basis: 15%;
+            max-width: 15%;
             margin-right: 12px;
         }
 
@@ -179,10 +179,6 @@
         </div>
     </div>
 </div>
-<br>
-<br>
-<br>
-<br>
 
 <sec:authorize access="isAuthenticated()">
     <my:chatBtn></my:chatBtn>

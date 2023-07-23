@@ -38,10 +38,10 @@
 <div class="container" style="margin-top: 84px;">
     <div class="layout shadow" style="flex-direction: column">
         <div class="layout" style="margin: 0; padding: 15px 0 15px 20px; border-top: 2px solid limegreen;">
-            <h2>문의내역</h2>
+            <h2>의뢰</h2>
             <c:if test="${csBoard.answer == null}">
-                <button class="btn btn-primary" style="margin-left: 76%;" type="button" onclick="location.href='/csModify?id=${csBoard.id}'">수정</button>
-                <button type="button" data-bs-toggle="modal" class="btn btn-danger" data-bs-target="#confirmModal">삭제</button>
+                <button class="btn btn-primary" style="margin-left: auto;" type="button">수락</button>
+                <button type="button" data-bs-toggle="modal" style="margin-right: 2%;" class="btn btn-danger" data-bs-target="#confirmModal">거절</button>
             </c:if>
 
         </div>

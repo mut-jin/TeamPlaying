@@ -76,6 +76,10 @@
             box-sizing:border-box; padding:74px 0;
             line-height:23px; cursor:pointer;
         }
+
+        .shadow {
+            box-shadow: 0 3px 30px 0 rgba(0, 0, 0, .16) !important;
+        }
     </style>
 
 </head>
@@ -171,7 +175,7 @@
         <c:forEach items="${shoeBoardList}" var="board" varStatus="status">
             <c:choose>
                 <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
-                    <div class="col-md-2" style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 53vh; padding: 5px;">
+                    <div class="shadow" style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 58vh; padding: 5px;">
                         <div class="card my-card" data-brand="${board.brand}" >
                             <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
                                 <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}" data-member-id="${board.memberId}">
@@ -243,6 +247,27 @@
         </nav>
     </div>
 </div>
+
+<c:forEach items="${shoeBoardList}" var="board" varStatus="status">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dism    iss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:forEach>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

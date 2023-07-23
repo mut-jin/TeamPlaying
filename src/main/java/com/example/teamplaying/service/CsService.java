@@ -87,6 +87,18 @@ public class CsService {
     }
 
     public boolean remove(Integer id) {
+        List<String> removeFileName = csMapper.getCsFileNameList(id);
+        if (removeFileName != null && !removeFileName.isEmpty()) {
+            for (String fileName : removeFileName) {
+                String objectKey = "TeamPlay/csBoard/" + id + "/" + fileName;
+
+                DeleteObjectRequest dor = DeleteObjectRequest.builder()
+                        .key(objectKey)
+                        .bucket(bucketName)
+                        .build();
+                s3.deleteObject(dor);
+            }
+        }
         csMapper.removeFiles(id);
         int cnt = csMapper.remove(id);
 

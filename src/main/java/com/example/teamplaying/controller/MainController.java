@@ -1,9 +1,15 @@
 package com.example.teamplaying.controller;
 
 import com.example.teamplaying.domain.*;
+=======
+import com.example.teamplaying.domain.CsBoard;
+import com.example.teamplaying.domain.CustomRequest;
+import com.example.teamplaying.domain.Member;
+import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.service.CsService;
 import com.example.teamplaying.service.KakaoPayService;
 import com.example.teamplaying.service.MemberService;
+import com.example.teamplaying.service.RequestService;
 import com.example.teamplaying.service.ShoeBoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -46,6 +52,9 @@ public class MainController {
 
 	@Autowired
 	private CsService csService;
+
+	@Autowired
+	private RequestService requestService;
 
 
 	@GetMapping("checkEmail/{email}")
@@ -374,6 +383,7 @@ public class MainController {
 		return res;
 	}
 
+
 	@GetMapping("/pay/success")
 	public String Success(@RequestParam("pg_token") String pgToken) {
 		KakaoPayApproveVO res = payService.kakaoPayApprove(pgToken);
@@ -384,7 +394,42 @@ public class MainController {
 
 		return "/pay/success";
 	}*/
+
+	@GetMapping("myRequest")
+	public void myRequest(Authentication authentication,
+					 Model model,
+					 @RequestParam(value = "page", defaultValue = "1") Integer page)
+	{
+		Map<String, Object> result = requestService.getMyRequest(authentication.getName(), page);
+		model.addAllAttributes(result);
+	}
+
+	@GetMapping("removeRequest/{id}")
+	public void removeRequest(@PathVariable Integer id,
+							  RedirectAttributes rttr) {
+		boolean ok = requestService.removeRequest(id);
+		if (ok) {
+			rttr.addFlashAttribute("message",  "의뢰를 거절하셨습니다.");
+		} else {
+			rttr.addFlashAttribute("message", "의뢰 거절을 실패했습니다.");
+		}
+	}
+
+	@GetMapping("acceptRequest")
+	public void acceptRequest(Integer id,
+							  String progress,
+							  RedirectAttributes rttr) {
+		boolean ok = requestService.acceptRequest(id, progress);
+		if (ok) {
+			rttr.addFlashAttribute("message",  "의뢰를 거절하셨습니다.");
+		} else {
+			rttr.addFlashAttribute("message", "의뢰 거절을 실패했습니다.");
+		}
+	}
+
 }
+
+
 
 //    @GetMapping("artistInfo")
 //    public Map<String, Object> artistInfo(Integer artistId) {
