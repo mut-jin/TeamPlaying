@@ -1,10 +1,13 @@
 package com.example.teamplaying.controller;
 
+import com.example.teamplaying.domain.*;
+=======
 import com.example.teamplaying.domain.CsBoard;
 import com.example.teamplaying.domain.CustomRequest;
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.service.CsService;
+import com.example.teamplaying.service.KakaoPayService;
 import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.RequestService;
 import com.example.teamplaying.service.ShoeBoardService;
@@ -366,51 +369,31 @@ public class MainController {
 	}
 
 	@GetMapping("shoppingList")
-	public ModelAndView main(ModelAndView mv, HttpSession s, RedirectView rv) {
-		mv.setViewName("shoppingList/test");
-		return(mv);
-	}
-	@GetMapping("pay.cls")
-	public ModelAndView serve(ModelAndView mv, HttpSession s, RedirectView rv) {
-		mv.setViewName("shoppingList/serve");
-		return mv;
+	public void shoppingList(Model model) {
+
 	}
 
-	@PostMapping("kakaopay.cls")
-	@ResponseBody
-	public String kakaopay() {
-		try {
-			URL address = new URL("https://kapi.kakao.com/v1/payment/ready");
-			HttpURLConnection sc = (HttpURLConnection) address.openConnection();
-			sc.setRequestMethod("POST");
-			sc.setRequestProperty("Authorization", "KakaoAK 0badd931172daf138c129bba6c6cf187");
-			sc.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-			sc.setDoOutput(true);
-			String param1 = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name=초코파이&quantity=1&total_amount=2200&vat_amount=200&tax_free_amount=0&approval_url=http://localhost:8082/success&fail_url=http://localhost:8082/fail&cancel_url=http://localhost:8082/cancel";
-			OutputStream ops = sc.getOutputStream();
-			DataOutputStream dp = new DataOutputStream(ops);
-			dp.writeBytes(param1);
-			dp.flush();
-			dp.close();
+	/*@Autowired
+	private KakaoPayService payService;
 
-			int result = sc.getResponseCode();
-
-			InputStream is;
-			if(result == 200) {
-				is = sc.getInputStream();
-			} else {
-				is = sc.getErrorStream();
-			}
-			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr);
-			return br.readLine();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		return "{\"result\":\"NO\"}";
+	@GetMapping("/pay/ready")
+	public @ResponseBody KakaoPayReadyVO kakaoPay(@RequestParam Map<String, Object> params) {
+		KakaoPayReadyVO res = payService.kakaoPay(params);
+		*//*log.info(res.toString());*//*
+		return res;
 	}
+
+
+	@GetMapping("/pay/success")
+	public String Success(@RequestParam("pg_token") String pgToken) {
+		KakaoPayApproveVO res = payService.kakaoPayApprove(pgToken);
+
+		*//*
+		* 요청 결과에 대해 데이터 베이스에 저장 또는 업데이트 할 로직 추가
+		*//*
+
+		return "/pay/success";
+	}*/
 
 	@GetMapping("myRequest")
 	public void myRequest(Authentication authentication,
@@ -443,6 +426,7 @@ public class MainController {
 			rttr.addFlashAttribute("message", "의뢰 거절을 실패했습니다.");
 		}
 	}
+
 }
 
 
