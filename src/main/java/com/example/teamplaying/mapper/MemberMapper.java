@@ -52,11 +52,14 @@ public interface MemberMapper {
 
     @Update("""
             UPDATE Member
-            SET password = #{password},
+            SET
+               <if test = "password neq null and password neq ''">
+               password = #{password},
+               </if>
                name     = #{name},
                nickName = #{nickName},
-               birth     = #{birth},
-               gender     = #{gender},
+               birth    = #{birth},
+               gender   = #{gender},
                address  = #{address},
                phone    = #{phone},
                email    = #{email},

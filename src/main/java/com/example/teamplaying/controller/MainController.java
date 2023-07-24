@@ -1,7 +1,6 @@
 package com.example.teamplaying.controller;
 
 import com.example.teamplaying.domain.*;
-=======
 import com.example.teamplaying.domain.CsBoard;
 import com.example.teamplaying.domain.CustomRequest;
 import com.example.teamplaying.domain.Member;
@@ -161,8 +160,8 @@ public class MainController {
 
 	// 2.
 	@PostMapping("modify")
-	public String modifyProcess(Member member, RedirectAttributes rttr) {
-		boolean ok = memberService.modify(member);
+	public String modifyProcess(Member member, String oldPassword, RedirectAttributes rttr) {
+		boolean ok = memberService.modify(member, oldPassword);
 
 		if (ok) {
 			rttr.addFlashAttribute("message", "회원 정보가 수정되었습니다.");

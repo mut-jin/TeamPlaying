@@ -93,11 +93,11 @@
                     <input id="inputId" class="form-control" type="text" name="userId" value="${member.userId }"
                            readonly />
                 </div>
-<%--                <div class="mb-3" style="display: none;">--%>
-<%--                    <label for="inputPassWord"> 비밀번호 </label>--%>
-<%--                    <input id="inputPassword" class="form-control" type="text" name="password"--%>
-<%--                           value="${member.password }"/>--%>
-<%--                </div>--%>
+                <div class="mb-3" style="display: none;">
+                    <label for="inputPassWord"> 비밀번호 </label>
+                    <input id="inputPassword" class="form-control" type="text" name="password"
+                           value=""/>
+                </div>
 <%--                <div class="mb-3">--%>
 <%--                    <label for="inputName"> 이름 </label>--%>
 <%--                    <input id="inputName" type="text" class="form-control" name="name" value="${member.name }"/>--%>

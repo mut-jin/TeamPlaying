@@ -72,13 +72,19 @@
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
                     <li class="nav-item">
-                        <a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/logout" style="color: red;">로그아웃 </a>
+                        <a class="nav-link ${current eq 'logout' ? 'active' : '' }" href="/logout" style="color: red;">로그아웃 </a>
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
                     <li class="nav-item">
-                        <a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/login"
+                        <a class="nav-link ${current eq 'login' ? 'active' : '' }" href="/login"
                            style="color: aqua;">로그인 </a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAnonymous()">
+                    <li class="nav-item">
+                        <a class="nav-link ${current eq 'login' ? 'active' : '' }" href="/login"
+                           style="color: aqua;">관리자 로그인 </a>
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
@@ -114,7 +120,7 @@
                               class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> </span>
                     </button>
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('ROLE_ARTIST')">
+                <sec:authorize access="hasAuthority('artist')">
                     <li class="nav-item">
                         <a class="btn btn-warning" href="/workadd" style="color: white; margin-left: 10px;">
                             작품 등록
@@ -155,6 +161,9 @@
     });
 </script>
 
+<div>
+    <sec:authentication property="principal"/>
+</div>
 
 
 

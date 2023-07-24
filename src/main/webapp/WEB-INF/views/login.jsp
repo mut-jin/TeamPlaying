@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,28 +30,30 @@ input[type="text"], input[type="password"] {
 </head>
 <body>
 
-	<my:navBar></my:navBar>
+	<my:navBar current="login"></my:navBar>
 
 	<div class="container-lg">
 		<div class="row justify-content-center">
 			<div class="col-12 col-md-8 col-lg-6">
-				<br />
-				<br />
+				<br><br><br><br>
 				<h1 class="login-title" style="margin-left:200px;"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%EB%A1%9C%EA%B7%B8%EC%9D%B8.png" alt="" /></h1>
 				<br />
 				<form method="post">
 					<div class="mb-3" style="margin-left:120px;">
-						<label class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%EC%95%84%EC%9D%B4%EB%94%94.png" alt="" /></label>
-						<input class="form-control" type="text" name="username" />
+						<label for="inputUsername" class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%EC%95%84%EC%9D%B4%EB%94%94.png" alt="" /></label>
+						<input id="inputUsername" class="form-control" type="text" name="username" />
 					</div>
 					<div class="mb-3" style="margin-left:120px;">
-						<label class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%ED%8C%A8%EC%8A%A4%EC%9B%8C%EB%93%9C.png" alt="" /></label>
-						<input class="form-control" type="password" name="password" />
+						<label for="inputPassword" class="form-label"><img src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%ED%8C%A8%EC%8A%A4%EC%9B%8C%EB%93%9C.png" alt="" /></label>
+						<input id="inputPassword" class="form-control" type="password" name="password" />
 					</div>
 					<br />
 					<div class="mb-3" style="margin-left:120px;">
 						<input class="btn btn-dark" style="width: 412.8px; height: 39px;" type="submit" value="Login">
 					</div>
+
+					<sec:csrfInput/>
+
 				</form>
 			</div>
 		</div>
