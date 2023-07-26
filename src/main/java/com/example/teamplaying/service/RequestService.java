@@ -112,17 +112,17 @@ public class RequestService {
         List<CustomRequest> list = mapper.getMyRequest(artistId, startIndex, rowPerPage);
         for (CustomRequest customRequest : list) {
             customRequest.setFileNameList(mapper.getFiles(customRequest.getId()));
-            System.out.println(customRequest.getProgress());
-            if (customRequest.getProgress().equals("접수 대기중")){
-                customRequest.setProgress("true");
-            }
-            System.out.println(customRequest.getProgress().getClass());
+//            System.out.println(customRequest.getProgress());
+//            if (customRequest.getProgress().equals("접수 대기중")){
+//                customRequest.setProgress("true");
+//            }
+//            System.out.println(customRequest.getProgress().getClass());
         }
 
         return Map.of("pageInfo", pageInfo, "myRequestList", list);
     }
 
-    public boolean removeRequest(Integer id) {
+    public void removeRequest(Integer id) {
         List<String> removeFileName = mapper.getFiles(id);
         if (removeFileName != null && !removeFileName.isEmpty()) {
             for (String fileName : removeFileName) {
@@ -139,10 +139,30 @@ public class RequestService {
 
         int cnt = mapper.removeRequest(id);
 
-        return cnt == 1;
     }
 
-    public boolean acceptRequest(Integer id, String progress) {
-        return mapper.acceptRequest(id, progress);
+    public Map<String, Object> acceptRequest(CustomRequest customRequest) {
+        int cnt = mapper.acceptRequest(customRequest);
+        System.out.println(cnt);
+        var res = new HashMap<String, Object>();
+        if (cnt == 1) {
+            res.put("message", "작업을 수락하셨습니다");
+        } else {
+            res.put("message", "작업이 수락되지 않았습니다");
+        }
+
+        return res;
+    }
+
+    public Map<String, Object> modify(CustomRequest customRequest) {
+        int cnt = mapper.modify(customRequest);
+        var res = new HashMap<String, Object>();
+        if (cnt == 1) {
+            res.put("message", "댓글이 수정되었습니다.");
+        } else {
+            res.put("message", "댓글이 수정되지 않았습니다.");
+        }
+
+        return res;
     }
 }

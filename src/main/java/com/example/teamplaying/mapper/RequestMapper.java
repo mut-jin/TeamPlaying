@@ -60,5 +60,18 @@ public interface RequestMapper {
             WHERE
                 id = #{id}
             """)
-    boolean acceptRequest(Integer id, String progress);
+    int acceptRequest(CustomRequest customRequest);
+
+    @Update("""
+            UPDATE CustomRequest
+            SET
+                shoeName = #{shoeName},
+                brand = #{brand},
+                body = #{body},
+                price = #{price},
+                progress = #{progress}
+            WHERE
+                id = #{id}
+            """)
+    int modify(CustomRequest customRequest);
 }

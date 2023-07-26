@@ -93,8 +93,6 @@ public class MemberService {
         mapper.deleteChatByUserId(member.getUserId());
         // 채팅방 지우기
         mapper.deleteChatRoomByUserId(member.getUserId());
-        // 그룹 채팅방 지우기
-        mapper.deleteGroupChatRoomByUserId(member.getUserId());
 
         // 러닝메이트 관련 ---
         // 러닝 ==========

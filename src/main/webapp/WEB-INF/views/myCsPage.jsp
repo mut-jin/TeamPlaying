@@ -40,8 +40,13 @@
         <div class="layout" style="margin: 0; padding: 15px 0 15px 20px; border-top: 2px solid limegreen;">
             <h2>의뢰</h2>
             <c:if test="${csBoard.answer == null}">
-                <button class="btn btn-primary" style="margin-left: auto;" type="button">수락</button>
-                <button type="button" data-bs-toggle="modal" style="margin-right: 2%;" class="btn btn-danger" data-bs-target="#confirmModal">거절</button>
+                <form action="/csModify">
+                    <input type="hidden" name="id" value="${csBoard.id}">
+                    <button class="btn btn-primary" style="margin-left: auto;" type="submit">수정</button>
+                </form>
+                <button type="button" data-bs-toggle="modal" style="margin-right: 2%;" class="btn btn-danger"
+                        data-bs-target="#confirmModal">삭제
+                </button>
             </c:if>
 
         </div>
@@ -72,6 +77,13 @@
                     <div>${csBoard.answer}</div>
                 </div>
             </c:if>
+            <c:if test="${csBoard.answer == null}">
+                <form action="/csAnswer" method="post">
+                    <input type="hidden" value="${csBoard.id}" name="id">
+                    <textarea id="answer" name="answer" id="" cols="30" rows="10"></textarea>
+                    <button type="submit">등록</button>
+                </form>
+            </c:if>
         </div>
     </div>
 </div>
@@ -87,7 +99,7 @@
             <div class="modal-body">
                 <form id="removeForm" action="/csRemove" method="post">
                     해당 문의를 삭제하시겠습니까?
-                    <input type="hidden" name="id" value="${csBoard.id}" />
+                    <input type="hidden" name="id" value="${csBoard.id}"/>
                 </form>
             </div>
             <div class="modal-footer">

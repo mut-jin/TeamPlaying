@@ -51,6 +51,16 @@
 </head>
 <body>
 <my:navBar></my:navBar>
+<!-- toast -->
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body"></div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
 <div class="container" style="margin-top: 100px;">
     <div class="layout" style="justify-content: center;">
         <div class="myPageOption">
@@ -85,7 +95,6 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${myRequestList}" var="list" varStatus="status">
-                        <%--                        <tr onclick="location.href='myRequest/${list.id}'">--%>
                         <tr>
                             <th style="width: 6%;" scope="row">${status.count}</th>
                             <td style="width: 20%;">${list.brand}</td>
@@ -98,6 +107,60 @@
                                 </button>
                             </td>
                         </tr>
+                        <div class="modal fade" id="requestModal${list.id}" tabindex="-1"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                        <%--            <form action="">--%>
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">커스텀 작품의뢰</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="layout" style="flex-direction: column">
+                                            <div class="mb-10">신발 정보</div>
+                                            <input type="text" id="brand${list.id}" style="height: 40px;" name="brand"
+                                                   class="mb-20" value="${list.brand}">
+                                            <input type="text" id="shoeName${list.id}" style="height: 40px;"
+                                                   name="shoeName" class="mb-20" value="${list.shoeName}">
+                                            <div class="mb-10">요청 사항</div>
+                                            <textarea name="body" id="body${list.id}" class="mb-20" id=""
+                                                      rows="7">${list.body}</textarea>
+                                            <div class="mb-10">희망 가격을 입력해주세요</div>
+                                            <input type="text" id="price${list.id}" style="height: 40px;" name="price"
+                                                   class="mb-20" value="${list.price}">
+                                            <div class="mb-10">제작 희망 기간</div>
+                                            <input type="date" id="makeTime${list.id}" name="makeTime"
+                                                   style="height: 40px;" value="${list.makeTime}">
+                                            <input type="hidden" id="artistUserId${list.id}"
+                                                   value="${list.artistUserId}">
+                                            <div class="mb-10">참고할 이미지</div>
+                                            <div>
+                                                <c:forEach items="${list.fileNameList}" var="file">
+                                                    <img src="${bucketUrl }/request/${list.id }/${file}" alt="">
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+                                    </div>
+<%--                                    <c:if test="${list.progress eq '접수 대기중'} ">--%>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary acceptBtn" value="${list.id}">
+                                                수락
+                                            </button>
+                                            <button type="button" class="btn btn-primary modifyBtn" value="${list.id}">
+                                                조건 수정
+                                            </button>
+                                            <button type="button" class="btn btn-primary refuseBtn" value="${list.id}">
+                                                거절
+                                            </button>
+                                        </div>
+<%--                                    </c:if>--%>
+                                        <%--            </form>--%>
+                                </div>
+                            </div>
+                        </div>
                     </c:forEach>
                     </tbody>
                 </table>
@@ -134,62 +197,6 @@
         </div>
     </div>
 </div>
-
-<c:forEach items="${myRequestList}" var="list" varStatus="status">
-    <div class="modal fade" id="requestModal${list.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                    <%--            <form action="">--%>
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">커스텀 작품의뢰</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="layout" style="flex-direction: column">
-                        <div class="mb-10">신발 정보</div>
-                        <input type="text" id="brand${list.id}" style="height: 40px;" name="brand"
-                               class="mb-20" value="${list.brand}">
-                        <input type="text" id="shoeName${list.id}" style="height: 40px;"
-                               name="shoeName" class="mb-20" value="${list.shoeName}">
-                        <div class="mb-10">요청 사항</div>
-                        <textarea name="requestBody" id="requestBody${list.id}" class="mb-20" id=""
-                                  rows="7">${list.body}</textarea>
-                        <div class="mb-10">희망 가격을 입력해주세요</div>
-                        <input type="text" id="price${list.id}" style="height: 40px;" name="price"
-                               class="mb-20" value="${list.price}">
-                        <div class="mb-10">제작 희망 기간</div>
-                        <input type="date" id="makeTime${list.id}" name="makeTime"
-                               style="height: 40px;" value="${list.makeTime}">
-                        <input type="hidden" id="artistUserId${list.id}"
-                               value="${list.artistUserId}">
-                        <div class="mb-10">참고할 이미지</div>
-                        <div>
-                            <c:forEach items="${list.fileNameList}" var="file">
-                                <img src="${bucketUrl }/request/${list.id }/${file}" alt="">
-                            </c:forEach>
-                        </div>
-                    </div>
-                </div>
-<%--                <c:if test="${list.progress eq '접수 대기중'} ">--%>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="acceptBtn" value="작업중">
-                            수락
-                        </button>
-                        <button type="button" class="btn btn-primary" id="modifyBtn" value="조건 수정 요청">
-                            조건 수정
-                        </button>
-                        <button type="button" class="btn btn-primary" id="refuseBtn" value="${list.id}">
-                            거절
-                        </button>
-                    </div>
-<%--                </c:if>--%>
-                    <%--            </form>--%>
-            </div>
-        </div>
-    </div>
-</c:forEach>
 
 
 <sec:authorize access="isAuthenticated()">

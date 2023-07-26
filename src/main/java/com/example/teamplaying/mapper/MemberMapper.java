@@ -344,6 +344,11 @@ public interface MemberMapper {
             WHERE memberId = #{memberId}
             """)
     List<ShoeBoard> getShoeBoardList(Integer memberId);
+    @Select("""
+            SELECT userId FROM Member
+            WHERE id = #{id}
+            """)
+    String getUserIdSelectById(Integer id);
 /*
     COUNT(f.id) fileCount,
             	(SELECT COUNT(*) FROM BoardLike WHERE boardId = b.id) likeCount,

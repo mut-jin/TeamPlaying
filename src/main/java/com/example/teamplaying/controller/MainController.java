@@ -1,9 +1,6 @@
 package com.example.teamplaying.controller;
 
-import com.example.teamplaying.domain.CsBoard;
-import com.example.teamplaying.domain.CustomRequest;
-import com.example.teamplaying.domain.Member;
-import com.example.teamplaying.domain.ShoeBoard;
+import com.example.teamplaying.domain.*;
 import com.example.teamplaying.service.CsService;
 import com.example.teamplaying.service.MemberService;
 import com.example.teamplaying.service.RequestService;
@@ -286,6 +283,7 @@ public class MainController {
 	public void canvas1() {
 
 	}
+*/
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("cs")
@@ -293,7 +291,6 @@ public class MainController {
 
 	}
 
-}*/
 
 	@PostMapping("cs")
 	public String csProcess(CsBoard csBoard,
@@ -422,28 +419,119 @@ public class MainController {
 	}
 
 	@GetMapping("removeRequest/{id}")
-	public void removeRequest(@PathVariable Integer id,
-							  RedirectAttributes rttr) {
-		boolean ok = requestService.removeRequest(id);
-		if (ok) {
-			rttr.addFlashAttribute("message",  "의뢰를 거절하셨습니다.");
+	@ResponseBody
+	public void removeRequest(@PathVariable Integer id) {
+		requestService.removeRequest(id);
+	}
+
+	@PutMapping("acceptRequest")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> acceptRequest(@RequestBody CustomRequest customRequest) {
+		System.out.println(customRequest);
+		Map<String, Object> res = requestService.acceptRequest(customRequest);
+		return ResponseEntity.ok().body(res);
+	}
+
+	@PutMapping("modifyRequest")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> update(@RequestBody CustomRequest customRequest) {
+		Map<String, Object> res = requestService.modify(customRequest);
+		return ResponseEntity.ok().body(res);
+	}
+
+	@GetMapping("viewCount")
+	@ResponseBody
+	public Map<String, Object> viewCount(Integer id) {
+		return Map.of("view", shoeBoardService.updateAndGetView(id));
+	}
+
+	@PostMapping("like")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> like(
+			@RequestBody ShoeLike like,
+			Authentication authentication) {
+		if (authentication == null) {
+			return ResponseEntity
+					.status(403)
+					.body(Map.of("message", "로그인 후 좋아요 클릭 해주세요."));
 		} else {
-			rttr.addFlashAttribute("message", "의뢰 거절을 실패했습니다.");
+			return ResponseEntity
+					.ok()
+					.body(shoeBoardService.like(like, authentication));
 		}
 	}
 
-	@GetMapping("acceptRequest")
-	public void acceptRequest(Integer id,
-							  String progress,
-							  RedirectAttributes rttr) {
-		boolean ok = requestService.acceptRequest(id, progress);
-		if (ok) {
-			rttr.addFlashAttribute("message",  "의뢰를 거절하셨습니다.");
+	@PostMapping("commentAdd")
+	@ResponseBody
+	@PreAuthorize("authenticated")
+	public ResponseEntity<Map<String, Object>> commentAdd(
+			@RequestBody ShoeComment comment,
+			Authentication authentication) {
+
+		if(authentication == null) {
+			Map<String, Object> res = Map.of("message", "로그인 후 댓글을 작성해주세요.");
+			return ResponseEntity.status(401).body(res);
 		} else {
-			rttr.addFlashAttribute("message", "의뢰 거절을 실패했습니다.");
+			Map<String, Object> res = shoeBoardService.commentAdd(comment, authentication);
+
+			return ResponseEntity.ok().body(res);
 		}
+
 	}
+
+	@GetMapping("commentList")
+	@ResponseBody
+	public List<ShoeComment> commentList(Integer boardId, Authentication authentication) {
+		return shoeBoardService.commentList(boardId, authentication);
+
+	}
+
+	@GetMapping("commentId/{id}")
+	@ResponseBody
+	public ShoeComment commentGet(@PathVariable("id") Integer id) {
+		return shoeBoardService.getComment(id);
+	}
+
+	@PutMapping("commentUpdate")
+	@ResponseBody
+	@PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardCommentWriter(authentication, #comment.id)")
+	public ResponseEntity<Map<String, Object>> commentUpdate(@RequestBody ShoeComment comment) {
+		Map<String, Object> res = shoeBoardService.commentUpdate(comment);
+		return ResponseEntity.ok().body(res);
+	}
+
+	@DeleteMapping("commentId/{id}")
+	@ResponseBody
+	@PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardCommentWriter(authentication, #id)")
+	public ResponseEntity<Map<String, Object>> commentRemove(@PathVariable("id") Integer id) {
+		Map<String, Object> res = shoeBoardService.commentRemove(id);
+
+		return ResponseEntity.ok().body(res);
+	}
+
+	@PostMapping("addRequest")
+	public String addRequest(CustomRequest customRequest,
+							 Authentication authentication) {
+		customRequest.setCustomerUserId(authentication.getName());
+		System.out.println(customRequest);
+		shoeBoardService.addCustomRequest(customRequest);
+		return "redirect:/shoppingList";
+	}
+
+	@PostMapping("csAnswer")
+	public String csAnswer(String answer, Integer id) {
+		csService.updateAnswer(answer, id);
+		return "redirect:/myCs/" + id;
+	}
+
+//	@GetMapping("csModify/{id}")
+//	public String modify(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+//		model.addAttribute("board", service.getBoard(id, authentication));
+//		return "csModify";
+//	}
+
 }
+
 
 
 

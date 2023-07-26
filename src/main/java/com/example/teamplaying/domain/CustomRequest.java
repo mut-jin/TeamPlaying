@@ -19,6 +19,7 @@ public class CustomRequest {
     private String progress;
     private String title;
 
+    private Integer memberId;
     private List<String> fileNameList;
 
 }
