@@ -40,8 +40,9 @@ public interface ShoeBoardMapper {
     @Select("""
             SELECT id FROM shoeBoard
             WHERE memberId = #{memberId}
+            LIMIT #{startIndex}, #{rowPerPage}
             """)
-    List<Integer> getBoardIdList(Integer memberId);
+    List<Integer> getBoardIdList(Integer memberId, Integer startIndex, Integer rowPerPage);
 
     @Select("""
             SELECT fileName FROM shoeFileName
@@ -251,6 +252,27 @@ public interface ShoeBoardMapper {
             VALUES(#{shoeName}, #{body}, #{price}, #{brand}, #{makeTime}, #{artistUserId}, #{customerUserId}, #{title})
             """)
     void addCustomRequest(CustomRequest customRequest);
+
+    @Select("""
+            SELECT
+            	id,
+            	shoeName,
+            	memberId,
+            	title,
+            	nickName,
+            	body,
+            	makeTime,
+            	inserted,
+            	brand,
+            	view,
+            	price,
+            	(SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
+            	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
+            FROM shoeBoard s
+            LIMIT #{startIndex}, #{rowPerPage}
+            </script>
+            """)
+    List<ShoeBoard> getAllShoesByArtistId(Integer memberId, Integer startIndex, Integer rowPerPage);
 
 
     //    @Select("""

@@ -1,5 +1,5 @@
 $(".acceptBtn").click(function () {
-    const progress = "작업중";
+    const progress = "결제 대기중ㄷ";
     const id = $(this).val();
     const data = {id : id, progress : progress}
     $.ajax("/acceptRequest", {

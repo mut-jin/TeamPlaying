@@ -218,7 +218,7 @@ public class MemberService {
         List<Member> list = mapper.selectAllPaging(startIndex, rowPerPage, search, order);
         for (Member i : list) {
             List<String> shoeList = new ArrayList<>();
-            List<Integer> boardIdList = shoeMapper.getBoardIdList(i.getId());
+            List<Integer> boardIdList = shoeMapper.getBoardIdList(i.getId(), startIndex, rowPerPage);
             for (Integer boardID : boardIdList) {
                 shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
 
@@ -255,7 +255,8 @@ public class MemberService {
 
         Member member = mapper.getMemberById(startIndex, rowPerPage, id);
         member.setProfile(bucketUrl + "/Member/" + id + "/" + member.getProfile());
-        List<Integer> boardIdList = shoeMapper.getBoardIdList(id);
+        List<Integer> boardIdList = shoeMapper.getBoardIdList(id, startIndex, rowPerPage);
+        List<ShoeBoard> list = shoeMapper.getAllShoesByArtistId(id, startIndex, rowPerPage);
         List<String> shoeList = new ArrayList<>();
         for (Integer boardID : boardIdList) {
             shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
