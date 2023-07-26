@@ -199,7 +199,12 @@
         const newImage = new Image();
         newImage.onload = () => {
             selectedImages[imageType].image = newImage;
-            selectedImages[imageType].decorations = [];
+            selectedImage = {
+                image: newImage,
+                decorations: [],
+                offsetX: 0,
+                offsetY: 0
+            };
 
             drawDecorations(imageType);
         };
@@ -237,6 +242,23 @@
         const { offsetX, offsetY } = event;
         const selectedImageType = document.querySelector('.selected-image').dataset.imageType;
         const decorationImage = document.getElementById('selectedDecoration');
+
+        const canvasRect = canvas.getBoundingClientRect();
+        const clickedX = event.clientX - canvasRect.left;
+        const clickedY = event.clientY - canvasRect.top;
+
+        const rotateButtonIndex = findClickedRotateButton(clickedX, clickedY);
+        if (rotateButtonIndex !== -1) {
+            images[rotateButtonIndex].showButtons = !images[rotateButtonIndex].showButtons;
+            drawCanvas();
+            return; // 이미지를 눌러서 회전 버튼을 보여준 경우 더 이상의 처리는 하지 않도록 반환
+        }
+
+        const clickedImageIndex = findClickedImage(clickedX, clickedY);
+        if (clickedImageIndex !== -1) {
+            images[clickedImageIndex].showButtons = !images[clickedImageIndex].showButtons;
+            drawCanvas();
+        }
 
         addDecoration(selectedImageType, decorationImage, offsetX, offsetY);
     });
@@ -478,6 +500,8 @@
                 rotateImageIndex = rotateButtonIndex;
                 rotateStartX = clickedX;
                 rotateStartY = clickedY;
+                images[rotateButtonIndex].showButtons = !images[rotateButtonIndex].showButtons;
+                drawCanvas();
                 rotateCenterX = images[rotateButtonIndex].offsetX + images[rotateButtonIndex].image.width / 2;
                 rotateCenterY = images[rotateButtonIndex].offsetY + images[rotateButtonIndex].image.height / 2;
             } else {
@@ -497,12 +521,31 @@
     const rotateButtonSize = 20; // 회전 버튼의 크기
     // 회전 버튼 그리기
     function drawRotateButton(x, y, image) {
-        const buttonOffsetX = x - rotateButtonSize / 2; // 이미지 왼쪽 상단 꼭지점에 맞춤
+        /*const buttonOffsetX = x - rotateButtonSize / 2; // 이미지 왼쪽 상단 꼭지점에 맞춤
         const buttonOffsetY = y - rotateButtonSize / 2; // 이미지 왼쪽 상단 꼭지점에 맞춤
 
         // 회전 버튼 그리기
         ctx.fillStyle = '#00ff00';
-        ctx.fillRect(buttonOffsetX, buttonOffsetY, rotateButtonSize, rotateButtonSize);
+        ctx.fillRect(buttonOffsetX, buttonOffsetY, rotateButtonSize, rotateButtonSize);*/
+        const buttonSize = 20;
+        const centerX = x + buttonSize / 2;
+        const centerY = y + buttonSize / 2;
+        const radius = buttonSize / 2;
+        const arrowSize = 5;
+
+        ctx.fillStyle = '#00ff00'; // 버튼 색상
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI); // 원 그리기
+        ctx.fill();
+
+        // 원 중심을 기준으로 삼각형 그리기 (시계 방향)
+        ctx.fillStyle = '#ffffff'; // 삼각형 색상
+        ctx.beginPath();
+        ctx.moveTo(centerX + arrowSize, centerY);
+        ctx.lineTo(centerX - arrowSize, centerY - arrowSize);
+        ctx.lineTo(centerX - arrowSize, centerY + arrowSize);
+        ctx.closePath();
+        ctx.fill();
     }
 
     canvas.addEventListener('mouseup', () => {
@@ -587,38 +630,16 @@
     // 이미지 캐시 객체
     const imageCache = {};
 
-    /*function drawImages() {
-        for (const image of images) {
-            if (image.loaded) {
-                let img = imageCache[image.image.src];
-                if (!img) {
-                    img = new Image();
-                    img.crossOrigin = 'Anonymous'; // CORS 정책 우회 설정
-                    img.onload = () => {
-                        // 이미지 로드 후 캐시에 저장
-                        imageCache[image.image.src] = img;
-                        ctx.drawImage(img, image.offsetX, image.offsetY, img.width, img.height);
-                        drawImageWithRotation(img, image.offsetX, image.offsetY, image.rotation); // 이미지와 함께 회전 버튼 그리기
-                        drawDeleteButton(image.buttonOffsetX, image.buttonOffsetY);
-                    };
-                    img.src = image.image.src;
-                } else {
-                    ctx.drawImage(img, image.offsetX, image.offsetY, img.width, img.height);
-                    drawImageWithRotation(img, image.offsetX, image.offsetY, image.rotation); // 이미지와 함께 회전 버튼 그리기
-                    drawDeleteButton(image.buttonOffsetX, image.buttonOffsetY);
-                }
-            }
-        }
-    }*/
-
     function drawImages() {
         for (const image of images) {
             if (image.loaded) {
                 const { offsetX, offsetY, image: img, rotation } = image;
                 img.crossOrigin = 'Anonymous'; // CORS 정책 우회 설정
                 drawImageWithRotation(img, offsetX, offsetY, rotation);
-                drawRotateButton(offsetX, offsetY, img);
-                drawDeleteButton(offsetX + img.width - 10, offsetY - 10);
+                if (image.showButtons) {
+                    drawRotateButton(offsetX, offsetY, img);
+                    drawDeleteButton(offsetX + img.width - 10, offsetY - 10);
+                }
             }
         }
     }
@@ -656,25 +677,23 @@
                 ctx.stroke();
             }
         }
-
-        // for (const points of paintingPoints) {
-        //     ctx.beginPath();
-        //     if (points.length > 0) {
-        //         ctx.moveTo(points[0].x, points[0].y);
-        //
-        //         for (let i = 1; i < points.length; i++) {
-        //             ctx.lineTo(points[i].x, points[i].y);
-        //         }
-        //
-        //         ctx.stroke();
-        //     }
-        // }
     }
 
     function drawDeleteButton(x, y) {
         const buttonSize = 20;
-        ctx.fillStyle = '#ff0000';
-        ctx.fillRect(x, y, buttonSize, buttonSize);
+
+        ctx.fillStyle = '#ff0000'; // 버튼 색상
+        ctx.fillRect(x, y, buttonSize, buttonSize); // 사각형 그리기
+
+        // X 모양 그리기
+        ctx.strokeStyle = '#ffffff'; // X 모양 색상
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x + 4, y + 4);
+        ctx.lineTo(x + buttonSize - 4, y + buttonSize - 4);
+        ctx.moveTo(x + 4, y + buttonSize - 4);
+        ctx.lineTo(x + buttonSize - 4, y + 4);
+        ctx.stroke();
     }
 
     function findClickedImage(x, y) {
