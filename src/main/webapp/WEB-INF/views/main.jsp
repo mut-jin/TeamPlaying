@@ -201,7 +201,7 @@
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center; margin-left: 0; margin-right: 0;">
     <c:forEach items="${nike}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
@@ -213,7 +213,7 @@
                         <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
                             <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}"
                                  data-member-id="${board.memberId}">
-                                <img class="card-img" src="${board.fileName}" alt=""/>
+                                <img class="card-img w-100" src="${board.fileName}" alt=""/>
                                 <div class="card-body">
                                     <p class="card-text">${board.title}</p>
                                     <div class="flex caption">
@@ -344,7 +344,7 @@
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center;">
     <c:forEach items="${adidas}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
@@ -486,7 +486,7 @@
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center;">
     <c:forEach items="${vans}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
@@ -628,7 +628,7 @@
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center;">
     <c:forEach items="${converse}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
