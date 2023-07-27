@@ -51,7 +51,11 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
-    <button id="check_module" type="button">결제</button>
+<br>
+<br>
+<br>
+
+
 
     <my:navBar></my:navBar>
     <div class="container" style="margin-top: 100px;">
@@ -175,11 +179,13 @@
                             </div>
                         </div>
                     </div>
+
                         <%--                <c:if test="${list.progress eq '접수 대기중'} ">--%>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="acceptBtn" value="작업중">
+                        <%--<button type="button" class="btn btn-primary" id="acceptBtn" value="작업중">
                             수락
-                        </button>
+                        </button>--%>
+                            <button id="check_module" class="btn btn-primary" value="작업중" type="button">결제</button>
                         <button type="button" class="btn btn-primary" id="modifyBtn" value="조건 수정 요청">
                             조건 수정
                         </button>
@@ -195,10 +201,10 @@
     </c:forEach>
 
 
-    <sec:authorize access="isAuthenticated()">
+    <%--<sec:authorize access="isAuthenticated()">
         <my:chatBtn></my:chatBtn>
         <script src="/js/chat.js" charset="UTF-8"></script>
-    </sec:authorize>
+    </sec:authorize>--%>
     <script src="/js/shoppingList.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -224,7 +230,7 @@
                  *  https://docs.iamport.kr/implementation/payment
                  *  위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
                  */
-                name: '아메리카노',
+                name: "아메리카노",
                 // 결제창에서 보여질 이름
                 // name: '주문명 : <%--${auction.a_title}',--%>
                 // 위와같이 model에 담은 정보를 넣어 쓸수도 있습니다.
