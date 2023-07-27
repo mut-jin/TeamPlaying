@@ -527,6 +527,26 @@ public class MainController {
         return "findID";
     }
 
+    @GetMapping("members")
+    public String showMemberList(Model model) {
+        List<Member> members = memberService.getAllMembers();
+        ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
+        model.addAttribute("members", members);
+        return "members";
+    }
+
+    @DeleteMapping("/members/{id}")
+    public ResponseEntity<String> deactivateMember(@PathVariable int id) {
+        boolean deactivationSuccess = memberService.deactivateMember(id);
+
+        if (deactivationSuccess) {
+            return ResponseEntity.ok("Member deactivated successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to deactivate member.");
+        }
+    }
+
 }
 
 

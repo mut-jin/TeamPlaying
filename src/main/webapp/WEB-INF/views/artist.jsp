@@ -80,15 +80,23 @@
             border-radius: 24px;
             height: 28px;
             margin: 8px 0 8px 16px;
+            overflow: hidden;
+            display: flex;
         }
 
         .profileText {
             font-size: 80%;
             height: 28px;
-            min-width: 50px;
-            padding: 0 12.4444444444px;
+            padding-left: 22%;
             margin-top: 4px;
+            text-decoration: none;
+            color: black;
         }
+
+        .dropdown-item {
+            width: inherit;
+        }
+
 
     </style>
 </head>
@@ -99,9 +107,9 @@
         <div class="dropdown" style="flex-grow: 0; flex-basis: 25%; max-width: 25%;">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                <input type="text" value="${name}" id="typeSelect" readonly>
+                <input type="text" value="${name}" id="typeSelect" readonly style="background-color: inherit; border: 0; color: white;">
             </button>
-            <ul class="dropdown-menu" style="width: 228.92px;">
+            <ul class="dropdown-menu" style="width: 220px;">
                 <li><a class="dropdown-item" href="/artist?name=선택">선택</a></li>
                 <li><a class="dropdown-item" href="/artist?order=subscribe&name=구독자 순">구독자 순</a></li>
                 <li><a class="dropdown-item" href="/artist?order=totalWork&name=최다 작품 순">최다 작품 순 </a></li>
@@ -127,7 +135,7 @@
                                  src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/runningMate/%EB%8B%AC%EB%A6%AC%EA%B8%B04.jpg"
                                  alt="">
                         </div>
-                        <div class="layout" style="flex-direction: column; flex-basis: 66.7%; max-width: 66.7%">
+                        <div class="layout" style="justify-content: center; flex-direction: column; flex-basis: 66.7%; max-width: 66.7%">
                             <div style="margin-bottom: 8px; flex: 0 0 auto; font-weight: bolder">${list.nickName}</div>
                             <div style="margin-bottom: 8px; flex: 0 0 auto;">${list.address}</div>
                             <div style="margin-bottom: 8px; flex: 0 0 auto;"><i
@@ -136,12 +144,12 @@
                             </div>
                         </div>
                     </a>
-                    <div class="layout" style="flex-basis: 50%; max-width: 50%;">
+                    <div class="layout" style="flex-basis: 50%; max-width: 50%; align-items: center; height: 100%;">
                         <c:forEach items="${list.shoeImgList}" var="img" varStatus="status">
                             <c:if test="${status.index < 4}">
                                 <div style="padding: 4px; flex-basis: 25%; max-width: 25%;" class="child" onclick="view(this)"
                                      data-bs-toggle="modal" data-bs-target="#shoeModal${list.boardIdList[status.index]}" data-id="${list.boardIdList[status.index]}">
-                                    <img style="width: 110px; height: 110px; border-radius: 4px;"
+                                    <img style="width: 100%; height: 90%; border-radius: 4px;"
                                          src="${img}"
                                          alt="">
                                 </div>
@@ -223,7 +231,7 @@
                                 댓글 달기
                             </button>
                         </div>
-                        <ul class="list-group" id="commentListContainer${board.id}">
+                        <ul class="list-group" id="commentListContainer${board.id}" style="border-top: 1px solid black; border-radius: 0;" >
                         </ul>
                     </div>
 
@@ -279,6 +287,7 @@
                         </button>
                         <button data-bs-toggle="modal" data-bs-target="#requestModal"
                                 style="height: 44px; border-radius: 0; border: 0; margin: 0; background-color: orange; color: white"
+                                onclick="minSet()"
                                 class="myInfo requestBtn" value="${board.title}">커스텀 작업 의뢰하기
                         </button>
                     </div>
@@ -287,6 +296,78 @@
         </div>
     </div>
 </c:forEach>
+
+<!-- requestModal -->
+<div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="requestModalLabel">커스텀 작업 의뢰하기</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/addRequest" method="post">
+                <div class="modal-body">
+                    <div class="layout" style="flex-direction: column;">
+                        <div id="requestTitleView"></div>
+                        <div>희망 수령일</div>
+                        <input type="date" name="makeTime" id="requestMakeTime">
+                        <div>추가 요청 사항을 알려주세요.</div>
+                        <textarea name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
+                        <input type="hidden" name="shoeName" id="requestShoeName">
+                        <input type="hidden" name="price" id="requestPrice">
+                        <input type="hidden" name="brand" id="requestBrand">
+                        <input type="hidden" name="memberId" id="requestMemberId">
+                        <input type="hidden" name="title" id="requestTitle">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">의뢰하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 댓글 삭제 Modal -->
+<div class="modal fade" id="deleteCommentConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel2"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">댓글 삭제 확인</h1>
+                <button class="btn-close cancel" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">삭제 하시겠습니까?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary cancel" type="button" data-bs-dismiss="modal">닫기</button>
+                <button id="deleteCommentModalButton" data-bs-dismiss="modal" type="submit" class="btn btn-danger">삭제
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 댓글 수정 모달 -->
+<div class="modal fade" id="commentUpdateModal" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">댓글 수정</h1>
+                <button type="button" class="btn-close cancel" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="updateCommentContainer">
+                    <input type="hidden" id="commentUpdateIdInput"/>
+                    <textarea class="form-control" id="commentUpdateTextArea"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="updateCommentBtn" data-bs-dismiss="modal">수정</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="/js/artist.js"></script>
 <script src="/js/modal.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

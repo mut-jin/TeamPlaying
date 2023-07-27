@@ -55,8 +55,6 @@
 <br>
 <br>
 
-
-
     <my:navBar></my:navBar>
     <div class="container" style="margin-top: 100px;">
         <div class="layout" style="justify-content: center;">
@@ -260,9 +258,13 @@
                     error: function (xhr, status, error) {
                         console.error(error);
                     }
-                })
-            });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            })
         });
-    </script>
+    });
+</script>
 </body>
 </html>
