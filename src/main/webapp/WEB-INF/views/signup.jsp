@@ -138,6 +138,11 @@
                                value="artist">
                         <label class="form-check-label" for="memberTypeInputArtist"> 아티스트 </label>
                     </div>
+                    <div class="form-check" style="display: none">
+                        <input class="form-check-input" type="radio" name="memberType" id="memberTypeInputAdmin"
+                               value="admin">
+                        <label class="form-check-label" for="memberTypeInputAdmin"> 관리자 </label>
+                    </div>
                 </div>
 
                 <label class="form-label">

@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class Member {
 
-	private Integer id;
+    private Integer id;
 	private String userId;
 	private String password;
 	private String name;
@@ -30,5 +30,5 @@ public class Member {
 	private Integer workCount;
 	private List<Integer> boardIdList;
 
-	
+	private Integer status;
 }
