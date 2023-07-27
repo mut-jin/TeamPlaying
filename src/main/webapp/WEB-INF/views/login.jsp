@@ -61,12 +61,12 @@
                     <input class="btn btn-dark" style="width: 412.8px; height: 39px;" type="submit" value="Login">
                 </div>
                 <div class="mb-3" style="margin-left:120px;">
-                    <input class="btn btn-success" src="Naver-Login" style="width: 203.5px; height: 39px;" value="Naver-Login">
-                    <input class="btn btn-warning" style="width: 203.5px; height: 39px;" value="Kakao-Login">
-                </div>
-                <div class="mb-3" style="margin-left:120px;">
-                    <input class="btn btn-dark" style="width: 203.5px; height: 39px;" value="find ID">
-                    <input class="btn btn-dark" style="width: 203.5px; height: 39px;" value="find PW">
+                    <a href="/findID">
+                        <input class="btn btn-dark" style="width: 203.5px; height: 39px;" value="find ID">
+                    </a>
+                    <a href="/findPW">
+                        <input class="btn btn-dark" style="width: 203.5px; height: 39px;" value="find PW">
+                    </a>
                 </div>
 
                 <sec:csrfInput/>

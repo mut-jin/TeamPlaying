@@ -437,9 +437,9 @@ public class MainController {
     }
 
     // 아이디 찾기 폼
-    @RequestMapping(value = "/findID")
+    @RequestMapping(value = "findID")
     public String findID() throws Exception{
-        return "/login/findID";
+        return "findID";
     }
 
 }
