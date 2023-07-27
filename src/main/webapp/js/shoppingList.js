@@ -1,4 +1,4 @@
-$("#acceptBtn").click(function () {
+/*$("#check_module").click(function () {
     var progress = $(this).val();
     var id = $(".myRequestBtn").val();
     $.ajax("/acceptRequest?id=" + id + "&progress=" + progress, {
@@ -6,7 +6,7 @@ $("#acceptBtn").click(function () {
             location.reload();
         }
     })
-})
+})*/
 $("#modifyBtn").click(function () {
     var progress = $(this).val();
     var id = $(".myRequestBtn").val();
