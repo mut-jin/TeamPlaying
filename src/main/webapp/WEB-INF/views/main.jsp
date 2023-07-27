@@ -130,7 +130,7 @@
 <br/>
 
 
-<div class="flex" style="background-color: black; height: 650px;">
+<div class="flex" style="background-color: black; height: 700px;">
     <div class="layout" style="flex-direction: column">
         <div class="flex text-center" style="margin: 30px 0px;">
             <br><br>
@@ -147,7 +147,7 @@
             </a>
         </div>
         <br>
-        <div class="flex px-3" style="display: flex; justify-content: center; align-items: center;">
+        <div class="flex px-3" style="display: flex; justify-content: center; align-items: center; ">
             <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/work/work1.jpeg" height="210px"
                  width="210px" style="margin-right: 20px;">
             <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/work/work2.jpeg" height="210px"
@@ -177,11 +177,11 @@
     </div>
 </div>
 <div class="layout column">
-    <div class="flex headline" style="margin-left: 300px;">
+    <div class="flex headline" style="margin-left: 130px;">
         Zero-One 신발 만들기
     </div>
-    <br>
-    <div class="flex px-3" style="margin-bottom: 80px; display: flex; justify-content: center; align-items: center">
+    <br><br><br>
+    <div class="flex px-3" style="margin-top: 60px; margin-bottom: 80px; display: flex;  justify-content: center;">
         <a href="/canvas1">
             <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/work/work8.jpg">
         </a>

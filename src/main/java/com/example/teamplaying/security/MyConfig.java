@@ -20,8 +20,8 @@ public class MyConfig {
             http.formLogin()
                     .loginPage("/login")
                     .defaultSuccessUrl("/main", true)
-                    .usernameParameter("id")
-                    .passwordParameter("pw");
+                    .usernameParameter("userId")
+                    .passwordParameter("password");
 
             http.csrf().disable();
 
@@ -57,6 +57,6 @@ public class MyConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+       return new BCryptPasswordEncoder();
     }
 }

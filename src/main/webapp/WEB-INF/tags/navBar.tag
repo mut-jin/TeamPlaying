@@ -75,18 +75,25 @@
                         <a class="nav-link ${current eq 'logout' ? 'active' : '' }" href="/logout" style="color: red;">로그아웃 </a>
                     </li>
                 </sec:authorize>
+                <sec:authorize access="hasAuthority('admin')">
+                    <!-- memberType이 admin인 경우에만 회원 관리 메뉴를 표시 -->
+                    <li class="nav-item">
+                        <a class="nav-link ${current eq 'adminMenu' ? 'active' : '' }" href="/members"
+                           style="color: white;">회원 관리</a>
+                    </li>
+                </sec:authorize>
                 <sec:authorize access="isAnonymous()">
                     <li class="nav-item">
                         <a class="nav-link ${current eq 'login' ? 'active' : '' }" href="/login"
                            style="color: aqua;">로그인 </a>
                     </li>
                 </sec:authorize>
-                <sec:authorize access="isAnonymous()">
-                    <li class="nav-item">
-                        <a class="nav-link ${current eq 'login' ? 'active' : '' }" href="/login"
-                           style="color: aqua;">관리자 로그인 </a>
-                    </li>
-                </sec:authorize>
+<%--                <sec:authorize access="isAnonymous()">--%>
+<%--                    <li class="nav-item">--%>
+<%--                        <a class="nav-link ${current eq 'adminLogin' ? 'active' : '' }" href="/adminLogin"--%>
+<%--                           style="color: aqua;">관리자 로그인 </a>--%>
+<%--                    </li>--%>
+<%--                </sec:authorize>--%>
                 <sec:authorize access="isAnonymous()">
                     <li class="nav-item">
                         <a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/signup" style="color: white;">회원가입 </a>
