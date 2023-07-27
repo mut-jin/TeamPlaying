@@ -5,11 +5,7 @@ import com.example.teamplaying.domain.CsBoard;
 import com.example.teamplaying.domain.CustomRequest;
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
-import com.example.teamplaying.service.CsService;
-import com.example.teamplaying.service.KakaoPayService;
-import com.example.teamplaying.service.MemberService;
-import com.example.teamplaying.service.RequestService;
-import com.example.teamplaying.service.ShoeBoardService;
+import com.example.teamplaying.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +50,9 @@ public class MainController {
 
 	@Autowired
 	private RequestService requestService;
+
+	@Autowired
+	private PaymentService paymentService;
 
 
 	@GetMapping("checkEmail/{email}")
@@ -367,10 +366,6 @@ public class MainController {
 
 	}
 
-	@GetMapping("shoppingList")
-	public void shoppingList(Model model) {
-
-	}
 
 	/*@Autowired
 	private KakaoPayService payService;
@@ -393,6 +388,16 @@ public class MainController {
 
 		return "/pay/success";
 	}*/
+
+	@GetMapping("shoppingList")
+	public void shoppingList(Authentication authentication,
+							 Model model,
+							 @RequestParam(value = "page", defaultValue = "1") Integer page) {
+		Map<String, Object> result = paymentService.getMyRequest(authentication.getName(), page);
+		model.addAllAttributes(result);
+	}
+
+
 
 	@GetMapping("myRequest")
 	public void myRequest(Authentication authentication,
