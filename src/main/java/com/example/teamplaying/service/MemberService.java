@@ -216,13 +216,22 @@ public class MemberService {
         pageInfo.put("currentPageNum", page);
 
         List<Member> list = mapper.selectAllPaging(startIndex, rowPerPage, search, order);
+        List<ShoeBoard> shoeBoardList = new ArrayList<>();
         for (Member i : list) {
             List<String> shoeList = new ArrayList<>();
-            List<Integer> boardIdList = shoeMapper.getBoardIdList(i.getId(), startIndex, rowPerPage);
-            for (Integer boardID : boardIdList) {
-                shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
-
+            List<Integer> boardIdList = new ArrayList<>();
+            List<Integer> boardIdLists = shoeMapper.getBoardIdList(i.getId(), startIndex, rowPerPage);
+            for(ShoeBoard shoeBoard : shoeMapper.getAllShoes(i.getId())) {
+                shoeBoardList.add(shoeBoard);
             }
+            for (Integer boardID : boardIdLists) {
+                if (shoeMapper.getMyShoeFileName(boardID) != null) {
+                    shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
+                    boardIdList.add(boardID);
+                }
+            }
+
+            i.setBoardIdList(boardIdList);
             i.setProfile(bucketUrl + "/Member/" + i.getId() + "/" + i.getProfile());
             i.setSubCount(shoeMapper.getMySubscribe(i.getId()));
             i.setShoeImgList(shoeList);
@@ -230,8 +239,11 @@ public class MemberService {
                 i.setTotalView(0);
             }
         }
+        for (ShoeBoard i : shoeBoardList) {
+            i.setImgUrlList(shoeMapper.getMyShoeFileNameList(i.getId()));
+        }
 
-        return Map.of("pageInfo", pageInfo, "boardList", list, "name", name);
+        return Map.of("pageInfo", pageInfo, "boardList", list, "name", name, "shoeBoardList", shoeBoardList);
     }
 
 
@@ -253,17 +265,14 @@ public class MemberService {
         pageInfo.put("lastPageNum", lastPageNum);
         pageInfo.put("currentPageNum", page);
 
-        Member member = mapper.getMemberById(startIndex, rowPerPage, id);
+        Member member = mapper.getMemberById(id);
         member.setProfile(bucketUrl + "/Member/" + id + "/" + member.getProfile());
-        List<Integer> boardIdList = shoeMapper.getBoardIdList(id, startIndex, rowPerPage);
         List<ShoeBoard> list = shoeMapper.getAllShoesByArtistId(id, startIndex, rowPerPage);
-        List<String> shoeList = new ArrayList<>();
-        for (Integer boardID : boardIdList) {
-            shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
+        for (ShoeBoard i : list) {
+            i.setImgUrlList(shoeMapper.getMyShoeFileNameList(i.getId()));
         }
-        member.setShoeImgList(shoeList);
 
-        return Map.of("pageInfo", pageInfo, "memberInfo", member);
+        return Map.of("pageInfo", pageInfo, "memberInfo", member, "shoeBoardList", list);
     }
 
     public boolean addShoeBoard(ShoeBoard shoeBoard, MultipartFile[] files, Authentication authentication) throws Exception {

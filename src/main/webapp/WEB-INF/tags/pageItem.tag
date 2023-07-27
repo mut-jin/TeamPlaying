@@ -13,7 +13,7 @@
     </c:if>
 </c:url>
 <li class="page-item">
-    <a class="page-link ${pageNum eq pageInfo.currentPageNum ? 'active' : '' }" href="${pageLink }">
+    <a style="height: 100%;" class="page-link ${pageNum eq pageInfo.currentPageNum ? 'active' : '' }" href="${pageLink }">
         <jsp:doBody></jsp:doBody>
     </a>
 </li>

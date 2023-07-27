@@ -185,7 +185,7 @@
     </div>
 </div>
 <div class="layout" style="flex-direction: column">
-    <div class="flex headline" style="margin-left: 300px;">
+    <div class="flex headline" style="margin-left: 250px;">
         Zero-One 신발 만들기
     </div>
     <br>

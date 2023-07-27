@@ -28,6 +28,7 @@ public class Member {
 	private Integer subCount;
 	private List<String> shoeImgList;
 	private Integer workCount;
+	private List<Integer> boardIdList;
 
 	
 }

@@ -112,10 +112,7 @@ public class RequestService {
         List<CustomRequest> list = mapper.getMyRequest(artistId, startIndex, rowPerPage);
         for (CustomRequest customRequest : list) {
             customRequest.setFileNameList(mapper.getFiles(customRequest.getId()));
-//            System.out.println(customRequest.getProgress());
-//            if (customRequest.getProgress().equals("접수 대기중")){
-//                customRequest.setProgress("true");
-//            }
+            System.out.println(customRequest.getProgress());
 //            System.out.println(customRequest.getProgress().getClass());
         }
 

@@ -40,6 +40,21 @@
             margin-bottom: 2rem;
         }
 
+        .myPageMenu {
+            text-decoration: none;
+            color: black;
+            margin-bottom: 8px;
+        }
+
+        .hover {
+            padding: 5px;
+            border-radius: 8px;
+        }
+
+        .hover:hover {
+            background-color: #FFC107;
+        }
+
     </style>
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -64,18 +79,24 @@
 <div class="container" style="margin-top: 100px;">
     <div class="layout" style="justify-content: center;">
         <div class="myPageOption">
-            <div class="layout shadow" style="flex-direction: column">
-                <a href="/totalMyPage">회원 정보 수정</a>
-                <a href="/myRequest">의뢰 관리</a>
-                <a href="/shoppingList">주문 내역</a>
+            <div class="layout shadow" style="padding: 11px 5px 3px 5px; flex-direction: column">
+                <a class="myPageMenu" href="/totalMyPage">
+                    <span class="hover">회원 정보 수정</span>
+                </a>
+                <a class="myPageMenu" href="/myRequest">
+                    <span class="hover">의뢰 관리</span>
+                </a>
+                <a class="myPageMenu" href="/shoppingList">
+                    <span class="hover">주문 내역</span>
+                </a>
             </div>
         </div>
-        <div class="row justify-content-center myInfo">
+        <div class="justify-content-center myInfo">
             <div class="layout shadow" style="flex-direction: column; align-items: center;">
                 <h1 style="margin-top: 10px;">의뢰 관리</h1>
-                <div class="layout" style="width: 100%;">
+                <div class="layout" style="width: 90%;">
                     <form action="/myCs" class="d-flex"
-                          style="margin-left: 78%;" role="search">
+                          style="margin-left: auto;" role="search">
                         <input value="${param.search }" name="search" type="search"
                                style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
                         <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0"
@@ -144,7 +165,7 @@
                                             </div>
                                         </div>
                                     </div>
-<%--                                    <c:if test="${list.progress eq '접수 대기중'} ">--%>
+                                    <c:if test="${list.progress eq '접수 대기중'}">
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary acceptBtn" value="${list.id}">
                                                 수락
@@ -156,7 +177,7 @@
                                                 거절
                                             </button>
                                         </div>
-<%--                                    </c:if>--%>
+                                    </c:if>
                                         <%--            </form>--%>
                                 </div>
                             </div>

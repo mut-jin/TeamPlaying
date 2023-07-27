@@ -323,9 +323,8 @@ public interface MemberMapper {
             FROM Member m
             WHERE id = #{id}
             ORDER BY id DESC
-            LIMIT #{startIndex}, #{rowPerPage}
             """)
-    Member getMemberById(Integer startIndex, Integer rowPerPage, Integer id);
+    Member getMemberById(Integer id);
 
     @Select("""
             SELECT COUNT(*) FROM shoeBoard

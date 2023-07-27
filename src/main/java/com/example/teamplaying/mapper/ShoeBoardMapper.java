@@ -40,7 +40,7 @@ public interface ShoeBoardMapper {
     @Select("""
             SELECT id FROM shoeBoard
             WHERE memberId = #{memberId}
-            LIMIT #{startIndex}, #{rowPerPage}
+            ORDER BY id DESC
             """)
     List<Integer> getBoardIdList(Integer memberId, Integer startIndex, Integer rowPerPage);
 
@@ -50,6 +50,12 @@ public interface ShoeBoardMapper {
             LIMIT 1
             """)
     String getMyShoeFileName(Integer boardId);
+
+    @Select("""
+            SELECT fileName FROM shoeFileName
+            WHERE boardId = #{boardId}
+            """)
+    List<String> getMyShoeFileNameAll(Integer boardId);
 
     @Select("""
             SELECT COUNT(*) FROM subscribe
@@ -269,10 +275,32 @@ public interface ShoeBoardMapper {
             	(SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
             	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
             FROM shoeBoard s
+            WHERE memberId = #{memberId}
+            ORDER BY id DESC
             LIMIT #{startIndex}, #{rowPerPage}
-            </script>
             """)
     List<ShoeBoard> getAllShoesByArtistId(Integer memberId, Integer startIndex, Integer rowPerPage);
+
+    @Select("""
+            SELECT
+            	id,
+            	shoeName,
+            	memberId,
+            	title,
+            	nickName,
+            	body,
+            	makeTime,
+            	inserted,
+            	brand,
+            	view,
+            	price,
+            	(SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
+            	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
+            FROM shoeBoard s
+            WHERE memberId = #{memberId}
+            ORDER BY id DESC
+            """)
+    List<ShoeBoard> getAllShoes(Integer memberId);
 
 
     //    @Select("""
