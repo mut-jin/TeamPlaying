@@ -86,19 +86,37 @@ function listComment() {
 						</button>
 				`
                 //			console.log(comment);
+            //     $("#commentListContainer" + currentBoardId).append(`
+			// 	<li class="list-group-item d-flex justify-content-between align-items-start">
+			// 		<div class="ms-2 me-auto">
+			// 			<div class="fw-bold"> <i class="fa-solid fa-user"></i> ${comment.memberId} </div>
+			// 			<div style="white-space: pre-wrap;">${comment.content}</div>
+			// 		</div>
+			// 		<div>
+			// 			<span class="badge bg-primary rounded-pill"> ${comment.inserted}</span>
+			// 			<div class="text-end mt-2">
+			// 				${comment.editable ? editButton : ''}
+			// 			</div>
+			// 		</div>
+			//
+			// 	</li>
+			// `);
+                //			console.log(comment);
                 $("#commentListContainer" + currentBoardId).append(`
-				<li class="list-group-item d-flex justify-content-between align-items-start">
-					<div class="ms-2 me-auto">
-						<div class="fw-bold"> <i class="fa-solid fa-user"></i> ${comment.memberId} </div> 
-						<div style="white-space: pre-wrap;">${comment.content}</div>
+				<li class="list-group-item d-flex justify-content-between align-items-start" style="border: 0; padding-left: 0;">
+					<div class="layout">
+					    <div style="margin-right: 15px; background-color: #9e9e9e; border-radius: 50%; text-align: center; min-width: 48px; width: 48px; height: 48px; overflow: hidden;">
+                                    <i style="color: white; margin-top: 15px; width: inherit; height:inherit;"
+                                       class="fa-regular fa-user"></i>
+                        </div>
+                        <div class="layout" style="flex-direction: column">
+                            <div class="fw-bold">${comment.memberId} <span style="font-size: small; font-weight: 300;">${comment.inserted}</span></div> 
+                            <div style="white-space: pre-wrap;">${comment.content}</div>
+                        </div>
+                        <div class="text-end mt-2">
+                            ${comment.editable ? editButton : ''}
+                        </div>
 					</div>
-					<div>
-						<span class="badge bg-primary rounded-pill"> ${comment.inserted}</span>
-						<div class="text-end mt-2">
-							${comment.editable ? editButton : ''}
-						</div>
-					</div>
-				
 				</li>
 			`);
             };
@@ -169,3 +187,10 @@ $(".requestBtn").click(function () {
     $("#requestPrice").val($("#boardPrice" + currentBoardId).text());
     $("#requestShoeName").val($("#boardShoeName" + currentBoardId).text());
 })
+
+function minSet() {
+    const today = new Date().toISOString().split("T")[0];
+    console.log(today);
+    console.log("aa");
+    document.getElementById("requestMakeTime").setAttribute("min", today);
+}

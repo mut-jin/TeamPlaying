@@ -55,6 +55,9 @@ public class MainController {
     @Autowired
     private RequestService requestService;
 
+	@Autowired
+	private PaymentService paymentService;
+
 
     @GetMapping("checkEmail/{email}")
     @ResponseBody
@@ -366,11 +369,6 @@ public class MainController {
 
     }
 
-    @GetMapping("shoppingList")
-    public void shoppingList(Model model) {
-
-    }
-
 	/*@Autowired
 	private KakaoPayService payService;
 
@@ -393,6 +391,14 @@ public class MainController {
 		return "/pay/success";
 	}*/
 
+	@GetMapping("shoppingList")
+	public void shoppingList(Authentication authentication,
+							 Model model,
+							 @RequestParam(value = "page", defaultValue = "1") Integer page) {
+		Map<String, Object> result = paymentService.getMyRequest(authentication.getName(), page);
+		model.addAllAttributes(result);
+	}
+  
     @GetMapping("myRequest")
     public void myRequest(Authentication authentication,
                           Model model,
@@ -484,7 +490,7 @@ public class MainController {
 	public ShoeComment commentGet(@PathVariable("id") Integer id) {
 		return shoeBoardService.getComment(id);
 	}
-
+  
     @GetMapping("members")
     @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
     public String showMemberList(Model model, Authentication authentication) {
@@ -493,6 +499,45 @@ public class MainController {
         model.addAttribute("members", members);
         return "members";
     }
+
+	@PutMapping("commentUpdate")
+	@ResponseBody
+	@PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardCommentWriter(authentication, #comment.id)")
+	public ResponseEntity<Map<String, Object>> commentUpdate(@RequestBody ShoeComment comment) {
+		Map<String, Object> res = shoeBoardService.commentUpdate(comment);
+		return ResponseEntity.ok().body(res);
+	}
+
+	@DeleteMapping("commentId/{id}")
+	@ResponseBody
+	@PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardCommentWriter(authentication, #id)")
+	public ResponseEntity<Map<String, Object>> commentRemove(@PathVariable("id") Integer id) {
+		Map<String, Object> res = shoeBoardService.commentRemove(id);
+
+		return ResponseEntity.ok().body(res);
+	}
+
+	@PostMapping("addRequest")
+	public String addRequest(CustomRequest customRequest,
+							 Authentication authentication) {
+		customRequest.setCustomerUserId(authentication.getName());
+		System.out.println(customRequest);
+		shoeBoardService.addCustomRequest(customRequest);
+		return "redirect:/shoppingList";
+	}
+
+	@PostMapping("csAnswer")
+	public String csAnswer(String answer, Integer id) {
+		csService.updateAnswer(answer, id);
+		return "redirect:/myCs/" + id;
+	}
+
+//	@GetMapping("csModify/{id}")
+//	public String modify(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+//		model.addAttribute("board", service.getBoard(id, authentication));
+//		return "csModify";
+//	}
+
 
     @DeleteMapping("/members/{id}")
     @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
@@ -512,6 +557,16 @@ public class MainController {
 //    public String findID() throws Exception{
 //        return "findID";
 //    }
+
+    @GetMapping("members")
+    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
+    public String showMemberList(Model model, Authentication authentication) {
+        List<Member> members = memberService.getAllMembers();
+        ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
+        model.addAttribute("members", members);
+        return "members";
+    }
+
 
 }
 

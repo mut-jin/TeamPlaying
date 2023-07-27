@@ -356,6 +356,7 @@
                                         </button>
                                         <button data-bs-toggle="modal" data-bs-target="#requestModal"
                                                 style="height: 44px; border-radius: 0; border: 0; margin: 0; background-color: orange; color: white"
+                                                onclick="minSet()"
                                                 class="myInfo requestBtn" value="${board.title}">커스텀 작업 의뢰하기
                                         </button>
                                     </div>
