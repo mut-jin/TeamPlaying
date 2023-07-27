@@ -12,7 +12,6 @@ import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -141,4 +140,7 @@ public class CsService {
     }
 
 
+    public void updateAnswer(String answer, Integer id) {
+        csMapper.updateAnswer(answer, id);
+    }
 }

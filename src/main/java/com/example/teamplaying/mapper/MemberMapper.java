@@ -15,10 +15,10 @@ public interface MemberMapper {
             """)
     String getNickNameByUserId(String userId);
 
-    // ** 서재권 추가내용
     @Select("""
             SELECT * FROM Member
             WHERE userId = #{userId}
+            AND status = 1
             """)
     Member getMemberInfoByUserId(String userId);
 
@@ -52,11 +52,14 @@ public interface MemberMapper {
 
     @Update("""
             UPDATE Member
-            SET password = #{password},
+            SET
+               <if test = "password neq null and password neq ''">
+               password = #{password},
+               </if>
                name     = #{name},
                nickName = #{nickName},
-               birth     = #{birth},
-               gender     = #{gender},
+               birth    = #{birth},
+               gender   = #{gender},
                address  = #{address},
                phone    = #{phone},
                email    = #{email},
@@ -113,145 +116,6 @@ public interface MemberMapper {
             WHERE email = #{email}
             """)
     Member selectByEmail(String email);
-
-    // 멤버 삭제 =====
-    // 러닝 ***********
-    // 러닝 메이트 신청 인원 삭제
-    @Delete("""
-            DELETE FROM RunningParty
-            WHERE host = #{userId} or guest = #{userId}
-            """)
-    void deleteRunningPartyById(String userId);
-
-    // 러닝 올린 게시물 삭제
-    @Delete("""
-            DELETE FROM RunningBoard
-            WHERE writer = #{nickName}
-            """)
-    void deleteRunningBoardById(String nickName);
-
-    // 러닝 today like 삭제
-    @Delete("""
-            DELETE FROM RunningLike
-            WHERE memberId = #{userId}
-            """)
-    void deleteRunningTodayLikeById(String userId);
-
-    // 러닝 today like 삭제
-    @Delete("""
-            DELETE FROM RunningComment
-            WHERE memberId = #{userId}
-            """)
-    void deleteRunningTodayCommentById(String userId);
-
-    // 러닝 today 삭제
-    @Delete("""
-            DELETE FROM RunningToday
-            WHERE writer = #{nickName}
-            """)
-    void deleteRunningTodayById(String nickName);
-
-    // 등산 ***********
-    // 등산 메이트 신청 인원 삭제 1
-    @Delete("""
-            DELETE FROM ClimbingParty
-            WHERE host = #{userId} or guest = #{userId}
-            """)
-    void deleteClimbingPartyById(String userId);
-
-    // 등산 올린 게시물 삭제 2
-    @Delete("""
-            DELETE FROM ClimbingMate
-            WHERE writer = #{nickName}
-            """)
-    void deleteClimbingMateById(String nickName);
-
-    // 등산 today like 삭제 1
-    @Delete("""
-            DELETE FROM ClimbingTodayLike
-            WHERE memberId = #{userId}
-            """)
-    void deleteClimbingTodayLikeById(String userId);
-
-    // 등산 today comment 삭제 2
-    @Delete("""
-            DELETE FROM ClimbingTodayComment
-            WHERE memberId = #{userId}
-            """)
-    void deleteClimbingTodayCommentById(String userId);
-
-    // 등산 today 삭제 3
-    @Delete("""
-            DELETE FROM ClimbingToday
-            WHERE writer = #{nickName}
-            """)
-    void deleteClimbingTodayById(String nickName);
-
-    // 등산 Course like 삭제 1
-    @Delete("""
-            DELETE FROM ClimbingCourseLike
-            WHERE memberId = #{userId}
-            """)
-    void deleteClimbingCourseLikeById(String userId);
-
-    // 등산 Course comment 삭제 2
-    @Delete("""
-            DELETE FROM ClimbingCourseComment
-            WHERE memberId = #{userId}
-            """)
-    void deleteClimbingCourseCommentById(String userId);
-
-    // 등산 Course 삭제 3
-    @Delete("""
-            DELETE FROM ClimbingCourse
-            WHERE writer = #{nickName}
-            """)
-    void deleteClimbingCourseById(String nickName);
-
-    @Select("""
-            SELECT id
-            FROM RunningToday
-            WHERE writer = #{nickName}
-            """)
-    List<Integer> selectIdByWriter(String nickName);
-
-    @Delete("""
-            DELETE FROM RunningFileName
-            WHERE boardId = #{boardId}
-            """)
-    void deleteRunningFileNameById(Integer boardId);
-
-    @Delete("""
-            DELETE FROM ClimbingToday
-            WHERE todayId = #{todayId}
-            """)
-    List<Integer> selectClimbIdByWriter(Integer todayId);
-
-    @Select("""
-            SELECT id
-            FROM ClimbingToday
-            WHERE writer = #{nickName}
-            """)
-    List<Integer> selectClimbingTodayByWriter(String nickName);
-
-    @Delete("""
-            DELETE FROM ClimbingTodayFileName
-            WHERE todayId = #{todayId}
-            """)
-    void deleteClimbingTodayFileNameById(Integer todayId);
-
-    @Select("""
-            SELECT id
-            FROM ClimbingCourse
-            WHERE writer = #{nickName}
-            """)
-    List<Integer> selectClimbCourseIdByWriter(String nickName);
-
-    @Delete("""
-            DELETE FROM ClimbingCourseFileName
-            WHERE courseId = #{courseId}
-            """)
-    void deleteClimbingCourseFileNameById(Integer courseId);
 
     @Delete("""
             DELETE FROM Member
@@ -325,7 +189,7 @@ public interface MemberMapper {
             ORDER BY id DESC
             LIMIT #{startIndex}, #{rowPerPage}
             """)
-    Member getMemberById(Integer startIndex, Integer rowPerPage, Integer id);
+    Member getMemberById(Integer id);
 
     @Select("""
             SELECT COUNT(*) FROM shoeBoard
@@ -344,9 +208,40 @@ public interface MemberMapper {
             WHERE memberId = #{memberId}
             """)
     List<ShoeBoard> getShoeBoardList(Integer memberId);
+    @Select("""
+            SELECT userId FROM Member
+            WHERE id = #{id}
+            """)
+    String getUserIdSelectById(Integer id);
 /*
     COUNT(f.id) fileCount,
             	(SELECT COUNT(*) FROM BoardLike WHERE boardId = b.id) likeCount,
             FROM Board b LEFT JOIN FileNames f ON b.id = f.boardId
             */
+
+    @Select("""
+            SELECT *
+            FROM Member
+            """)
+    List<Member> selectAllMember();
+
+//    @Delete("""
+//            Delete
+//            FROM Member
+//            WHERE id = #{memberId}
+//            """)
+//    int deleteMemberById(int memberId);
+
+        @Update("""
+                UPDATE Member
+                SET status = #{status} 
+                WHERE id = #{id}
+                """)
+        int updateMemberStatus(@Param("id") int id, @Param("status") int status);
+
+    @Select("""
+        SELECT userId FROM Member
+        WHERE name = #{name} AND email = #{email}
+        """)
+    Member selectByNameAndEmail(String name, String email);
 }

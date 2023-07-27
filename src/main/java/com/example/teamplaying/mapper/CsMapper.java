@@ -83,4 +83,13 @@ public interface CsMapper {
                 id = #{id}
             """)
     int csModify(CsBoard csBoard);
+
+    @Update("""
+            UPDATE CsBoard
+            SET
+                answer = #{answer}
+            WHERE
+                id = #{id}
+            """)
+    void updateAnswer(String answer, Integer id);
 }

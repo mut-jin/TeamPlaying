@@ -15,15 +15,33 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import com.example.teamplaying.domain.Member;
+import com.example.teamplaying.dao.MemberDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class MemberService {
+
+    private final MemberDao memberDao;
+
+    @Autowired
+    public MemberService(MemberDao memberDao) {
+        this.memberDao = memberDao;
+    }
+
+//    public List<Member> getAllMembers() {
+//        return memberDao.getMemberList();
+//    }
+
+
     @Autowired
     private S3Client s3;
 
@@ -47,7 +65,6 @@ public class MemberService {
         return mapper.getNickNameByUserId(userId);
     }
 
-    // 서재권 추가내용 ***********
     public boolean signup(Member member) {
         // 암호를 새롭게 세팅해 준다.
         // plain은 입력해서 받아들여지는 암호
@@ -70,114 +87,58 @@ public class MemberService {
         return mapper.selectAll();
     }
 
+    public List<Member> getAllMembers() {
+        return mapper.selectAllMember();
+    }
+
+
     public Member get(String userId) {
         return mapper.selectById(userId);
     }
 
+//    public boolean modify(Member member, String oldPassword) {
+//        Member oldMember = mapper.selectById(member.getUserId());
+//
+//        int cnt = 0;
+//        if (oldMember.getPassword().equals(oldPassword)) {
+//
+//            cnt = mapper.update(member);
+//        }
+//
+//        return cnt == 1;
+//    }
+
+    public boolean remove(Member member) {
+        Member oldMember = mapper.selectById(member.getUserId());
+        int cnt = 0;
+
+        if (passwordEncoder.matches(member.getPassword(), oldMember.getPassword())) {
+            // 암호가 같으면?
+
+            cnt = mapper.deleteById(member.getUserId());
+        }
+
+        return cnt == 1;
+    }
+
     public boolean modify(Member member, String oldPassword) {
+
+        // 패스워드를 바꾸기 위해 노력했다면...
+        if (!member.getPassword().isBlank()) {
+
+            // 입력된 패스워드를 암호화
+            String plain = member.getPassword();
+            member.setPassword(passwordEncoder.encode(plain));
+        }
+
         Member oldMember = mapper.selectById(member.getUserId());
 
         int cnt = 0;
-        if (oldMember.getPassword().equals(oldPassword)) {
 
+        if(passwordEncoder.matches(oldPassword, oldMember.getPassword())) {
+            // 기존 암호와 같으면
             cnt = mapper.update(member);
         }
-
-        return cnt == 1;
-    }
-
-    public boolean remove(Member member) {
-
-
-        // 채팅 지우기
-        mapper.deleteChatByUserId(member.getUserId());
-        // 채팅방 지우기
-        mapper.deleteChatRoomByUserId(member.getUserId());
-        // 그룹 채팅방 지우기
-        mapper.deleteGroupChatRoomByUserId(member.getUserId());
-
-        // 러닝메이트 관련 ---
-        // 러닝 ==========
-        // 신청 목록 지우기
-        mapper.deleteRunningPartyById(member.getUserId());
-        System.out.println(1);
-
-        // 러닝 today 관련 --
-        // 좋아요 지우기
-        mapper.deleteRunningTodayLikeById(member.getUserId());
-        System.out.println(3);
-        // 댓글 지우기
-        mapper.deleteRunningTodayCommentById(member.getUserId());
-        System.out.println(4);
-        // 러닝 게시물 파일 지우기
-        List<Integer> idList = mapper.selectIdByWriter(member.getNickName());
-        for (Integer id : idList) {
-            mapper.deleteRunningFileNameById(id);
-        }
-        System.out.println(5);
-
-        // 러닝 today 지우기
-        mapper.deleteRunningTodayById(member.getNickName());
-        System.out.println(6);
-
-        // 등산 =========
-        // 등산메이트 관련
-        // 신청 목록 지우기
-        mapper.deleteClimbingPartyById(member.getUserId());
-        System.out.println(7);
-
-        // 등산 today 관련
-        // 좋아요 지우기
-        mapper.deleteClimbingTodayLikeById(member.getUserId());
-        System.out.println(9);
-        // 댓글 지우기
-        mapper.deleteClimbingTodayCommentById(member.getUserId());
-        System.out.println(10);
-
-        // 등산 today 파일 지우기
-        List<Integer> climbingTodayIdList = mapper.selectClimbingTodayByWriter(member.getNickName());
-        for (Integer id : climbingTodayIdList) {
-            mapper.deleteClimbingTodayFileNameById(id);
-        }
-        System.out.println(11);
-
-        // 등산 today 지우기
-        mapper.deleteClimbingTodayById(member.getNickName());
-        System.out.println(12);
-
-        // 등산 course 관련
-        // 등산 코스 like 지우기
-        mapper.deleteClimbingCourseLikeById(member.getUserId());
-        System.out.println(13);
-        // 등산코스 댓글 지우기
-        mapper.deleteClimbingCourseCommentById(member.getUserId());
-        System.out.println(14);
-        // 등산 코스 파일 지우기
-        List<Integer> climbingCourseIdList = mapper.selectClimbCourseIdByWriter(member.getNickName());
-        for (Integer id : climbingCourseIdList) {
-            mapper.deleteClimbingCourseFileNameById(id);
-        }
-        System.out.println(15);
-        // 등산 코스 지우기
-        mapper.deleteClimbingCourseById(member.getNickName());
-        System.out.println(16);
-
-        // 러닝 게시물 지우기
-        mapper.deleteRunningBoardById(member.getNickName());
-        System.out.println(2);
-
-        mapper.deleteClimbingMateById(member.getNickName());
-
-        int cnt = mapper.deleteMember(member.getUserId());
-
-        return cnt == 1;
-    }
-
-    public boolean modify(Member member) {
-        System.out.println(member);
-        member.setId(mapper.getId(member.getUserId()));
-        int cnt = mapper.updateMember(member);
-        System.out.println("@@@" + cnt);
 
         return cnt == 1;
     }
@@ -218,13 +179,22 @@ public class MemberService {
         pageInfo.put("currentPageNum", page);
 
         List<Member> list = mapper.selectAllPaging(startIndex, rowPerPage, search, order);
+        List<ShoeBoard> shoeBoardList = new ArrayList<>();
         for (Member i : list) {
             List<String> shoeList = new ArrayList<>();
-            List<Integer> boardIdList = shoeMapper.getBoardIdList(i.getId());
-            for (Integer boardID : boardIdList) {
-                shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
-
+            List<Integer> boardIdList = new ArrayList<>();
+            List<Integer> boardIdLists = shoeMapper.getBoardIdList(i.getId(), startIndex, rowPerPage);
+            for(ShoeBoard shoeBoard : shoeMapper.getAllShoes(i.getId())) {
+                shoeBoardList.add(shoeBoard);
             }
+            for (Integer boardID : boardIdLists) {
+                if (shoeMapper.getMyShoeFileName(boardID) != null) {
+                    shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
+                    boardIdList.add(boardID);
+                }
+            }
+
+            i.setBoardIdList(boardIdList);
             i.setProfile(bucketUrl + "/Member/" + i.getId() + "/" + i.getProfile());
             i.setSubCount(shoeMapper.getMySubscribe(i.getId()));
             i.setShoeImgList(shoeList);
@@ -232,8 +202,11 @@ public class MemberService {
                 i.setTotalView(0);
             }
         }
+        for (ShoeBoard i : shoeBoardList) {
+            i.setImgUrlList(shoeMapper.getMyShoeFileNameList(i.getId()));
+        }
 
-        return Map.of("pageInfo", pageInfo, "boardList", list, "name", name);
+        return Map.of("pageInfo", pageInfo, "boardList", list, "name", name, "shoeBoardList", shoeBoardList);
     }
 
 
@@ -255,16 +228,14 @@ public class MemberService {
         pageInfo.put("lastPageNum", lastPageNum);
         pageInfo.put("currentPageNum", page);
 
-        Member member = mapper.getMemberById(startIndex, rowPerPage, id);
+        Member member = mapper.getMemberById(id);
         member.setProfile(bucketUrl + "/Member/" + id + "/" + member.getProfile());
-        List<Integer> boardIdList = shoeMapper.getBoardIdList(id);
-        List<String> shoeList = new ArrayList<>();
-        for (Integer boardID : boardIdList) {
-            shoeList.add(bucketUrl + "/shoeBoard/" + boardID + "/" + shoeMapper.getMyShoeFileName(boardID));
+        List<ShoeBoard> list = shoeMapper.getAllShoesByArtistId(id, startIndex, rowPerPage);
+        for (ShoeBoard i : list) {
+            i.setImgUrlList(shoeMapper.getMyShoeFileNameList(i.getId()));
         }
-        member.setShoeImgList(shoeList);
 
-        return Map.of("pageInfo", pageInfo, "memberInfo", member);
+        return Map.of("pageInfo", pageInfo, "memberInfo", member, "shoeBoardList", list);
     }
 
     public boolean addShoeBoard(ShoeBoard shoeBoard, MultipartFile[] files, Authentication authentication) throws Exception {
@@ -303,4 +274,26 @@ public class MemberService {
         return Map.of("member", member, "shoeList", shoeList);
     }
 
+
+//        public boolean deleteMember(int memberId) {
+//            // 회원 삭제 작업 수행
+//            int rowsAffected = mapper.deleteMemberById(memberId);
+//            return rowsAffected > 0;
+//        }
+
+//    public boolean deactivateMember(int memberId) {
+//        // 회원 상태를 비활성화(0)로 변경하는 작업 수행
+//        int rowsAffected = mapper.deactivateMemberById(memberId);
+//        return rowsAffected > 0;
+//    }
+
+    public boolean deactivateMember(int id) {
+        int rowsAffected = mapper.updateMemberStatus(id, 0);
+        return rowsAffected > 0;
+    }
+
+    public String findIdByNameAndEmail(String name, String email) {
+        Member member = mapper.selectByNameAndEmail(name, email);
+        return (member != null) ? member.getUserId() : null;
+    }
 }

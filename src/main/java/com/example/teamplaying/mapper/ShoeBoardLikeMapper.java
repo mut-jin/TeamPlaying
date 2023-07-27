@@ -18,4 +18,22 @@ public interface ShoeBoardLikeMapper {
 			and memberId = #{memberId}
 			""")
     ShoeLike select(Integer id, String memberId);
+
+	@Delete("""
+			DELETE FROM shoeLike
+			WHERE boardId = #{boardId} AND memberId = #{memberId}
+			""")
+    Integer delete(ShoeLike like);
+
+	@Insert("""
+   			INSERT INTO shoeLike(boardId, memberId)
+   			VALUES(#{boardId}, #{memberId})
+			""")
+	Integer insert(ShoeLike like);
+
+	@Select("""
+			SELECT COUNT(*) FROM shoeLike
+			WHERE boardId = #{boardId}
+			""")
+	Integer countByBoardId(Integer boardId);
 }
