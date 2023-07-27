@@ -401,6 +401,15 @@ public class MainController {
         model.addAllAttributes(result);
     }
 
+    @PostMapping("addRequest")
+    public String addRequest(CustomRequest customRequest,
+                             Authentication authentication) {
+        customRequest.setCustomerUserId(authentication.getName());
+        System.out.println(customRequest);
+        shoeBoardService.addCustomRequest(customRequest);
+        return "redirect:/shoppingList";
+    }
+
 	@GetMapping("removeRequest/{id}")
 	@ResponseBody
 	public void removeRequest(@PathVariable Integer id) {
