@@ -54,7 +54,6 @@
 <br>
 <br>
 <br>
-
     <my:navBar></my:navBar>
     <div class="container" style="margin-top: 100px;">
         <div class="layout" style="justify-content: center;">
@@ -139,7 +138,7 @@
             </div>
         </div>
     </div>
-
+  
     <c:forEach items="${myRequestList}" var="list" varStatus="status">
         <div class="modal fade" id="requestModal${list.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
              aria-hidden="true">

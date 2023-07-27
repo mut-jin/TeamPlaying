@@ -6,6 +6,7 @@ import com.example.teamplaying.domain.CustomRequest;
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.domain.*;
+import com.example.teamplaying.security.CustomSecurityChecker;
 import com.example.teamplaying.service.CsService;
 import com.example.teamplaying.service.KakaoPayService;
 import com.example.teamplaying.service.MemberService;
@@ -406,6 +407,15 @@ public class MainController {
         model.addAllAttributes(result);
     }
 
+    @PostMapping("addRequest")
+    public String addRequest(CustomRequest customRequest,
+                             Authentication authentication) {
+        customRequest.setCustomerUserId(authentication.getName());
+        System.out.println(customRequest);
+        shoeBoardService.addCustomRequest(customRequest);
+        return "redirect:/shoppingList";
+    }
+
 	@GetMapping("removeRequest/{id}")
 	@ResponseBody
 	public void removeRequest(@PathVariable Integer id) {
@@ -480,6 +490,15 @@ public class MainController {
 	public ShoeComment commentGet(@PathVariable("id") Integer id) {
 		return shoeBoardService.getComment(id);
 	}
+  
+    @GetMapping("members")
+    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
+    public String showMemberList(Model model, Authentication authentication) {
+        List<Member> members = memberService.getAllMembers();
+        ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
+        model.addAttribute("members", members);
+        return "members";
+    }
 
 	@PutMapping("commentUpdate")
 	@ResponseBody
@@ -520,23 +539,9 @@ public class MainController {
 //	}
 
 
-
-    // 아이디 찾기 폼
-    @RequestMapping(value = "findID")
-    public String findID() throws Exception{
-        return "findID";
-    }
-
-    @GetMapping("members")
-    public String showMemberList(Model model) {
-        List<Member> members = memberService.getAllMembers();
-        ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
-        model.addAttribute("members", members);
-        return "members";
-    }
-
     @DeleteMapping("/members/{id}")
-    public ResponseEntity<String> deactivateMember(@PathVariable int id) {
+    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
+    public ResponseEntity<String> deactivateMember(@PathVariable int id, Authentication authentication) {
         boolean deactivationSuccess = memberService.deactivateMember(id);
 
         if (deactivationSuccess) {
@@ -546,6 +551,22 @@ public class MainController {
                     .body("Failed to deactivate member.");
         }
     }
+
+//    // 아이디 찾기 폼
+//    @RequestMapping(value = "findID")
+//    public String findID() throws Exception{
+//        return "findID";
+//    }
+
+    @GetMapping("members")
+    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
+    public String showMemberList(Model model, Authentication authentication) {
+        List<Member> members = memberService.getAllMembers();
+        ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
+        model.addAttribute("members", members);
+        return "members";
+    }
+
 
 }
 
