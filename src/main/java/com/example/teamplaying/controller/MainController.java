@@ -54,6 +54,9 @@ public class MainController {
     @Autowired
     private RequestService requestService;
 
+	@Autowired
+	private PaymentService paymentService;
+
 
     @GetMapping("checkEmail/{email}")
     @ResponseBody
@@ -387,6 +390,14 @@ public class MainController {
 		return "/pay/success";
 	}*/
 
+	@GetMapping("shoppingList")
+	public void shoppingList(Authentication authentication,
+							 Model model,
+							 @RequestParam(value = "page", defaultValue = "1") Integer page) {
+		Map<String, Object> result = paymentService.getMyRequest(authentication.getName(), page);
+		model.addAllAttributes(result);
+	}
+  
     @GetMapping("myRequest")
     public void myRequest(Authentication authentication,
                           Model model,
@@ -507,7 +518,6 @@ public class MainController {
 //		model.addAttribute("board", service.getBoard(id, authentication));
 //		return "csModify";
 //	}
-
 
 
 
