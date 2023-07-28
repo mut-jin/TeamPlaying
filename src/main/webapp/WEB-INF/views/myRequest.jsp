@@ -178,7 +178,16 @@
                                             </button>
                                         </div>
                                     </c:if>
-                                        <%--            </form>--%>
+                                    <c:if test="${list.progress eq '작업중'}">
+                                        <div class="modal-footer">
+                                            <button type="button" value="배송중" data-bs-id="${list.id}" class="btn btn-primary progressChangeBtn">
+                                                배송중
+                                            </button>
+                                            <button type="button" value="배송완료" data-bs-id="${list.id}" class="btn btn-primary progressChangeBtn">
+                                                배송완료
+                                            </button>
+                                        </div>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>

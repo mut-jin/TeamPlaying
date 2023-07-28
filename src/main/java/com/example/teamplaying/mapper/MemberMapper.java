@@ -187,7 +187,6 @@ public interface MemberMapper {
             FROM Member m
             WHERE id = #{id}
             ORDER BY id DESC
-            LIMIT #{startIndex}, #{rowPerPage}
             """)
     Member getMemberById(Integer id);
 

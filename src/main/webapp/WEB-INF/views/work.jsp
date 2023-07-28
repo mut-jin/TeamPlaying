@@ -252,9 +252,13 @@
                                         <p class="card-price">${board.price}</p>
                                     </div>
                                     <div class="card-footer" style="margin-top: auto;">
-                                        <small class="text-body-secondary">${board.likeCount}</small>
-                                        <small class="text-body-secondary">${board.commentCount}</small>
+                                        <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                        <span class="mx-2"></span>
+                                        <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                        <span class="mx-2"></span>
+                                        <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -352,6 +356,7 @@
                                         </button>
                                         <button data-bs-toggle="modal" data-bs-target="#requestModal"
                                                 style="height: 44px; border-radius: 0; border: 0; margin: 0; background-color: orange; color: white"
+                                                onclick="minSet()"
                                                 class="myInfo requestBtn" value="${board.title}">커스텀 작업 의뢰하기
                                         </button>
                                     </div>

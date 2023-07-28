@@ -135,7 +135,7 @@
             </div>
         </div>
     </div>
-
+  
     <c:forEach items="${myRequestList}" var="list" varStatus="status">
         <div class="modal fade" id="requestModal${list.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
@@ -289,9 +289,9 @@
                             console.error(error);
                         }
                     })
-                });
             });
         });
-    </script>
+    });
+</script>
 </body>
 </html>

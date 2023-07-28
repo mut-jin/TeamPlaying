@@ -48,3 +48,8 @@ $(".refuseBtn").click(function () {
     })
 })
 
+$(".progressChangeBtn").click(function () {
+    var id = $(this).attr("data-bs-id");
+    var progress = $(this).val();
+})
+

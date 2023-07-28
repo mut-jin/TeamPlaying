@@ -17,11 +17,19 @@ public class CustomSecurityChecker {
     @Autowired
     private ShoeBoardMapper mapper;
 
+    @Autowired
+    private MemberMapper memberMapper;
+
     public boolean checkShoeBoardCommentWriter(Authentication authentication,
                                       Integer commentId) {
         ShoeComment comment = mapper.commentSelectById(commentId);
 
         return comment.getMemberId().equals(authentication.getName());
+    }
+
+    public boolean checkAdmin(Authentication authentication) {
+        Member member = memberMapper.getMemberInfoByUserId(authentication.getName());
+        return member.getMemberType().equals("admin");
     }
 
     public boolean checkBoardWriter(Authentication authentication, Integer boardId) {

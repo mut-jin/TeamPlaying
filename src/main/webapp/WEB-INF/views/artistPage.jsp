@@ -317,6 +317,7 @@
                                     </button>
                                     <button data-bs-toggle="modal" data-bs-target="#requestModal"
                                             style="height: 44px; border-radius: 0; border: 0; margin: 0; background-color: orange; color: white"
+                                            onclick="minSet()"
                                             class="myInfo requestBtn" value="${board.title}">커스텀 작업 의뢰하기
                                     </button>
                                 </div>
@@ -388,6 +389,80 @@
         </div>
     </div>
 </div>
+
+<!-- requestModal -->
+<div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="requestModalLabel">커스텀 작업 의뢰하기</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/addRequest" method="post">
+                <div class="modal-body">
+                    <div class="layout" style="flex-direction: column;">
+                        <div id="requestTitleView"></div>
+<%--                        <div>희망 수령일</div>--%>
+                        <label for="requestMakeTime">희망 수령일</label>
+                        <input type="date" name="makeTime" id="requestMakeTime">
+                        <div>추가 요청 사항을 알려주세요.</div>
+                        <textarea name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
+                        <input type="hidden" name="shoeName" id="requestShoeName">
+                        <input type="hidden" name="price" id="requestPrice">
+                        <input type="hidden" name="brand" id="requestBrand">
+                        <input type="hidden" name="memberId" id="requestMemberId">
+                        <input type="hidden" name="title" id="requestTitle">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">의뢰하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 댓글 삭제 Modal -->
+<div class="modal fade" id="deleteCommentConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel2"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">댓글 삭제 확인</h1>
+                <button class="btn-close cancel" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">삭제 하시겠습니까?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary cancel" type="button" data-bs-dismiss="modal">닫기</button>
+                <button id="deleteCommentModalButton" data-bs-dismiss="modal" type="submit" class="btn btn-danger">삭제
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 댓글 수정 모달 -->
+<div class="modal fade" id="commentUpdateModal" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">댓글 수정</h1>
+                <button type="button" class="btn-close cancel" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="updateCommentContainer">
+                    <input type="hidden" id="commentUpdateIdInput"/>
+                    <textarea class="form-control" id="commentUpdateTextArea"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="updateCommentBtn" data-bs-dismiss="modal">수정</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <sec:authorize access="isAuthenticated()">
     <my:chatBtn></my:chatBtn>
     <script src="/js/chat.js" charset="UTF-8"></script>
