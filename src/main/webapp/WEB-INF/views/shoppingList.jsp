@@ -40,6 +40,13 @@
             margin-bottom: 2rem;
         }
 
+        .image-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
     </style>
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -151,20 +158,20 @@
                         <div class="layout" style="flex-direction: column">
                             <div class="mb-10">신발 정보</div>
                             <input type="text" id="brand${list.id}" style="height: 40px;" name="brand"
-                                   class="mb-20" value="${list.brand}">
+                                   class="mb-20" value="${list.brand}" readonly>
                             <input type="text" id="shoeName${list.id}" style="height: 40px;"
-                                   name="shoeName" class="mb-20" value="${list.shoeName}">
+                                   name="shoeName" class="mb-20" value="${list.shoeName}" readonly>
                             <div class="mb-10">요청 사항</div>
                             <textarea name="requestBody" id="requestBody${list.id}" class="mb-20" id=""
-                                      rows="7">${list.body}</textarea>
+                                      rows="7" readonly>${list.body}</textarea>
                             <div class="mb-10">희망 가격을 입력해주세요</div>
                             <input type="text" id="price${list.id}" style="height: 40px;" name="price"
-                                   class="mb-20" value="${list.price}">
+                                   class="mb-20" value="${list.price}" readonly>
                             <div class="mb-10">제작 희망 기간</div>
                             <input type="date" id="makeTime${list.id}" name="makeTime"
-                                   style="height: 40px;" value="${list.makeTime}">
+                                   style="height: 40px;" value="${list.makeTime}" readonly>
                             <input type="hidden" id="artistUserId${list.id}"
-                                   value="${list.artistUserId}">
+                                   value="${list.artistUserId}" readonly>
                             <div class="mb-10">참고할 이미지</div>
                             <div>
                                 <c:forEach items="${list.fileNameList}" var="file">
@@ -179,15 +186,19 @@
                         <%--<button type="button" class="btn btn-primary" id="acceptBtn" value="작업중">
                             수락
                         </button>--%>
-                        <c:if test="${list.progress eq '결제 대기중'}">
-                            <button id="payBtn${list.id}" class="btn btn-primary" value="${list.id}" type="button">결제</button>
+                        <c:if test="${list.progress eq '결제 대기중' or list.progress eq '수정 요청'}">
+                            <button class="image-button" id="payBtn${list.id}" value="${list.id}">
+                                <img class="img-button" src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/payment_icon_yellow_small.png" />
+                            </button>
                         </c:if>
-                        <button type="button" class="btn btn-primary" id="modifyBtn" value="조건 수정 요청">
+                        <%--<button type="button" class="btn btn-primary" id="modifyBtn" value="조건 수정 요청">
                             조건 수정
-                        </button>
-                        <button type="button" class="btn btn-primary" id="refuseBtn" value="${list.id}">
-                            거절
-                        </button>
+                        </button>--%>
+                        <c:if test="${list.progress eq '의뢰 확인중' or list.progress eq '결제 대기중' or list.progress eq '수정 요청'}">
+                            <button type="button" class="btn btn-primary" id="refuseBtn" value="${list.id}">
+                                거절
+                            </button>
+                        </c:if>
                     </div>
                         <%--                </c:if>--%>
                         <%--            </form>--%>
@@ -248,7 +259,40 @@
                 }, function (rsp) {
                     console.log(rsp);
 
-                    // 결제검증
+                    if(rsp.success) {
+                        window.location.href = "/shoppingList";
+                        location.reload(); // 페이지 새로고침
+
+                        $.ajax({
+                            type: "POST",
+                            url: "makePayment",
+                            contentType: 'application/json;charset=utf-8',
+                            data: JSON.stringify(rsp),
+                            success: function (response) {
+                                if(response.success) {
+                                    $.ajax({
+                                        type: "PUT",
+                                        url: "updateProgress/" + id,
+                                        success: function (updateResponse) {
+
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error(error);
+                                        }
+                                    });
+                                } else {
+                                    alert("결제 실패");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert("결제 중 문제가 발생하였습니다.");
+                                console.error(error);
+                            }
+                        });
+                    } else {
+                        alert("결제 실패");
+                    }
+                    /*// 결제검증
                     $.ajax({
                         type: "POST",
                         url: "makePayment", // 결제 정보를 서버로 전달
@@ -259,7 +303,7 @@
                                 // alert("결제 및 결제검증 완료");
                                 // 결제 성공 시 비즈니스 로직
                                 window.location.href = response.redirectUrl;
-
+                                location.reload(); // 페이지 새로고침
                                 $.ajax({
                                     type: "PUT",
                                     url: "updateProgress/" + id,
@@ -271,9 +315,10 @@
                                     }
                                 });
                             } else {
-                                // alert("결제 실패");
-                                window.location.href = response.redirectUrl;
-                                $.ajax({
+                                alert("결제 실패");
+
+                                // location.reload(); // 페이지 새로고침
+                                /!*$.ajax({
                                     type: "PUT",
                                     url: "updateProgress/" + id,
                                     success: function (updateResponse) {
@@ -282,13 +327,14 @@
                                     error: function (xhr, status, error) {
                                         console.error(error);
                                     }
-                                });
+                                });*!/
                             }
                         },
                         error: function (xhr, status, error) {
+                            alert("결제 중 문제가 발생하였습니다.");
                             console.error(error);
                         }
-                    })
+                    })*/
             });
         });
     });

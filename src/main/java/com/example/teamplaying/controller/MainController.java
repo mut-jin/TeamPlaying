@@ -517,15 +517,6 @@ public class MainController {
 		return ResponseEntity.ok().body(res);
 	}
 
-	@PostMapping("addRequest")
-	public String addRequest(CustomRequest customRequest,
-							 Authentication authentication) {
-		customRequest.setCustomerUserId(authentication.getName());
-		System.out.println(customRequest);
-		shoeBoardService.addCustomRequest(customRequest);
-		return "redirect:/shoppingList";
-	}
-
 	@PostMapping("csAnswer")
 	public String csAnswer(String answer, Integer id) {
 		csService.updateAnswer(answer, id);
@@ -557,15 +548,6 @@ public class MainController {
 //    public String findID() throws Exception{
 //        return "findID";
 //    }
-
-    @GetMapping("members")
-    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
-    public String showMemberList(Model model, Authentication authentication) {
-        List<Member> members = memberService.getAllMembers();
-        ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
-        model.addAttribute("members", members);
-        return "members";
-    }
 
 
 }
