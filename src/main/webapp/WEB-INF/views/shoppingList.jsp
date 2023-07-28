@@ -51,12 +51,6 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
-<br>
-<br>
-<br>
-
-
-
     <my:navBar></my:navBar>
     <div class="container" style="margin-top: 100px;">
         <div class="layout" style="justify-content: center;">
@@ -185,7 +179,9 @@
                         <%--<button type="button" class="btn btn-primary" id="acceptBtn" value="작업중">
                             수락
                         </button>--%>
-                            <button id="check_module" class="btn btn-primary" value="작업중" type="button">결제</button>
+                        <c:if test="${list.progress eq '결제 대기중'}">
+                            <button id="payBtn${list.id}" class="btn btn-primary" value="${list.id}" type="button">결제</button>
+                        </c:if>
                         <button type="button" class="btn btn-primary" id="modifyBtn" value="조건 수정 요청">
                             조건 수정
                         </button>
@@ -216,51 +212,84 @@
     <%--<script src="/js/shoppingList.js"></script>--%>
 
     <script>
-        $("#check_module").click(function () {
-            var IMP = window.IMP; // 생략가능
-            IMP.init('imp35730816');
-            // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
-            // ''안에 띄어쓰기 없이 가맹점 식별코드를 붙여넣어주세요. 안그러면 결제창이 안뜹니다.
-            IMP.request_pay({
-                pg: 'kakaopay.TC0ONETIME',
-                pay_method: 'card',
-                merchant_uid: 'merchant_' + new Date().getTime(),
-                /*
-                 *  merchant_uid에 경우
-                 *  https://docs.iamport.kr/implementation/payment
-                 *  위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
-                 */
-                name: "아메리카노",
-                // 결제창에서 보여질 이름
-                // name: '주문명 : <%--${auction.a_title}',--%>
-                // 위와같이 model에 담은 정보를 넣어 쓸수도 있습니다.
-                amount: 2000,
-                // amount: <%--${bid.b_bid},--%>
-                // 가격
-                buyer_name: 'mason'
-                // 구매자 이름, 구매자 정보도 model값으로 바꿀 수 있습니다.
-                // 구매자 정보에 여러가지도 있으므로, 자세한 내용은 맨 위 링크를 참고해주세요.
-            }, function (rsp) {
-                console.log(rsp);
+        $(document).ready(function () {
+            $("[id^='payBtn']").click(function () {
+                var id = $(this).val(); // 결제 버튼의 값을 가져와서 id 변수에 할당
+                var IMP = window.IMP; // 생략가능
+                IMP.init('imp35730816');
+                // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
+                // ''안에 띄어쓰기 없이 가맹점 식별코드를 붙여넣어주세요. 안그러면 결제창이 안뜹니다.
 
-                // 결제검증
-                $.ajax({
-                    type: "POST",
-                    url: "makePayment", // 결제 정보를 서버로 전달
-                    contentType: 'application/json;charset=utf-8',
-                    data: JSON.stringify(rsp), // 결제 결과를 JSON 형태로 서버에 전송
-                    success: function (response) {
-                        if(response.success) {
-                            // alert("결제 및 결제검증 완료");
-                            // 결제 성공 시 비즈니스 로직
-                        } else {
-                            // alert("결제 실패");
+                // 클릭한 결제 버튼의 id에서 해당 상품의 정보 가져오기
+                var listId = $(this).val();
+                var brand = $("#brand" + listId).val();
+                var shoeName = $("#shoeName" + listId).val();
+                var price = $("#price" + listId).val();
+
+                IMP.request_pay({
+                    pg: 'kakaopay.TC0ONETIME',
+                    pay_method: 'card',
+                    merchant_uid: 'merchant_' + new Date().getTime(),
+                    /*
+                     *  merchant_uid에 경우
+                     *  https://docs.iamport.kr/implementation/payment
+                     *  위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
+                     */
+                    name: brand + " - " + shoeName,
+                    // 결제창에서 보여질 이름
+                    // name: '주문명 : <%--${auction.a_title}',--%>
+                    // 위와같이 model에 담은 정보를 넣어 쓸수도 있습니다.
+                    amount: price,
+                    // amount: <%--${bid.b_bid},--%>
+                    // 가격
+                    buyer_name: 'mason'
+                    // 구매자 이름, 구매자 정보도 model값으로 바꿀 수 있습니다.
+                    // 구매자 정보에 여러가지도 있으므로, 자세한 내용은 맨 위 링크를 참고해주세요.
+                }, function (rsp) {
+                    console.log(rsp);
+
+                    // 결제검증
+                    $.ajax({
+                        type: "POST",
+                        url: "makePayment", // 결제 정보를 서버로 전달
+                        contentType: 'application/json;charset=utf-8',
+                        data: JSON.stringify(rsp), // 결제 결과를 JSON 형태로 서버에 전송
+                        success: function (response) {
+                            if(response.success) {
+                                // alert("결제 및 결제검증 완료");
+                                // 결제 성공 시 비즈니스 로직
+                                window.location.href = response.redirectUrl;
+
+                                $.ajax({
+                                    type: "PUT",
+                                    url: "updateProgress/" + id,
+                                    success: function (updateResponse) {
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error(error);
+                                    }
+                                });
+                            } else {
+                                // alert("결제 실패");
+                                window.location.href = response.redirectUrl;
+                                $.ajax({
+                                    type: "PUT",
+                                    url: "updateProgress/" + id,
+                                    success: function (updateResponse) {
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error(error);
+                                    }
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
                         }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                })
+                    })
+                });
             });
         });
     </script>

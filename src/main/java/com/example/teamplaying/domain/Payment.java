@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Payment {
 
+    private Integer id;
     private String pay_method;
     private String merchant_uid;
     private String name;
@@ -16,5 +17,4 @@ public class Payment {
     private String buyer_name;
     private String imp_uid;
     private LocalDateTime paidAt;
-
 }

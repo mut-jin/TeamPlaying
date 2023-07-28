@@ -2,9 +2,7 @@ package com.example.teamplaying.mapper;
 
 import com.example.teamplaying.domain.CustomRequest;
 import com.example.teamplaying.domain.Payment;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -33,4 +31,19 @@ public interface PaymentMapper {
             WHERE customerUserId = #{customerUserId}
             """)
     Integer getMyRequestCnt(String customerUserId);
+
+
+    @Select("""
+            SELECT * FROM CustomRequest
+            WHERE id = #{id}
+            """)
+    CustomRequest getRequestById(Integer id);
+
+    @Update("""
+            UPDATE CustomRequest
+            SET
+                progress = #{progress}
+            WHERE id = #{id}
+            """)
+    Integer updateProgress(@Param("id") Integer id, @Param("progress") String progress);
 }

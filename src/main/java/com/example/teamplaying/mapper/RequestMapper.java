@@ -74,4 +74,19 @@ public interface RequestMapper {
                 id = #{id}
             """)
     int modify(CustomRequest customRequest);
+
+    @Select("""
+            SELECT *
+            FROM CustomRequest
+            WHERE id = #{id}
+            """)
+    CustomRequest getRequestById(Integer id);
+
+    @Update("""
+            UPDATE CustomRequest
+            SET
+                progress = #{progress}
+            WHERE id = #{id}
+            """)
+    void updateProgress(CustomRequest customRequest);
 }
