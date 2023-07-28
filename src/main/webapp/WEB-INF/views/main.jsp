@@ -77,7 +77,6 @@
     .myPageOption {
         flex-basis: 33.33333%;
         max-width: 33.33333%;
-        /*margin-right: 12px;*/
         border-radius: 4px;
         margin: 0 5px;
         overflow: hidden;
@@ -88,8 +87,6 @@
         max-width: 66.666666%;
         margin: 0 5px;
         border-radius: 4px;
-        /*margin-left: 12px;*/
-        /*margin-bottom: 2rem;*/
     }
 
     .modal-body2 {
@@ -281,7 +278,7 @@
                         </div>
                         <div class="myPageOption">
                             <div class="layout modal-content" style="flex-direction: column; background-color: white;">
-                                <div style="margin: 16px 12px 0px;">
+                                <div style="margin: 16px 0px 0px;">
                                     <h1 id="boardTitle${board.id}">${board.title}</h1>
                                 </div>
                                 <hr style="margin: 0.7rem 0;">
@@ -344,7 +341,7 @@
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center; margin-left: 0; margin-right: 0;">
     <c:forEach items="${adidas}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
@@ -486,7 +483,7 @@
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center; margin-left: 0; margin-right: 0;">
     <c:forEach items="${vans}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
@@ -628,7 +625,7 @@
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center; margin-left: 0; margin-right: 0;">
     <c:forEach items="${converse}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
