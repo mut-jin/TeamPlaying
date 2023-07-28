@@ -32,14 +32,23 @@ public class PaymentController {
     public ResponseEntity<Map<String, Object>> makePayment(@RequestBody Payment payment) {
         // 결제 로직 작성 (위의 자바스크립트 코드와 함께 활용)
         // 결제 성공 시 필요한 정보를 파라미터로 받아서 paymentService.savePaymentInfo() 호출
-        paymentService.savePaymentInfo(payment);
+        boolean ok = paymentService.savePaymentInfo(payment);
 
         // 결제가 성공적으로 완료되면 응답에 성공 여부와 리다이렉트할 URL 담아 전달
         Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("redirectUrl", "/shoppingList"); // 원하는 리다이렉트 URL을 여기에 지정
 
-        return ResponseEntity.ok().body(response);
+        if (ok) {
+            response.put("success", true);
+            response.put("redirectUrl", "/shoppingList"); // 원하는 리다이렉트 URL을 여기에 지정
+
+            return ResponseEntity.ok().body(response);
+
+        } else {
+            response.put("success", false);
+            response.put("error", "결제 처리 중 오류가 발생했습니다.");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
     @PutMapping("updateProgress/{id}")

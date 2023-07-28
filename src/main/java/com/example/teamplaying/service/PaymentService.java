@@ -25,8 +25,10 @@ public class PaymentService {
         this.paymentMapper = paymentMapper;
     }
 
-    public void savePaymentInfo(Payment payment) {
-        paymentMapper.insertPaymentInfo(payment);
+    public boolean savePaymentInfo(Payment payment) {
+        Integer cnt = paymentMapper.insertPaymentInfo(payment);
+
+        return cnt == 1;
     }
 
     public Map<String, Object> getMyRequest(String customerUserId, Integer page) {
