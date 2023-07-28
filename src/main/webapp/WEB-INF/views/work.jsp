@@ -44,7 +44,7 @@
 
         .card-text {
             font-family: 'Jeju Gothic', sans-serif;
-            font-size: 22px;
+            font-size: 17.5px;
             fort-weight: bold;
             height: 35px;
             overflow: hidden;
@@ -244,12 +244,12 @@
                                     <div class="card-body">
                                         <p class="card-text">${board.title}</p>
                                         <div class="flex caption">
-                                            🌄 ${board.nickName}
+                                            👟 ${board.nickName}
                                         </div>
                                         <div class="flex grey--text text--lighten-1">
                                             ―
                                         </div>
-                                        <p class="card-price">${board.price}</p>
+                                        <p class="card-price">₩${board.price}</p>
                                     </div>
                                     <div class="card-footer" style="margin-top: auto;">
                                         <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
