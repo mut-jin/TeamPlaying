@@ -558,7 +558,7 @@ public class MainController {
 //        }
 //    }
 
-    @DeleteMapping("commentId/{id}")
+    @DeleteMapping("work/{id}")
     @ResponseBody
     @PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardWork(authentication, #id)")
     public ResponseEntity<Map<String, Object>> workRemove(@PathVariable("id") Integer id) {
