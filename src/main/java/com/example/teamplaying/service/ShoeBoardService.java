@@ -189,6 +189,21 @@ public class ShoeBoardService {
     }
 
 
+
+    public Map<String, Object> workRemove(Integer id) {
+        int cnt = mapper.workDeleteById(id);
+
+        var res = new HashMap<String, Object>();
+
+        if (cnt == 1) {
+            res.put("message", "게시글이 삭제되었습니다.");
+        } else {
+            res.put("message", "게시글이 삭제 되지 않았습니다.");
+        }
+        return res;
+    }
+
+
 //    public List<String> getShoeNameList(String shoeBrand) {
 //        return mapper.getShoeNameList(shoeBrand);
 //    }

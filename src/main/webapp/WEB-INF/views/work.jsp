@@ -129,6 +129,7 @@
             padding: 0 12.4444444444px;
             margin-top: 4px;
         }
+
     </style>
 
 </head>
@@ -250,6 +251,11 @@
                                             ―
                                         </div>
                                         <p class="card-price">₩${board.price}</p>
+                                        <div>
+                                            <!-- JavaScript로 isAdmin 값 읽어와서 삭제 버튼 표시 여부 결정 -->
+                                            <c:set var="isAdmin" value="${isAdmin}" />
+                                            <button class="btn btn-danger delete-button" data-card-id="${board.id}" style="${isAdmin ? 'display: inline-block;' : 'display: none;'}">삭제</button>
+                                        </div>
                                     </div>
                                     <div class="card-footer" style="margin-top: auto;">
                                         <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
@@ -369,7 +375,24 @@
         </c:forEach>
     </div>
 
-
+    <!-- 댓글 삭제 Modal -->
+    <div class="modal fade" id="deleteWorkConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel2"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">게시글 삭제 확인</h1>
+                    <button class="btn-close cancel" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">삭제 하시겠습니까?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary cancel" type="button" data-bs-dismiss="modal">닫기</button>
+                    <button id="deleteWorkModalButton" data-bs-dismiss="modal" type="submit" class="btn btn-danger">삭제
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -534,6 +557,38 @@
     }
 </style>
 
+<script>
+    function deleteBoard(boardId) {
+        if (confirm("게시물을 삭제하시겠습니까?")) {
+            fetch('/delete-board/' + boardId, {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('게시물 삭제에 실패했습니다.');
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+    function deleteCard(cardId) {
+        // 서버로 삭제 요청을 보냄
+        $.ajax({
+            type: 'DELETE',
+            url: '/work/' + cardId,
+            success: function (response) {
+                alert(response); // 삭제 성공 시 서버 응답 출력
+                // 필요한 작업 수행 (예를 들어, 삭제한 카드를 화면에서 제거하는 등)
+            },
+            error: function (error) {
+                alert('삭제에 실패했습니다.'); // 삭제 실패 시 에러 메시지 출력
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

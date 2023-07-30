@@ -541,6 +541,31 @@ public class MainController {
                     .body("Failed to deactivate member.");
         }
     }
+//
+//    @DeleteMapping("/workRemove")
+//    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
+//    public String workRemove(Integer id, RedirectAttributes rttr) {
+//        boolean ok = shoeBoardService.remove(id);
+//        if (ok) {
+//            // query string에 추가
+////			rttr.addAttribute("success", "remove");
+//
+//            // 모델에 추가
+//            rttr.addFlashAttribute("message", id + "번 게시물이 삭제되었습니다.");
+//            return "redirect:/work";
+//        } else {
+//            return "redirect:/work" + id;
+//        }
+//    }
+
+    @DeleteMapping("commentId/{id}")
+    @ResponseBody
+    @PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardWork(authentication, #id)")
+    public ResponseEntity<Map<String, Object>> workRemove(@PathVariable("id") Integer id) {
+        Map<String, Object> res = shoeBoardService.workRemove(id);
+
+        return ResponseEntity.ok().body(res);
+    }
 
 //    // 아이디 찾기 폼
 //    @RequestMapping(value = "findID")
