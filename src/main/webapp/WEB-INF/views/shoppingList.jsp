@@ -47,6 +47,21 @@
             cursor: pointer;
         }
 
+        .myPageMenu {
+            text-decoration: none;
+            color: black;
+            margin-bottom: 8px;
+        }
+
+        .hover {
+            padding: 5px;
+            border-radius: 8px;
+        }
+
+        .hover:hover {
+            background-color: #FFC107;
+        }
+
     </style>
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -62,23 +77,29 @@
     <div class="container" style="margin-top: 100px;">
         <div class="layout" style="justify-content: center;">
             <div class="myPageOption">
-                <div class="layout shadow" style="flex-direction: column">
-                    <a href="/totalMyPage">회원 정보 수정</a>
-                    <a href="/myRequest">의뢰 관리</a>
-                    <a href="/shoppingList">주문 내역</a>
+                <div class="layout shadow" style="padding: 11px 5px 3px 5px; flex-direction: column">
+                    <a class="myPageMenu" href="/totalMyPage">
+                        <span class="hover">회원 정보 수정</span>
+                    </a>
+                    <a class="myPageMenu" href="/myRequest">
+                        <span class="hover">의뢰 관리</span>
+                    </a>
+                    <a class="myPageMenu" href="/shoppingList">
+                        <span class="hover">주문 내역</span>
+                    </a>
                 </div>
             </div>
             <div class="row justify-content-center myInfo">
                 <div class="layout shadow" style="flex-direction: column; align-items: center;">
                     <h1 style="margin-top: 10px;">주문 내역</h1>
                     <div class="layout" style="width: 100%;">
-                        <form action="/myCs" class="d-flex"
+                        <form action="/shoppingList" class="d-flex"
                               style="margin-left: 78%;" role="search">
                             <input value="${param.search }" name="search" type="search"
                                    style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
                             <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0"
-                                    type="submit"><i
-                                    class="fa-solid fa-magnifying-glass"></i></button>
+                                    type="submit"><i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
                         </form>
                     </div>
                     <table class="table table-hover" style="text-align: center;">
@@ -115,14 +136,14 @@
                                 <ul class="pagination justify-content-center">
                                     <!-- 이전 버튼 -->
                                     <c:if test="${pageInfo.currentPageNum gt 1 }">
-                                        <my:pageItem pageUrl="/myCs" pageNum="${pageInfo.currentPageNum - 1 }">
+                                        <my:pageItem pageUrl="/shoppingList" pageNum="${pageInfo.currentPageNum - 1 }">
                                             <i class="fa-solid fa-angle-left"></i>
                                         </my:pageItem>
                                     </c:if>
 
                                     <c:forEach begin="${pageInfo.leftPageNum }" end="${pageInfo.rightPageNum }"
                                                var="pageNum">
-                                        <my:pageItem pageUrl="/myCs" pageNum="${pageNum }">
+                                        <my:pageItem pageUrl="/shoppingList" pageNum="${pageNum }">
                                             ${pageNum }
                                         </my:pageItem>
                                     </c:forEach>
@@ -130,7 +151,7 @@
                                     <!-- 다음 버튼 -->
                                     <c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
                                         <%-- 페이지 번호 : ${pageInfo.currentPageNum + 1 } --%>
-                                        <my:pageItem pageUrl="/myCs" pageNum="${pageInfo.currentPageNum + 1 }">
+                                        <my:pageItem pageUrl="/shoppingList" pageNum="${pageInfo.currentPageNum + 1 }">
                                             <i class="fa-solid fa-angle-right"></i>
                                         </my:pageItem>
                                     </c:if>
