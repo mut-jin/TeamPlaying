@@ -91,9 +91,11 @@
                 <a class="myPageMenu" href="/totalMyPage">
                     <span class="hover">회원 정보 수정</span>
                 </a>
-                <a class="myPageMenu" href="/myRequest">
-                    <span class="hover">의뢰 관리</span>
-                </a>
+                <c:if test="${myMemberType == 'artist'}">
+                    <a class="myPageMenu" href="/myRequest">
+                        <span class="hover">의뢰 관리</span>
+                    </a>
+                </c:if>
                 <a class="myPageMenu" href="/shoppingList">
                     <span class="hover">주문 내역</span>
                 </a>
@@ -102,16 +104,16 @@
         <div class="justify-content-center myInfo">
             <div class="layout shadow" style="flex-direction: column; align-items: center;">
                 <h1 style="margin-top: 10px;">의뢰 관리</h1>
-                <div class="layout" style="width: 90%;">
-                    <form action="/myCs" class="d-flex"
-                          style="margin-left: auto;" role="search">
-                        <input value="${param.search }" name="search" type="search"
-                               style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
-                        <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0"
-                                type="submit"><i
-                                class="fa-solid fa-magnifying-glass"></i></button>
-                    </form>
-                </div>
+<%--                <div class="layout" style="width: 90%;">--%>
+<%--                    <form action="/myRequest" class="d-flex"--%>
+<%--                          style="margin-left: auto;" role="search">--%>
+<%--                        <input value="${param.search }" name="search" type="search"--%>
+<%--                               style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">--%>
+<%--                        <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0"--%>
+<%--                                type="submit"><i--%>
+<%--                                class="fa-solid fa-magnifying-glass"></i></button>--%>
+<%--                    </form>--%>
+<%--                </div>--%>
                 <table class="table table-hover" style="text-align: center;">
                     <thead>
                     <tr>
@@ -130,7 +132,8 @@
                             <td style="width: 23%; text-align: left;">${list.shoeName}</td>
                             <td style="width: 20%; text-align: left;">${list.progress}</td>
                             <td>
-                                <button type="button" class="btn btn-warning myRequestBtn" data-bs-toggle="modal"
+                                <button style="color: white;" type="button" class="btn btn-warning myRequestBtn"
+                                        data-bs-toggle="modal"
                                         data-bs-target="#requestModal${list.id}" value="${list.id}">
                                     더보기
                                 </button>
@@ -193,7 +196,7 @@
                                                 수락
                                             </button>
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#modifyBtnModal">
+                                                    data-bs-target="#modifyBtnModal${list.id}">
                                                 조건 수정
                                             </button>
                                             <button type="button" class="btn btn-primary refuseBtn" value="${list.id}">
@@ -207,6 +210,10 @@
                                                     class="btn btn-primary progressChangeBtn">
                                                 배송중
                                             </button>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${list.progress eq '배송중'}">
+                                        <div class="modal-footer">
                                             <button type="button" value="배송완료" data-bs-id="${list.id}"
                                                     class="btn btn-primary progressChangeBtn">
                                                 배송완료
@@ -216,7 +223,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" id="modifyBtnModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        <div class="modal fade" id="modifyBtnModal${list.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
                              aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -240,14 +247,14 @@
                             <ul class="pagination justify-content-center">
                                 <!-- 이전 버튼 -->
                                 <c:if test="${pageInfo.currentPageNum gt 1 }">
-                                    <my:pageItem pageUrl="/myCs" pageNum="${pageInfo.currentPageNum - 1 }">
+                                    <my:pageItem pageUrl="/myRequest" pageNum="${pageInfo.currentPageNum - 1 }">
                                         <i class="fa-solid fa-angle-left"></i>
                                     </my:pageItem>
                                 </c:if>
 
                                 <c:forEach begin="${pageInfo.leftPageNum }" end="${pageInfo.rightPageNum }"
                                            var="pageNum">
-                                    <my:pageItem pageUrl="/myCs" pageNum="${pageNum }">
+                                    <my:pageItem pageUrl="/myRequest" pageNum="${pageNum }">
                                         ${pageNum }
                                     </my:pageItem>
                                 </c:forEach>
@@ -255,7 +262,7 @@
                                 <!-- 다음 버튼 -->
                                 <c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
                                     <%-- 페이지 번호 : ${pageInfo.currentPageNum + 1 } --%>
-                                    <my:pageItem pageUrl="/myCs" pageNum="${pageInfo.currentPageNum + 1 }">
+                                    <my:pageItem pageUrl="/myRequest" pageNum="${pageInfo.currentPageNum + 1 }">
                                         <i class="fa-solid fa-angle-right"></i>
                                     </my:pageItem>
                                 </c:if>
@@ -273,12 +280,12 @@
     <my:chatBtn></my:chatBtn>
     <script src="/js/chat.js" charset="UTF-8"></script>
 </sec:authorize>
-<script src="/js/myRequest.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
+<script src="/js/myRequest.js"></script>
 </body>
 </html>

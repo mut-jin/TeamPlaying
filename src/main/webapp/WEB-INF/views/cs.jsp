@@ -38,7 +38,6 @@
                     <div style="margin-bottom: 5px">제 목</div>
                     <input id="name" type="text" name="title"
                            style="margin-bottom: 20px; width: 100%; height: 5vh; padding-left: 10px;" placeholder="제 목">
-                    <div style="margin-bottom: 5px;">문의 내용</div>
                     <div class="layout">
                         <div style="margin-bottom: 5px;">문의 유형</div>
                     </div>
@@ -66,6 +65,7 @@
                             </ul>
                         </div>
                     </div>
+                    <div style="margin-bottom: 5px;">문의 내용</div>
                     <textarea id="body" name="body" rows="10"
                               style="padding: 10px 0 0 10px; margin-bottom: 20px; width: 100%;"
                               placeholder="문의 내용"></textarea>

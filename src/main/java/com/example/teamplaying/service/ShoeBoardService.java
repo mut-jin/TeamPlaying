@@ -11,11 +11,9 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Comparator;
 
 
 @Service
@@ -39,7 +37,7 @@ public class ShoeBoardService {
     @Autowired
     private MemberMapper memberMapper;
 
-    public Map<String, Object> getshoeBoard(Integer page, String search, String type, String brand, String order, String direction) {
+    public Map<String, Object> getshoeBoard(Integer page, String search, String type, String brand, String order, String direction, String name, String myUserId, String myMemberType) {
         Integer rowPerPage = 18;
         Integer startIndex = (page - 1) * rowPerPage;
 
@@ -51,13 +49,6 @@ public class ShoeBoardService {
         leftPageNum = Math.max(leftPageNum, 1);
         rightPageNum = Math.min(rightPageNum, lastPageNum);
 
-        Map<String, Object> pageInfo = new HashMap<>();
-        pageInfo.put("rightPageNum", rightPageNum);
-        pageInfo.put("leftPageNum", leftPageNum);
-        pageInfo.put("lastPageNum", lastPageNum);
-        pageInfo.put("currentPageNum", page);
-        pageInfo.put("brand", brand);
-        pageInfo.put("order", order);
 
         List<ShoeBoard> list = mapper.selectAllPaging(direction, startIndex, rowPerPage, search, type, brand, order);
         for (ShoeBoard i : list) {
@@ -68,7 +59,21 @@ public class ShoeBoardService {
             i.setProfile(memberMapper.getProfile(i.getMemberId()));
             i.setImgUrlList(mapper.getMyShoeFileNameList(i.getId()));
         }
-        return Map.of("pageInfo", pageInfo, "shoeBoardList", list);
+
+        if(brand == null) {
+            brand = "모든 작품";
+        }
+
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("rightPageNum", rightPageNum);
+        pageInfo.put("leftPageNum", leftPageNum);
+        pageInfo.put("lastPageNum", lastPageNum);
+        pageInfo.put("currentPageNum", page);
+        pageInfo.put("brand", brand);
+        pageInfo.put("order", order);
+
+        System.out.println(brand);
+        return Map.of("pageInfo", pageInfo, "shoeBoardList", list, "alignInfo", name, "myUserId", myUserId, "myMemberType", myMemberType);
     }
 
     public List<String> getShoeModelsByBrand(String brand) {
@@ -209,6 +214,8 @@ public class ShoeBoardService {
             s3.deleteObject(dor);
         }
 
+        mapper.commentDelete(boardId);
+        mapper.likeDelete(boardId);
         Integer cnt = mapper.shoeDelete(boardId);
         return cnt == 1;
     }
@@ -220,7 +227,9 @@ public class ShoeBoardService {
     }
 
 
-
+    public void modifyProcess(CustomRequest customRequest) {
+        mapper.progressUpdate(customRequest);
+    }
 }
 
 

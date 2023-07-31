@@ -3,6 +3,7 @@ package com.example.teamplaying.service;
 import com.example.teamplaying.domain.CustomRequest;
 import com.example.teamplaying.domain.Payment;
 import com.example.teamplaying.domain.PaymentInfo;
+import com.example.teamplaying.mapper.MemberMapper;
 import com.example.teamplaying.mapper.PaymentMapper;
 import com.example.teamplaying.mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class PaymentService {
     @Autowired
     PaymentMapper mapper;
 
+    @Autowired
+    private MemberMapper memberMapper;
 
     @Autowired
     public PaymentService(PaymentMapper paymentMapper) {
@@ -59,7 +62,9 @@ public class PaymentService {
             System.out.println(customRequest.getProgress().getClass());
         }
 
-        return Map.of("pageInfo", pageInfo, "myRequestList", list);
+        String myMemberType = memberMapper.getMemberTypeByUserId(customerUserId);
+
+        return Map.of("pageInfo", pageInfo, "myRequestList", list, "myMemberType", myMemberType);
     }
 
     public void updateProgress(Integer id) {

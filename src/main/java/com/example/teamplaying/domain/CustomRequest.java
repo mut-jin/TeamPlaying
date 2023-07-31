@@ -10,7 +10,7 @@ import java.util.List;
 public class CustomRequest {
     private Integer id;
     private String shoeName;
-    private String Body;
+    private String body;
     private String price;
     private String brand;
     private LocalDate makeTime;

@@ -26,5 +26,6 @@ public class ShoeBoard {
     private Integer commentCount;
     private String profile;
     private String address;
+    private String userId;
 
 }

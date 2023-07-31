@@ -157,7 +157,11 @@ public class CsService {
         csMapper.updateAnswer(answer, id);
     }
 
+    public String getWriterById(Integer id) {
+        return csMapper.getWriter(id);
+
     public List<CsBoard> getAllCs() {
         return csMapper.selectAllCs();
+
     }
 }

@@ -5,6 +5,7 @@ import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.domain.ShoeComment;
 import org.apache.ibatis.annotations.*;
+import retrofit2.http.DELETE;
 
 import java.util.List;
 
@@ -90,7 +91,8 @@ public interface ShoeBoardMapper {
             	view,
             	price,
             	(SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
-            	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
+            	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount,
+            	(SELECT userId FROM Member WHERE id = s.memberId) userId
             FROM shoeBoard s
             WHERE title LIKE #{pattern}
             <if test="brand != null">
@@ -181,6 +183,7 @@ public interface ShoeBoardMapper {
                 f.fileName,
                 m.profile,
                 m.address,
+                m.userId,
                 (SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
                 (SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
             FROM
@@ -295,7 +298,8 @@ public interface ShoeBoardMapper {
             	view,
             	price,
             	(SELECT COUNT(*) FROM shoeLike WHERE boardId = s.id) likeCount,
-            	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount
+            	(SELECT COUNT(*) FROM shoeComment WHERE boardId = s.id) commentCount,
+            	(SELECT userId FROM Member WHERE id = s.memberId) userId
             FROM shoeBoard s
             WHERE memberId = #{memberId}
             ORDER BY id DESC
@@ -333,6 +337,24 @@ public interface ShoeBoardMapper {
             """)
     String contains(String title);
 
+    @Delete("""
+            DELETE FROM shoeComment
+            WHERE boardId = #{boardId}
+            """)
+    void commentDelete(Integer boardId);
+
+    @Delete("""
+            DELETE FROM shoeLike
+            WHERE boardId = #{boarId}
+            """)
+    void likeDelete(Integer boardId);
+
+    @Update("""
+            UPDATE CustomRequest
+            SET progress = #{progress}
+            WHERE id = #{id}
+            """)
+    void progressUpdate(CustomRequest customRequest);
 
 
     //    @Select("""

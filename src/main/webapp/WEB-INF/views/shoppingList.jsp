@@ -81,9 +81,11 @@
                     <a class="myPageMenu" href="/totalMyPage">
                         <span class="hover">회원 정보 수정</span>
                     </a>
-                    <a class="myPageMenu" href="/myRequest">
-                        <span class="hover">의뢰 관리</span>
-                    </a>
+                    <c:if test="${myMemberType == 'artist'}">
+                        <a class="myPageMenu" href="/myRequest">
+                            <span class="hover">의뢰 관리</span>
+                        </a>
+                    </c:if>
                     <a class="myPageMenu" href="/shoppingList">
                         <span class="hover">주문 내역</span>
                     </a>

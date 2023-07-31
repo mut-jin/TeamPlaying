@@ -198,7 +198,8 @@
             <c:forEach items="${shoeBoardList}" var="board" varStatus="status">
                 <div id="shoeBoard${board.id}"
                      style="flex-basis: 33.3333333333%; flex-grow: 0; max-width: 33.3333333333%; padding: 8px;"
-                     data-bs-toggle="modal" data-bs-target="#shoeModal${board.id}" data-id="${board.id}" onclick="view(this)">
+                     data-bs-toggle="modal" data-bs-target="#shoeModal${board.id}" data-id="${board.id}"
+                     onclick="view(this)">
                     <div class="mySetting shadow">
                         <div style="margin-bottom: 100%;"></div>
                         <img style="width: 15vh; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -268,10 +269,12 @@
                                         </div>
                                     </div>
                                     <div class="layout" style="margin: 15px 0 10px;">
-                                        <button type="button" class="sendCommentBtn" value="${board.id}"
-                                                style="color: white; background-color: #9e9e9e; border: 0; margin-left: auto; border-radius: 28px; height: 36px; min-width: 64px; padding: 0 16px;">
-                                            댓글 달기
-                                        </button>
+                                        <c:if test="${myUserId ne ''}">
+                                            <button type="button" class="sendCommentBtn" value="${board.id}"
+                                                    style="color: white; background-color: #9e9e9e; border: 0; margin-left: auto; border-radius: 28px; height: 36px; min-width: 64px; padding: 0 16px;">
+                                                댓글 달기
+                                            </button>
+                                        </c:if>
                                     </div>
                                     <ul class="list-group" id="commentListContainer${board.id}"
                                         style="border-top: 1px solid black; border-radius: 0;">
@@ -284,16 +287,11 @@
                                  style="flex-direction: column; background-color: white;">
                                 <div style="margin: 16px 12px 0px; flex-direction: column;" class="layout">
                                     <h1 id="boardTitle${board.id}">${board.title}</h1>
-                                    <c:if test="${myUserId eq memberInfo.userId}">
+                                    <c:if test="${myUserId eq memberInfo.userId || myMemberType eq 'admin'}">
                                         <div>
-<%--                                            <form action="/shoeModify">--%>
-<%--                                                <input type="hidden" value="${board.id}" name="boardId">--%>
-<%--                                                <button type="submit" class="btn btn-outline-primary">수정</button>--%>
-<%--                                            </form>--%>
-                                            <form action="/shoeDelete">
-                                                <input type="hidden" value="${board.id}" name="boardId">
-                                                <button type="submit" class="btn btn-outline-danger">삭제</button>
-                                            </form>
+                                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#shoeBoardRemoveModal${board.id}">삭제
+                                            </button>
                                         </div>
                                     </c:if>
                                 </div>
@@ -357,6 +355,29 @@
                         </div>
                     </div>
                 </div>
+                <!-- shoeBoardRemoveModal -->
+                <div class="modal fade" id="shoeBoardRemoveModal${board.id}" tabindex="-1"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                해당 게시물을 삭제하시겠습니까?
+                            </div>
+                            <div class="modal-footer">
+                                <form action="/shoeDelete">
+                                    <input type="hidden" value="artist/${board.id}" name="url">
+                                    <input type="hidden" value="${board.id}" name="boardId">
+                                    <button style="margin-right: 1px;" type="submit" class="btn btn-outline-danger">삭제</button>
+                                </form>
+                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">취소
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </c:forEach>
             <div class="row" style="width: 100%;">
                 <nav aria-label="Page navigation example">
@@ -400,20 +421,25 @@
             <div class="modal-body">
                 <div class="layout" style="flex-direction: column">
                     <div class="mb-10">제목을 입력해주세요.</div>
-                    <input placeholder="제목을 입력해주세요." type="text" id="title" style="padding: 25px 10px; height: 40px;" name="title"
+                    <input placeholder="제목을 입력해주세요." type="text" id="title" style="padding: 25px 10px; height: 40px;"
+                           name="title"
                            class="mb-20">
                     <div class="mb-10">커스텀할 신발을 입력해주세요.</div>
-                    <input placeholder="브랜드명을 입력해주세요." type="text" id="brand" style="padding: 25px 10px; height: 40px;" name="brand"
+                    <input placeholder="브랜드명을 입력해주세요." type="text" id="brand" style="padding: 25px 10px; height: 40px;"
+                           name="brand"
                            class="mb-20">
-                    <input placeholder="신발이름을 입력해주세요." type="text" id="shoeName" style="padding: 25px 10px; height: 40px;" name="shoeName"
+                    <input placeholder="신발이름을 입력해주세요." type="text" id="shoeName"
+                           style="padding: 25px 10px; height: 40px;" name="shoeName"
                            class="mb-20">
                     <div class="mb-10">요청 사항을 적어주세요.</div>
-                    <textarea style="padding: 10px;" placeholder="요청 사항을 입력해주세요." name="body" id="body" class="mb-20" rows="7"></textarea>
+                    <textarea style="padding: 10px;" placeholder="요청 사항을 입력해주세요." name="body" id="body" class="mb-20"
+                              rows="7"></textarea>
                     <div class="mb-10">참고할 이미지가 있다면 등록해주세요.</div>
                     <input class="form-control mb-20" style="height: 38px;" type="file" multiple
                            name="files" id="files" accept="image/*">
                     <div class="mb-10">희망 가격을 입력해주세요</div>
-                    <input placeholder="희망 가격을 입력해주세요" type="text" id="price" style="padding: 25px 10px; height: 40px;" name="price"
+                    <input placeholder="희망 가격을 입력해주세요" type="text" id="price" style="padding: 25px 10px; height: 40px;"
+                           name="price"
                            class="mb-20">
                     <div class="mb-10">희망 제작 기간을 입력해주세요</div>
                     <input placeholder="희망 제작 기간을 입력해주세요." type="date" id="makeTime" name="makeTime"
@@ -443,7 +469,8 @@
                         <div id="requestTitleView" style="margin-bottom: 10px;"></div>
                         <%--                        <div>희망 수령일</div>--%>
                         <label style="margin-bottom: 5px;" for="requestMakeTime">희망 수령일</label>
-                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime" id="requestMakeTime">
+                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime"
+                               id="requestMakeTime">
                         <div style="margin-bottom: 5px;">추가 요청 사항을 알려주세요.</div>
                         <textarea style="padding: 10px;" name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
                         <input type="hidden" name="shoeName" id="requestShoeName">

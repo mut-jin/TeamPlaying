@@ -243,10 +243,12 @@
                             </div>
                         </div>
                         <div class="layout" style="margin: 15px 0 10px;">
-                            <button type="button" class="sendCommentBtn" value="${board.id}"
-                                    style="color: white; background-color: #9e9e9e; border: 0; margin-left: auto; border-radius: 28px; height: 36px; min-width: 64px; padding: 0 16px;">
-                                댓글 달기
-                            </button>
+                            <c:if test="${myUserId ne ''}">
+                                <button type="button" class="sendCommentBtn" value="${board.id}"
+                                        style="color: white; background-color: #9e9e9e; border: 0; margin-left: auto; border-radius: 28px; height: 36px; min-width: 64px; padding: 0 16px;">
+                                    댓글 달기
+                                </button>
+                            </c:if>
                         </div>
                         <ul class="list-group" id="commentListContainer${board.id}"
                             style="border-top: 1px solid black; border-radius: 0;">
@@ -260,6 +262,13 @@
                      style="flex-direction: column; background-color: white;">
                     <div style="margin: 16px 12px 0px;">
                         <h1 id="boardTitle${board.id}">${board.title}</h1>
+                        <c:if test="${myUserId eq board.userId || myMemberType eq 'admin'}">
+                            <div>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                        data-bs-target="#shoeBoardRemoveModal${board.id}">삭제
+                                </button>
+                            </div>
+                        </c:if>
                     </div>
                     <hr style="margin: 0.7rem 0;">
                     <div class="layout"
@@ -318,6 +327,29 @@
                                 class="myInfo requestBtn" value="${board.title}">커스텀 작업 의뢰하기
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- shoeBoardRemoveModal -->
+    <div class="modal fade" id="shoeBoardRemoveModal${board.id}" tabindex="-1"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    해당 게시물을 삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <form action="/shoeDelete">
+                        <input type="hidden" value="artist" name="url">
+                        <input type="hidden" value="${board.id}" name="boardId">
+                        <button style="margin-right: 1px;" type="submit" class="btn btn-outline-danger">삭제</button>
+                    </form>
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">취소
+                    </button>
                 </div>
             </div>
         </div>
