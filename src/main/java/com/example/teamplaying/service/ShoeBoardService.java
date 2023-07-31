@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +21,14 @@ import java.util.Comparator;
 @Service
 public class ShoeBoardService {
 
+    @Autowired
+    private S3Client s3;
+
     @Value("${aws.s3.bucketUrl}")
     private String bucketUrl;
+
+    @Value("${aws.s3.bucketName}")
+    private String bucketName;
 
     @Autowired
     private ShoeBoardMapper mapper;
@@ -185,7 +193,30 @@ public class ShoeBoardService {
 
     public void addCustomRequest(CustomRequest customRequest) {
         customRequest.setArtistUserId(memberMapper.getUserIdSelectById(customRequest.getMemberId()));
+        customRequest.getArtistUserId();
         mapper.addCustomRequest(customRequest);
+    }
+
+    public boolean shoeDelete(Integer boardId) {
+        List<String> fileNames = mapper.selectFileNameList(boardId);
+        mapper.shoeFileDelete(boardId);
+        for (String fileName : fileNames) {
+            String objectKey = "TeamPlay/shoeBoard/" + boardId + "/" + fileName;
+            DeleteObjectRequest dor = DeleteObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(objectKey)
+                    .build();
+            s3.deleteObject(dor);
+        }
+
+        Integer cnt = mapper.shoeDelete(boardId);
+        return cnt == 1;
+    }
+
+    public ShoeBoard getShoeBoard(Integer boardId) {
+        ShoeBoard shoeBoard = mapper.getShoeBoard(boardId);
+        shoeBoard.setImgUrlList(mapper.getMyShoeFileNameList(boardId));
+        return shoeBoard;
     }
 
 

@@ -21,5 +21,6 @@ public class CustomRequest {
 
     private Integer memberId;
     private List<String> fileNameList;
+    private boolean contains;
 
 }

@@ -55,6 +55,14 @@
             background-color: #FFC107;
         }
 
+        .mb-10 {
+            margin-bottom: 10px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
     </style>
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -141,23 +149,37 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="layout" style="flex-direction: column">
+                                            <div class="mb-10">제 목</div>
+                                            <c:if test="${list.contains}">
+                                                <a href="work?search=${list.title}" class="mb-20"
+                                                   style="width: 100%;">${list.title}</a>
+                                            </c:if>
+                                            <c:if test="${not list.contains}">
+                                                <div class="mb-20" style="width: 100%;">${list.title}</div>
+                                            </c:if>
                                             <div class="mb-10">신발 정보</div>
-                                            <input type="text" id="brand${list.id}" style="height: 40px;" name="brand"
+                                            <input type="text" id="brand${list.id}"
+                                                   style="padding: 15px 10px;" name="brand"
                                                    class="mb-20" value="${list.brand}">
-                                            <input type="text" id="shoeName${list.id}" style="height: 40px;"
+                                            <input type="text" id="shoeName${list.id}"
+                                                   style="padding: 15px 10px;"
                                                    name="shoeName" class="mb-20" value="${list.shoeName}">
                                             <div class="mb-10">요청 사항</div>
-                                            <textarea name="body" id="body${list.id}" class="mb-20" id=""
+                                            <textarea name="body" id="body${list.id}" style="padding: 10px;"
+                                                      class="mb-20" id=""
                                                       rows="7">${list.body}</textarea>
                                             <div class="mb-10">희망 가격을 입력해주세요</div>
-                                            <input type="text" id="price${list.id}" style="height: 40px;" name="price"
+                                            <input type="text" id="price${list.id}"
+                                                   style="padding: 15px 10px;" name="price"
                                                    class="mb-20" value="${list.price}">
                                             <div class="mb-10">제작 희망 기간</div>
                                             <input type="date" id="makeTime${list.id}" name="makeTime"
-                                                   style="height: 40px;" value="${list.makeTime}">
+                                                   style="padding: 15px 10px;" value="${list.makeTime}">
                                             <input type="hidden" id="artistUserId${list.id}"
                                                    value="${list.artistUserId}">
-                                            <div class="mb-10">참고할 이미지</div>
+                                            <c:if test="${not empty list.fileNameList}">
+                                                <div class="mb-10">참고할 이미지</div>
+                                            </c:if>
                                             <div>
                                                 <c:forEach items="${list.fileNameList}" var="file">
                                                     <img src="${bucketUrl }/request/${list.id }/${file}" alt="">
@@ -170,7 +192,8 @@
                                             <button type="button" class="btn btn-primary acceptBtn" value="${list.id}">
                                                 수락
                                             </button>
-                                            <button type="button" class="btn btn-primary modifyBtn" value="${list.id}">
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#modifyBtnModal">
                                                 조건 수정
                                             </button>
                                             <button type="button" class="btn btn-primary refuseBtn" value="${list.id}">
@@ -180,14 +203,31 @@
                                     </c:if>
                                     <c:if test="${list.progress eq '작업중'}">
                                         <div class="modal-footer">
-                                            <button type="button" value="배송중" data-bs-id="${list.id}" class="btn btn-primary progressChangeBtn">
+                                            <button type="button" value="배송중" data-bs-id="${list.id}"
+                                                    class="btn btn-primary progressChangeBtn">
                                                 배송중
                                             </button>
-                                            <button type="button" value="배송완료" data-bs-id="${list.id}" class="btn btn-primary progressChangeBtn">
+                                            <button type="button" value="배송완료" data-bs-id="${list.id}"
+                                                    class="btn btn-primary progressChangeBtn">
                                                 배송완료
                                             </button>
                                         </div>
                                     </c:if>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modifyBtnModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        이 조건으로 수정요청 하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary modifyBtn" value="${list.id}">수정
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

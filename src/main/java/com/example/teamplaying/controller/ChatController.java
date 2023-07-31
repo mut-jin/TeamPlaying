@@ -235,12 +235,6 @@ public class ChatController {
         List<Integer> list = requestService.customRequest(customRequest, files);
         String yourNickName = memberService.getNickName(artistUserId);
         LocalDateTime localDateTime = service.getChatRoomInserted(artistUserId, authentication.getName());
-        if (list.get(0) == 1) {
-            // 해당 게시물 보기로 리디렉션
-            rttr.addFlashAttribute("message", "작품 의뢰가 신청되였습니다.");
-        } else {
-            rttr.addFlashAttribute("message", "작품 의뢰 신청에 실패했습니다.");
-        }
         return Map.of("nickName", yourNickName, "inserted", localDateTime, "chatId", list.get(1));
 
     }

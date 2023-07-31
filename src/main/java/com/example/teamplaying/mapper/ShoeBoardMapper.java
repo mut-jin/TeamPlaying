@@ -302,6 +302,37 @@ public interface ShoeBoardMapper {
             """)
     List<ShoeBoard> getAllShoes(Integer memberId);
 
+    @Delete("""
+            DELETE FROM shoeBoard
+            WHERE id = #{id}
+            """)
+    Integer shoeDelete(Integer id);
+
+    @Delete("""
+            DELETE FROM shoeFileName
+            WHERE boardId = #{boardId}
+            """)
+    void shoeFileDelete(Integer boardId);
+
+    @Select("""
+            SELECT fileName FROM shoeFileName
+            WHERE boardId = #{boardId}
+            """)
+    List<String> selectFileNameList(Integer boardId);
+
+    @Select("""
+            SELECT * FROM shoeBoard
+            WHERE id = #{id}
+            """)
+    ShoeBoard getShoeBoard(Integer id);
+
+    @Select("""
+            SELECT title FROM shoeBoard
+            WHERE title = #{title}
+            LIMIT 1
+            """)
+    String contains(String title);
+
 
     //    @Select("""
 //            SELECT shoeName FROM shoeBoard

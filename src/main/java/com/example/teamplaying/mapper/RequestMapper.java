@@ -15,8 +15,8 @@ public interface RequestMapper {
     void insertFileCustomRequest(String fileName, Integer boardId);
 
     @Insert("""
-            INSERT INTO CustomRequest(shoeName, body, price, brand, makeTime, artistUserId, customerUserId)
-            VALUES(#{shoeName}, #{body}, #{price}, #{brand}, #{makeTime}, #{artistUserId}, #{customerUserId})
+            INSERT INTO CustomRequest(shoeName, body, price, brand, makeTime, artistUserId, customerUserId, title)
+            VALUES(#{shoeName}, #{body}, #{price}, #{brand}, #{makeTime}, #{artistUserId}, #{customerUserId}, #{title})
             """)
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertCustomRequest(CustomRequest customRequest);

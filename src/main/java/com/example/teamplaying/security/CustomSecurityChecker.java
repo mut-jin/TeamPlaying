@@ -20,6 +20,9 @@ public class CustomSecurityChecker {
     @Autowired
     private MemberMapper memberMapper;
 
+    @Autowired
+    private CsMapper csMapper;
+
     public boolean checkShoeBoardCommentWriter(Authentication authentication,
                                       Integer commentId) {
         ShoeComment comment = mapper.commentSelectById(commentId);
@@ -37,4 +40,5 @@ public class CustomSecurityChecker {
 
         return authentication.getName().equals(board.getMemberId());
     }
+
 }

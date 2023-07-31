@@ -2,6 +2,7 @@ package com.example.teamplaying.service;
 
 import com.example.teamplaying.domain.CsBoard;
 import com.example.teamplaying.mapper.CsMapper;
+import com.example.teamplaying.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class CsService {
 
     @Autowired
     private CsMapper csMapper;
+
+    @Autowired
+    private MemberMapper memberMapper;
 
     public Map<String, Object> getCsBoardByWriter(String writer, String search, Integer page) {
         Integer rowPerPage = 10;
@@ -76,6 +80,15 @@ public class CsService {
         return cnt == 1;
     }
 
+    public Map<String, Object> getCsBoardById(Integer id, String myUserId) {
+        CsBoard csBoard = csMapper.getCsBoardById(id);
+        List<String> list = csMapper.getCsFileNameList(id);
+//        for(int i = 0; i < list.size(); i++) {
+//            list.set(i, bucketUrl + "/csBoard/" + id + "/" + list.get(i));
+//        }
+        String myMemberType = memberMapper.getMemberTypeByUserId(myUserId);
+        return Map.of("csBoard", csBoard, "files", list, "memberType", myMemberType);
+    }
     public Map<String, Object> getCsBoardById(Integer id) {
         CsBoard csBoard = csMapper.getCsBoardById(id);
         List<String> list = csMapper.getCsFileNameList(id);

@@ -92,4 +92,10 @@ public interface CsMapper {
                 id = #{id}
             """)
     void updateAnswer(String answer, Integer id);
+
+    @Select("""
+            SELECT writer FROM CsBoard
+            WHERE id = #{id}
+            """)
+    String getWriter(Integer id);
 }

@@ -140,7 +140,7 @@
 </head>
 <body>
 <my:navBar></my:navBar>
-<div class="container" style="margin-top: 86px;">
+<div class="container" style="margin-top: 74px;">
     <div class="layout" style="flex-wrap: nowrap">
         <div style="flex-basis: 25%; max-width: 25%; padding: 0 8px;">
             <div class="layout box" style="margin: 8px; flex-direction: column;">
@@ -149,10 +149,12 @@
                         <img src="${memberInfo.profile}">
                         <div>${memberInfo.nickName}</div>
                         <div>${memberInfo.address}</div>
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
-                            커스텀 의뢰
-                        </button>
+                        <c:if test="${memberInfo.userId ne myUserId && myUserId ne ''}">
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" onclick="minSet()">
+                                커스텀 의뢰
+                            </button>
+                        </c:if>
                     </div>
                 </div>
                 <hr class="hrLine">
@@ -186,19 +188,19 @@
             <c:forEach items="${shoeBoardList}" var="board" varStatus="status">
                 <div id="shoeBoard${board.id}"
                      style="flex-basis: 33.3333333333%; flex-grow: 0; max-width: 33.3333333333%; padding: 8px;"
-                     onclick="view(this)"
-                     data-bs-toggle="modal" data-bs-target="#shoeModal${board.id}" data-id="${board.id}">
+                     data-bs-toggle="modal" data-bs-target="#shoeModal${board.id}" data-id="${board.id}" onclick="view(this)">
                     <div class="mySetting shadow">
                         <div style="margin-bottom: 100%;"></div>
-                        <img style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                        <img style="width: 15vh; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
                                 background-size: cover; z-index: -1;"
-                                src="${bucketUrl }/shoeBoard/${board.id }/${board.imgUrlList[0]}"
+                             src="${bucketUrl }/shoeBoard/${board.id }/${board.imgUrlList[0]}"
                         />
-                        <div style="max-width: 100%; width: 100%; background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.9));" class="icon">
+                        <div style="max-width: 100%; width: 100%; background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.9));"
+                             class="icon">
                             <div class="layout" style="flex-direction: column; padding: 12px;">
                                 <div style="margin-bottom: 8px; max-width: 100%; font-weight: 700; flex: 1 1 auto;">
                                     <div style="white-space: nowrap!important; overflow: hidden!important; text-overflow: ellipsis!important;">
-                                        ${board.title}
+                                            ${board.title}
                                     </div>
                                 </div>
                                 <div style="max-width: 100%; flex: 1 1 auto; ">
@@ -261,17 +263,29 @@
                                             댓글 달기
                                         </button>
                                     </div>
-                                    <ul class="list-group" id="commentListContainer${board.id}">
+                                    <ul class="list-group" id="commentListContainer${board.id}"
+                                        style="border-top: 1px solid black; border-radius: 0;">
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
                         <div class="myPageOption">
                             <div class="layout modal-content"
                                  style="flex-direction: column; background-color: white;">
-                                <div style="margin: 16px 12px 0px;">
+                                <div style="margin: 16px 12px 0px; flex-direction: column;" class="layout">
                                     <h1 id="boardTitle${board.id}">${board.title}</h1>
+                                    <c:if test="${myUserId eq memberInfo.userId}">
+                                        <div>
+<%--                                            <form action="/shoeModify">--%>
+<%--                                                <input type="hidden" value="${board.id}" name="boardId">--%>
+<%--                                                <button type="submit" class="btn btn-outline-primary">수정</button>--%>
+<%--                                            </form>--%>
+                                            <form action="/shoeDelete">
+                                                <input type="hidden" value="${board.id}" name="boardId">
+                                                <button type="submit" class="btn btn-outline-danger">삭제</button>
+                                            </form>
+                                        </div>
+                                    </c:if>
                                 </div>
                                 <hr style="margin: 0.7rem 0;">
                                 <div class="layout"
@@ -286,7 +300,8 @@
                                     <input type="hidden" id="boardBrand${board.id}" value="${board.brand}">
                                     <input type="hidden" id="boardMemberId${board.id}" value="${board.memberId}">
                                     <div class="profileBtn" style="width: 7vh;">
-                                        <a href="/artistPage/${board.memberId}" class="profileText">
+                                        <a href="/artist/${board.memberId}" class="profileText"
+                                           style="text-decoration: none; color: black;">
                                             프로필
                                         </a>
                                     </div>
@@ -362,28 +377,35 @@
         <div class="modal-content">
             <%--            <form action="">--%>
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">커스텀 작품의뢰</h1>
+                <h1 style="font-weight: bolder;" class="modal-title fs-5" id="exampleModalLabel">커스텀 작품의뢰</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="layout" style="flex-direction: column">
+                    <div class="mb-10">제목을 입력해주세요.</div>
+                    <input placeholder="제목을 입력해주세요." type="text" id="title" style="padding: 25px 10px; height: 40px;" name="title"
+                           class="mb-20">
                     <div class="mb-10">커스텀할 신발을 입력해주세요.</div>
-                    <input type="text" id="brand" style="height: 40px;" name="brand" class="mb-20">
-                    <input type="text" id="shoeName" style="height: 40px;" name="shoeName" class="mb-20">
+                    <input placeholder="브랜드명을 입력해주세요." type="text" id="brand" style="padding: 25px 10px; height: 40px;" name="brand"
+                           class="mb-20">
+                    <input placeholder="신발이름을 입력해주세요." type="text" id="shoeName" style="padding: 25px 10px; height: 40px;" name="shoeName"
+                           class="mb-20">
                     <div class="mb-10">요청 사항을 적어주세요.</div>
-                    <textarea name="requestBody" id="requestBody" class="mb-20" id="" rows="7"></textarea>
+                    <textarea style="padding: 10px;" placeholder="요청 사항을 입력해주세요." name="body" id="body" class="mb-20" rows="7"></textarea>
                     <div class="mb-10">참고할 이미지가 있다면 등록해주세요.</div>
                     <input class="form-control mb-20" style="height: 38px;" type="file" multiple
                            name="files" id="files" accept="image/*">
                     <div class="mb-10">희망 가격을 입력해주세요</div>
-                    <input type="text" id="price" style="height: 40px;" name="price" class="mb-20">
-                    <div class="mb-10">제작 희망 기간을 입력해주세요</div>
-                    <input type="date" id="makeTime" name="makeTime" style="height: 40px;">
+                    <input placeholder="희망 가격을 입력해주세요" type="text" id="price" style="padding: 25px 10px; height: 40px;" name="price"
+                           class="mb-20">
+                    <div class="mb-10">희망 제작 기간을 입력해주세요</div>
+                    <input placeholder="희망 제작 기간을 입력해주세요." type="date" id="makeTime" name="makeTime"
+                           style="padding: 25px 10px; height: 40px;">
                     <input type="hidden" id="artistUserId" value="${memberInfo.userId}">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="customRequestBtn">전송</button>
+                <button type="button" class="btn btn-primary" id="customRequestBtn" disabled>전송</button>
             </div>
             <%--            </form>--%>
         </div>
@@ -401,12 +423,12 @@
             <form action="/addRequest" method="post">
                 <div class="modal-body">
                     <div class="layout" style="flex-direction: column;">
-                        <div id="requestTitleView"></div>
-<%--                        <div>희망 수령일</div>--%>
-                        <label for="requestMakeTime">희망 수령일</label>
-                        <input type="date" name="makeTime" id="requestMakeTime">
-                        <div>추가 요청 사항을 알려주세요.</div>
-                        <textarea name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
+                        <div id="requestTitleView" style="margin-bottom: 10px;"></div>
+                        <%--                        <div>희망 수령일</div>--%>
+                        <label style="margin-bottom: 5px;" for="requestMakeTime">희망 수령일</label>
+                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime" id="requestMakeTime">
+                        <div style="margin-bottom: 5px;">추가 요청 사항을 알려주세요.</div>
+                        <textarea style="padding: 10px;" name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
                         <input type="hidden" name="shoeName" id="requestShoeName">
                         <input type="hidden" name="price" id="requestPrice">
                         <input type="hidden" name="brand" id="requestBrand">
@@ -415,7 +437,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">의뢰하기</button>
+                    <button id="requestSubmitBtn" type="submit" class="btn btn-primary" disabled>의뢰하기</button>
                 </div>
             </form>
         </div>
@@ -467,13 +489,12 @@
     <my:chatBtn></my:chatBtn>
     <script src="/js/chat.js" charset="UTF-8"></script>
 </sec:authorize>
-<script src="/js/modal.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="../../js/artistPage.js"></script>
+<script src="/js/modal.js"></script>
 </body>
 </html>
