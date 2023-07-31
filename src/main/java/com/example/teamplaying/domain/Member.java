@@ -29,6 +29,7 @@ public class Member {
 	private List<String> shoeImgList;
 	private Integer workCount;
 	private List<Integer> boardIdList;
+	private String pastProfile;
 
 	private Integer status;
 }

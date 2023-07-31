@@ -116,9 +116,8 @@
         </div>
 
         <div class="row justify-content-center myInfo">
-            <div class="shadow" style="height: 800px;">
+            <div class="shadow" style="height: 760px;">
                 <h1>프로필</h1>
-                <br>
                 <!-- .mb-3*4>label+input -->
                 <div class="mb-3">
                     <label class="form-label" for="">아이디</label>

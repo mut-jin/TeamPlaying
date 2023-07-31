@@ -104,19 +104,20 @@
         margin: 8px 16px 8px 0;
     }
 
-    .profileBtn{
+    .profileBtn {
         background-color: white;
         border: 1px solid black;
         border-radius: 24px;
         height: 28px;
         margin: 8px 0 8px 16px;
+        display: flex;
+        justify-content: flex-end;
     }
 
     .profileText {
         font-size: 80%;
         height: 28px;
         min-width: 50px;
-        padding: 0 12.4444444444px;
         margin-top: 4px;
     }
 
@@ -198,7 +199,9 @@
                     <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/work/work5.png"
                          style="max-width: 100%; max-height: 100px;">
                     <a href="/artist">
-                        <button type="button" class="btn btn-warning" style="margin-top: 15px; font-family: 'Jeju Gothic', sans-serif;">아티스트 보러가기</button>
+                        <button type="button" class="btn btn-warning"
+                                style="margin-top: 15px; font-family: 'Jeju Gothic', sans-serif;">아티스트 보러가기
+                        </button>
                     </a>
                 </div>
             </div>
@@ -246,11 +249,14 @@
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-comment"></i> ${board.commentCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
+                                    <small class="text-body-secondary float-right"><i
+                                            class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -311,7 +317,14 @@
                                 <div class="layout"
                                      style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                     <div class="profile">
-                                        <img src="${board.profile}" alt="" style="width: inherit; height: inherit;">
+                                        <c:if test="${board.profile eq 'basic'}">
+                                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                        <c:if test="${board.profile ne 'basic'}">
+                                            <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
                                     </div>
                                     <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                         <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -320,7 +333,8 @@
                                     <input type="hidden" id="boardBrand${board.id}" value="${board.brand}">
                                     <input type="hidden" id="boardMemberId${board.id}" value="${board.memberId}">
                                     <div class="profileBtn" style="width: 7vh;">
-                                        <a href="/artist/${board.memberId}" class="profileText" style="text-decoration: none; color: black;">
+                                        <a href="/artist/${board.memberId}" class="profileText"
+                                           style="text-decoration: none; color: black;">
                                             프로필
                                         </a>
                                     </div>
@@ -392,11 +406,14 @@
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-comment"></i> ${board.commentCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
+                                    <small class="text-body-secondary float-right"><i
+                                            class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -457,7 +474,14 @@
                                 <div class="layout"
                                      style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                     <div class="profile">
-                                        <img src="${board.profile}" alt="" style="width: inherit; height: inherit;">
+                                        <c:if test="${board.profile eq 'basic'}">
+                                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                        <c:if test="${board.profile ne 'basic'}">
+                                            <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
                                     </div>
                                     <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                         <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -537,11 +561,14 @@
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-comment"></i> ${board.commentCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
+                                    <small class="text-body-secondary float-right"><i
+                                            class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -587,7 +614,8 @@
                                             댓글 달기
                                         </button>
                                     </div>
-                                    <ul class="list-group" id="commentListContainer${board.id}" style="border-top: 1px solid black; border-radius: 0;">
+                                    <ul class="list-group" id="commentListContainer${board.id}"
+                                        style="border-top: 1px solid black; border-radius: 0;">
                                     </ul>
                                 </div>
 
@@ -602,7 +630,14 @@
                                 <div class="layout"
                                      style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                     <div class="profile">
-                                        <img src="${board.profile}" alt="" style="width: inherit; height: inherit;">
+                                        <c:if test="${board.profile eq 'basic'}">
+                                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                        <c:if test="${board.profile ne 'basic'}">
+                                            <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
                                     </div>
                                     <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                         <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -682,11 +717,14 @@
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-comment"></i> ${board.commentCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
+                                    <small class="text-body-secondary float-right"><i
+                                            class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -747,7 +785,14 @@
                                 <div class="layout"
                                      style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                     <div class="profile">
-                                        <img src="${board.profile}" alt="" style="width: inherit; height: inherit;">
+                                        <c:if test="${board.profile eq 'basic'}">
+                                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                        <c:if test="${board.profile ne 'basic'}">
+                                            <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
                                     </div>
                                     <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                         <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -851,7 +896,8 @@
                         <div id="requestTitleView" style="margin-bottom: 10px;"></div>
                         <%--                        <div>희망 수령일</div>--%>
                         <label style="margin-bottom: 5px;" for="requestMakeTime">희망 수령일</label>
-                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime" id="requestMakeTime">
+                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime"
+                               id="requestMakeTime">
                         <div style="margin-bottom: 5px;">추가 요청 사항을 알려주세요.</div>
                         <textarea style="padding: 10px;" name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
                         <input type="hidden" name="shoeName" id="requestShoeName">

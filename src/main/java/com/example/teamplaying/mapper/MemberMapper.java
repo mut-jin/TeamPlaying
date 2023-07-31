@@ -249,4 +249,10 @@ public interface MemberMapper {
             WHERE userId = #{userId}
             """)
     String getMemberTypeByUserId(String userId);
+
+    @Select("""
+            SELECT profile FROM Member
+            WHERE id = #{memberId}
+            """)
+    String getProfile(Integer memberId);
 }

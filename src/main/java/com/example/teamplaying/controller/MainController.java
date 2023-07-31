@@ -130,6 +130,7 @@ public class MainController {
             rttr.addFlashAttribute("message", "회원 가입 실패 ❌❌");
             return "redirect:/main";
         }
+
     }
 
     @GetMapping("list")
@@ -167,8 +168,8 @@ public class MainController {
 
     // 2.
     @PostMapping("modify")
-    public String modifyProcess(Member member, String oldPassword, RedirectAttributes rttr) {
-        boolean ok = memberService.modify(member, oldPassword);
+    public String modifyProcess(Member member, RedirectAttributes rttr) {
+        boolean ok = memberService.modify(member);
 
         if (ok) {
             rttr.addFlashAttribute("message", "회원 정보가 수정되었습니다.");

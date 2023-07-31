@@ -85,6 +85,21 @@
                 <h1>프로필</h1>
                 <br>
                 <div class="mb-3">
+                    <label class="form-label">프로필사진</label>
+                    <c:if test="${board.profile eq 'basic'}">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                             style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                    </c:if>
+                    <c:if test="${board.profile ne 'basic'}">
+                        <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                             style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                    </c:if>
+                    <input type="hidden" value="${board.profile}" name="pastProfile">
+                    <div>프로필 사진 변경</div>
+                    <input class="form-control" type="file" value="${member.profile}" name="profile"/>
+                    <div class="form-text">1MB 크기의 파일, 총 10MB 크기만 허용</div>
+                </div>
+                <div class="mb-3">
                     <label for="inputId" class="form-label">아이디</label>
                     <input id="inputId" class="form-control" type="text" name="userId" value="${member.userId }"
                            readonly />
@@ -284,7 +299,6 @@
   <script src="/js/groupChat.js"></script>
   <script src="/js/chat.js" charset="UTF-8"></script>
 </sec:authorize> --%>
-
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d88d8436c67d406cea914acf60c7b220&libraries=services"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
