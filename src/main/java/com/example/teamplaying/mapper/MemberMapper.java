@@ -243,4 +243,10 @@ public interface MemberMapper {
         WHERE name = #{name} AND email = #{email}
         """)
     Member selectByNameAndEmail(String name, String email);
+
+    @Select("""
+            SELECT memberType FROM Member
+            WHERE userId = #{userId}
+            """)
+    String getMemberTypeByUserId(String userId);
 }

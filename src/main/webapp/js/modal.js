@@ -1,5 +1,4 @@
 const toast = new bootstrap.Toast(document.querySelector("#liveToast"));
-listComment();
 var currentBoardId;
 
 $(".likeIcon").click(function() {
@@ -193,4 +192,79 @@ function minSet() {
     console.log(today);
     console.log("aa");
     document.getElementById("requestMakeTime").setAttribute("min", today);
+    document.getElementById("makeTime").setAttribute("min", today);
 }
+
+$("#customRequestBtn").click(function () {
+    const artistUserId = $("#artistUserId").val();
+    const shoeName = $("#shoeName").val();
+    const brand = $("#brand").val();
+    const title = $("#title").val();
+    const body = $("#body").val();
+    const filesInput = document.getElementById("files");
+    const files = filesInput.files;
+    const price = $("#price").val();
+    const makeTime = $("#makeTime").val();
+    var formData = new FormData();
+    formData.append("artistUserId", artistUserId);
+    formData.append("shoeName", shoeName);
+    formData.append("brand", brand);
+    formData.append("body", body);
+    formData.append("price", price);
+    formData.append("makeTime", makeTime);
+    formData.append("title", title);
+    console.log(makeTime);
+    console.log(price);
+    console.log(files);
+    console.log(files.length);
+    console.log(body);
+    console.log(brand);
+    console.log(shoeName);
+    console.log(artistUserId);
+    console.log(title);
+
+
+    // 파일 선택된 경우 FormData에 파일 추가
+    if (files !== undefined && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+            formData.append("files", files[i]);
+        }
+    }
+    $.ajax(`/chat/customRequest`, {
+        method: "post",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (jqXHR) {
+            var chatId = jqXHR.chatId;
+            var nickName = jqXHR.nickName;
+            window.location.href = "/shoppingList";
+
+        },
+        error: function () {
+          window.location.href = "/login";
+        }
+    })
+})
+
+function updateButtonStatus() {
+    if ($("#requestMakeTime").val().trim() === '') {
+        $("#requestSubmitBtn").prop('disabled', true);
+    } else {
+        $("#requestSubmitBtn").prop('disabled', false);
+    }
+}
+
+// input 요소의 값이 변경될 때마다 updateButtonStatus 함수 호출
+$("#requestMakeTime").on('input', updateButtonStatus);
+
+function updateRequestBtnStatus() {
+    if($("#title").val().trim() === '' || $("#brand").val().trim() === '' || $("#shoeName").val().trim() === '' || $("#price").val().trim() === '' || $("#makeTime").val().trim() === '') {
+        console.log($("#title").val().trim() + $("#brand").val().trim() + $("#shoeName").val().trim() + $("#price").val().trim() + $("#makeTime").val().trim());
+        $("#customRequestBtn").prop('disabled', true);
+    } else {
+        $("#customRequestBtn").prop('disabled', false);
+    }
+}
+
+$("#title, #brand, #shoeName, #price, #makeTime").on('input', updateRequestBtnStatus);

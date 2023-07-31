@@ -13,3 +13,12 @@ $(".removeFile").click(function () {
     console.log($("#removeFileList").val())
 })
 
+function updateCsBtnStatus() {
+    if($("#name").val().trim() === '' || $("#category").val().trim() === '' || $("#body").val().trim() === '') {
+        $("#submitBtn").prop('disabled', true);
+    } else {
+        $("#submitBtn").prop('disabled', false);
+    }
+}
+
+$("#name, #body, #category").on('input', updateCsBtnStatus);

@@ -296,7 +296,7 @@
                                     <input type="hidden" id="boardBrand${board.id}" value="${board.brand}">
                                     <input type="hidden" id="boardMemberId${board.id}" value="${board.memberId}">
                                     <div class="profileBtn" style="width: 7vh;">
-                                        <a href="/artistPage/${board.memberId}" class="profileText">
+                                        <a href="/artist/${board.memberId}" class="profileText" style="text-decoration: none; color: black;">
                                             프로필
                                         </a>
                                     </div>
@@ -442,7 +442,7 @@
                                     <input type="hidden" id="boardBrand${board.id}" value="${board.brand}">
                                     <input type="hidden" id="boardMemberId${board.id}" value="${board.memberId}">
                                     <div class="profileBtn" style="width: 7vh;">
-                                        <a href="/artistPage/${board.memberId}" class="profileText">
+                                        <a href="/artist/${board.memberId}" class="profileText">
                                             프로필
                                         </a>
                                     </div>
@@ -563,7 +563,7 @@
                                             댓글 달기
                                         </button>
                                     </div>
-                                    <ul class="list-group" id="commentListContainer${board.id}">
+                                    <ul class="list-group" id="commentListContainer${board.id}" style="border-top: 1px solid black; border-radius: 0;">
                                     </ul>
                                 </div>
 
@@ -824,11 +824,12 @@
             <form action="/addRequest" method="post">
                 <div class="modal-body">
                     <div class="layout" style="flex-direction: column;">
-                        <div id="requestTitleView"></div>
-                        <div>희망 수령일</div>
-                        <input type="date" name="makeTime" id="requestMakeTime">
-                        <div>추가 요청 사항을 알려주세요.</div>
-                        <textarea name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
+                        <div id="requestTitleView" style="margin-bottom: 10px;"></div>
+                        <%--                        <div>희망 수령일</div>--%>
+                        <label style="margin-bottom: 5px;" for="requestMakeTime">희망 수령일</label>
+                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime" id="requestMakeTime">
+                        <div style="margin-bottom: 5px;">추가 요청 사항을 알려주세요.</div>
+                        <textarea style="padding: 10px;" name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
                         <input type="hidden" name="shoeName" id="requestShoeName">
                         <input type="hidden" name="price" id="requestPrice">
                         <input type="hidden" name="brand" id="requestBrand">
@@ -837,7 +838,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">의뢰하기</button>
+                    <button id="requestSubmitBtn" type="submit" class="btn btn-primary" disabled>의뢰하기</button>
                 </div>
             </form>
         </div>
@@ -861,7 +862,6 @@
 </div>
 <sec:authorize access="isAuthenticated()">
     <my:chatBtn></my:chatBtn>
-    <script src="/js/groupChat.js"></script>
     <script src="/js/chat.js" charset="UTF-8"></script>
 </sec:authorize>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -871,6 +871,5 @@
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/js/modal.js"></script>
-<script src="/js/navBar.js"></script>
 </body>
 </html>

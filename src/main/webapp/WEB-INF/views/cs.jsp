@@ -27,44 +27,59 @@
 </head>
 <body>
 <my:navBar></my:navBar>
-<div class="container" style="padding-top: 84px;">
-    <form method="post" enctype="multipart/form-data">
-        <div class="layout shadow" style="flex-direction: column; align-items: center">
-            <h1>1:1 문의하기</h1>
-            <hr>
-            <div class="layout" style="width: 70%; border: 1px solid black; border-bottom: 0;">
-                <div class="dropdown" style="width: 100%;">
-                    <button style="width: inherit; background-color: white" class="btn dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        <input style="border: 0; width: 98%;" type="text" placeholder="문의 유형" name="category"
-                               id="category" readonly>
-                    </button>
-                    <ul class="dropdown-menu" style="width: 100%;">
-                        <li>
-                            <button type="button" class="dropdown-item" value="결제">결제</button>
-                        </li>
-                        <li>
-                            <button type="button" class="dropdown-item" value="회원정보">회원정보</button>
-                        </li>
-                        <li>
-                            <button type="button" class="dropdown-item" value="서비스">서비스</button>
-                        </li>
-                        <li>
-                            <button type="button" class="dropdown-item" value="기타">기타</button>
-                        </li>
-                    </ul>
+<div class="container" style="padding-top: 74px;">
+    <form style="display: flex; justify-content: center;" method="post" enctype="multipart/form-data">
+        <div style="width: 70%;">
+            <div class="layout shadow">
+                <div style="flex-basis: 15%; max-width: 15%;"></div>
+                <div class="layout" style="flex-direction: column; flex-basis: 70%; max-width: 70%;">
+                    <h1 style="margin-top: 16px; margin-bottom: 0;">1:1 문의하기</h1>
+                    <hr>
+                    <div style="margin-bottom: 5px">제 목</div>
+                    <input id="name" type="text" name="title"
+                           style="margin-bottom: 20px; width: 100%; height: 5vh; padding-left: 10px;" placeholder="제 목">
+                    <div style="margin-bottom: 5px;">문의 내용</div>
+                    <div class="layout">
+                        <div style="margin-bottom: 5px;">문의 유형</div>
+                    </div>
+                    <div class="layout" style="margin-bottom: 20px;  width: 100%; border: 1px solid black;">
+                        <div class="dropdown" style="width: 100%;">
+                            <button style="width: inherit; background-color: white" class="btn dropdown-toggle"
+                                    type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <input style="border: 0; width: 98%;" type="text" placeholder="문의 유형" name="category"
+                                       id="category" readonly>
+                            </button>
+                            <ul class="dropdown-menu" style="width: 100%;">
+                                <li>
+                                    <button type="button" class="dropdown-item" value="결제">결제</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item" value="회원정보">회원정보</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item" value="서비스">서비스</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item" value="기타">기타</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <textarea id="body" name="body" rows="10"
+                              style="padding: 10px 0 0 10px; margin-bottom: 20px; width: 100%;"
+                              placeholder="문의 내용"></textarea>
+                    <div style="width: 100%; margin-bottom: 50px;">
+                        <input class="form-control" style="height: 38px;" type="file" multiple
+                               name="files" accept="image/*">
+                    </div>
+                    <div style="margin-left: auto; margin-bottom: 30px;">
+                        <input id="submitBtn" class="btn btn-primary" type="submit" value="작성하기" disabled>
+                        <%--            <button onclick="location.href='/main'">취소하기</button>--%>
+                        <input class="btn btn-danger" type="button" onclick="location.href='/main'" value="취소하기">
+                    </div>
                 </div>
-            </div>
-            <input type="text" name="title" style="width: 70%; height: 5vh; padding-left: 10px;" placeholder="제 목">
-            <textarea name="body" rows="20" style="padding: 10px 0 0 10px; margin-bottom: 10px; width: 70%;" placeholder="문의 내용"></textarea>
-            <div style="width: 70%; margin-bottom: 50px;">
-                <input class="form-control" style="height: 38px;" type="file" multiple
-                       name="files" accept="image/*">
-            </div>
-            <div style="margin-bottom: 30px;">
-                <input type="submit" value="작성하기">
-                <%--            <button onclick="location.href='/main'">취소하기</button>--%>
-                <input type="button" onclick="location.href='/main'" value="취소하기">
+                <div style="flex-basis: 15%; max-width: 15%;"></div>
             </div>
         </div>
     </form>

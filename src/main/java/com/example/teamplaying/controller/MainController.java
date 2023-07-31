@@ -149,10 +149,14 @@ public class MainController {
     }
 
     @GetMapping("totalMyPage")
-    public void myapge(Authentication authentication, Model model) {
+    public String myPage(Authentication authentication, Model model) {
+        if(authentication == null) {
+            return "redirect:/login";
+        }
         Member member = memberService.get(authentication.getName());
         System.out.println(member);
         model.addAttribute("member", member);
+        return "totalMyPage";
     }
 
     @GetMapping("modify")
@@ -260,8 +264,13 @@ public class MainController {
     @GetMapping("artist/{id}")
     public String artistPage(Model model,
                              @PathVariable Integer id,
-                             @RequestParam(value = "page", defaultValue = "1") Integer page) {
-        Map<String, Object> result = memberService.getMember(id, page);
+                             @RequestParam(value = "page", defaultValue = "1") Integer page,
+                             Authentication authentication) {
+        String myUserId = "";
+        if(authentication != null) {
+            myUserId = authentication.getName();
+        }
+        Map<String, Object> result = memberService.getMember(id, page, myUserId);
         model.addAllAttributes(result);
         return "artistPage";
     }
@@ -299,6 +308,7 @@ public class MainController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("cs")
     public String csProcess(CsBoard csBoard,
                             RedirectAttributes rttr,
@@ -316,6 +326,7 @@ public class MainController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("myCs")
     public void myCs(Authentication authentication,
                      Model model,
@@ -326,16 +337,23 @@ public class MainController {
         model.addAllAttributes(result);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("myCs/{id}")
     public String myCsPage(Model model,
-                           @PathVariable Integer id) {
-        Map<String, Object> result = csService.getCsBoardById(id);
+                           @PathVariable Integer id,
+                           Authentication authentication) {
+        if(!memberService.check(authentication, id)) {
+            return "main";
+        }
+        Map<String, Object> result = csService.getCsBoardById(id, authentication.getName());
         model.addAllAttributes(result);
         return "myCsPage";
     }
 
+    @PreAuthorize("isAuthenticated() && @customSecurityChecker.checkCsBoardWriter(authentication, id)")
     @PostMapping("csRemove")
-    public String csRemove(Integer id, RedirectAttributes rttr) {
+    public String csRemove(Integer id, RedirectAttributes rttr,
+                           Authentication authentication) {
         boolean ok = csService.remove(id);
         if (ok) {
             rttr.addFlashAttribute("message", "문의가 삭제되었습니다..");
@@ -345,17 +363,21 @@ public class MainController {
         return "redirect:/myCs";
     }
 
+    @PreAuthorize("isAuthenticated() && @customSecurityChecker.checkCsBoardWriter(authentication, id)")
     @GetMapping("csModify")
-    public void csModify(Integer id, Model model) {
+    public void csModify(Integer id, Model model,
+                         Authentication authentication) {
         Map<String, Object> result = csService.getCsBoardById(id);
         model.addAllAttributes(result);
     }
 
+    @PreAuthorize("isAuthenticated() && @customSecurityChecker.checkCsBoardWriter(authentication, id)")
     @PostMapping("csModify")
     public String csModifyProcess(CsBoard csBoard,
                                   @RequestParam(value = "removeFileList", required = false) List<String> removeFileName,
                                   @RequestParam(value = "files", required = false) MultipartFile[] addFiles,
-                                  RedirectAttributes rttr) throws Exception {
+                                  RedirectAttributes rttr,
+                                  Authentication authentication) throws Exception {
         boolean ok = csService.modify(csBoard, removeFileName, addFiles);
         if (ok) {
             // 해당 게시물 보기로 리디렉션
@@ -391,6 +413,7 @@ public class MainController {
 		return "/pay/success";
 	}*/
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("shoppingList")
     public void shoppingList(Authentication authentication,
                              Model model,
@@ -399,6 +422,7 @@ public class MainController {
         model.addAllAttributes(result);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("myRequest")
     public void myRequest(Authentication authentication,
                           Model model,
@@ -407,12 +431,27 @@ public class MainController {
         model.addAllAttributes(result);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("addRequest")
+    public String addRequest(CustomRequest customRequest,
+                             Authentication authentication) {
+        if (authentication == null || authentication.getName() == null) {
+            return "redirect:/login";
+        }
+        customRequest.setCustomerUserId(authentication.getName());
+        System.out.println(customRequest);
+        shoeBoardService.addCustomRequest(customRequest);
+        return "redirect:/shoppingList";
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("removeRequest/{id}")
     @ResponseBody
     public void removeRequest(@PathVariable Integer id) {
         requestService.removeRequest(id);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("acceptRequest")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> acceptRequest(@RequestBody CustomRequest customRequest) {
@@ -421,6 +460,7 @@ public class MainController {
         return ResponseEntity.ok().body(res);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("modifyRequest")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> update(@RequestBody CustomRequest customRequest) {
@@ -481,7 +521,6 @@ public class MainController {
     public ShoeComment commentGet(@PathVariable("id") Integer id) {
         return shoeBoardService.getComment(id);
     }
-
     @GetMapping("members")
     @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
     public String showMemberList(Model model, Authentication authentication) {
@@ -489,8 +528,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
         model.addAttribute("members", members);
         return "members";
-    }
-
+      
     @PutMapping("commentUpdate")
     @ResponseBody
     @PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardCommentWriter(authentication, #comment.id)")
@@ -508,11 +546,13 @@ public class MainController {
         return ResponseEntity.ok().body(res);
     }
 
-	@PostMapping("csAnswer")
-	public String csAnswer(String answer, Integer id) {
-		csService.updateAnswer(answer, id);
-		return "redirect:/myCs/" + id;
-	}
+    @PreAuthorize("isAuthenticated() && @customSecurityChecker.checkAdmin(authentication)")
+    @PostMapping("csAnswer")
+    public String csAnswer(String answer, Integer id,
+                           Authentication authentication) {
+        csService.updateAnswer(answer, id);
+        return "redirect:/myCs/" + id;
+    }
 
 //	@GetMapping("csModify/{id}")
 //	public String modify(@PathVariable("id") Integer id, Model model, Authentication authentication) {
@@ -556,6 +596,21 @@ public class MainController {
 //    public String findID() throws Exception{
 //        return "findID";
 //    }
+
+
+    @GetMapping("shoeDelete")
+    public String shoeDelete(Integer boardId,
+                             RedirectAttributes rttr,
+                             Authentication authentication) {
+        boolean ok = shoeBoardService.shoeDelete(boardId);
+        Integer id = memberService.getIdByUserId(authentication.getName());
+        if (ok) {
+            rttr.addFlashAttribute("message", "작품이 삭제되었습니다.");
+        } else {
+            rttr.addFlashAttribute("message", "작품 삭제에 문제가 발생했습니다.");
+        }
+        return "redirect:/artist/" + id;
+    }
 
 
 }

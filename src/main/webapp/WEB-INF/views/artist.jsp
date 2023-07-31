@@ -125,14 +125,14 @@
         </form>
     </div>
     <c:forEach items="${boardList}" var="list">
-        <div class="d-flex mb-4">
+        <div class="d-flex" style="margin-bottom: 15px;">
             <div class="card shadow"
                style="width: 100%; padding: 24px 12px 24px; text-decoration: none;">
                 <div style="display: flex; flex-wrap: wrap; align-items: center!important;">
                     <a href="/artist/${list.id}" style="text-decoration: none; color: black; display: flex; flex-basis: 50%;">
                         <div style="flex-basis: 33.3%; max-width: 33.3%; text-align: center">
                             <img style="width: 110px; height: 110px; border-radius: 50%;"
-                                 src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/runningMate/%EB%8B%AC%EB%A6%AC%EA%B8%B04.jpg"
+                                 src="${list.profile}"
                                  alt="">
                         </div>
                         <div class="layout" style="justify-content: center; flex-direction: column; flex-basis: 66.7%; max-width: 66.7%">
@@ -147,9 +147,9 @@
                     <div class="layout" style="flex-basis: 50%; max-width: 50%; align-items: center; height: 100%;">
                         <c:forEach items="${list.shoeImgList}" var="img" varStatus="status">
                             <c:if test="${status.index < 4}">
-                                <div style="padding: 4px; flex-basis: 25%; max-width: 25%;" class="child" onclick="view(this)"
+                                <div style="width: 15vh; height: 15vh; overflow:hidden; padding: 4px; flex-basis: 25%; max-width: 25%;" class="child" onclick="view(this)"
                                      data-bs-toggle="modal" data-bs-target="#shoeModal${list.boardIdList[status.index]}" data-id="${list.boardIdList[status.index]}">
-                                    <img style="width: 100%; height: 90%; border-radius: 4px;"
+                                    <img style="width: 15vh; border-radius: 4px;"
                                          src="${img}"
                                          alt="">
                                 </div>
@@ -256,7 +256,7 @@
                         <input type="hidden" id="boardBrand${board.id}" value="${board.brand}">
                         <input type="hidden" id="boardMemberId${board.id}" value="${board.memberId}">
                         <div class="profileBtn" style="width: 7vh;">
-                            <a href="/artistPage/${board.memberId}" class="profileText">
+                            <a href="/artist/${board.memberId}" class="profileText">
                                 프로필
                             </a>
                         </div>
@@ -308,11 +308,12 @@
             <form action="/addRequest" method="post">
                 <div class="modal-body">
                     <div class="layout" style="flex-direction: column;">
-                        <div id="requestTitleView"></div>
-                        <div>희망 수령일</div>
-                        <input type="date" name="makeTime" id="requestMakeTime">
-                        <div>추가 요청 사항을 알려주세요.</div>
-                        <textarea name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
+                        <div id="requestTitleView" style="margin-bottom: 10px;"></div>
+                        <%--                        <div>희망 수령일</div>--%>
+                        <label style="margin-bottom: 5px;" for="requestMakeTime">희망 수령일</label>
+                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime" id="requestMakeTime">
+                        <div style="margin-bottom: 5px;">추가 요청 사항을 알려주세요.</div>
+                        <textarea style="padding: 10px;" name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
                         <input type="hidden" name="shoeName" id="requestShoeName">
                         <input type="hidden" name="price" id="requestPrice">
                         <input type="hidden" name="brand" id="requestBrand">
@@ -321,7 +322,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">의뢰하기</button>
+                    <button id="requestSubmitBtn" type="submit" class="btn btn-primary" disabled>의뢰하기</button>
                 </div>
             </form>
         </div>
@@ -368,13 +369,12 @@
         </div>
     </div>
 </div>
-<script src="/js/artist.js"></script>
-<script src="/js/modal.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
         integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/js/modal.js"></script>
 </body>
 </html>

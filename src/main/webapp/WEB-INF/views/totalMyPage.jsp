@@ -76,6 +76,21 @@
             margin-left: 12px;
             margin-bottom: 2rem;
         }
+
+        .hover {
+            padding: 5px;
+            border-radius: 8px;
+        }
+
+        .hover:hover {
+            background-color: #FFC107;
+        }
+
+        .myPageMenu {
+            text-decoration: none;
+            color: black;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -87,12 +102,19 @@
 <div class="container" style="margin-top: 100px;">
     <div class="layout" style="justify-content: center;">
         <div class="myPageOption">
-            <div class="layout shadow" style="flex-direction: column">
-                <a href="/totalMyPage">회원 정보 수정</a>
-                <a href="/myRequest">의뢰 관리</a>
-                <a href="/shoppingList">주문 내역</a>
+            <div class="layout shadow" style="padding: 11px 5px 3px 5px; flex-direction: column">
+                <a class="myPageMenu" href="/totalMyPage">
+                    <span class="hover">회원 정보 수정</span>
+                </a>
+                <a class="myPageMenu" href="/myRequest">
+                    <span class="hover">의뢰 관리</span>
+                </a>
+                <a class="myPageMenu" href="/shoppingList">
+                    <span class="hover">주문 내역</span>
+                </a>
             </div>
         </div>
+
         <div class="row justify-content-center myInfo">
             <div class="shadow" style="height: 800px;">
                 <h1><img
@@ -150,6 +172,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 <%-- <div class="d-none">
   <form id="removeForm" action="/remove" method="post">

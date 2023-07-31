@@ -2,6 +2,7 @@ package com.example.teamplaying.service;
 
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
+import com.example.teamplaying.mapper.CsMapper;
 import com.example.teamplaying.mapper.MemberMapper;
 import com.example.teamplaying.mapper.ShoeBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,9 @@ public class MemberService {
 
     @Autowired
     private ShoeBoardMapper shoeMapper;
+
+    @Autowired
+    private CsMapper csMapper;
 
     @Autowired
     private MemberMapper mapper;
@@ -179,6 +183,7 @@ public class MemberService {
         pageInfo.put("currentPageNum", page);
 
         List<Member> list = mapper.selectAllPaging(startIndex, rowPerPage, search, order);
+        System.out.println(list);
         List<ShoeBoard> shoeBoardList = new ArrayList<>();
         for (Member i : list) {
             List<String> shoeList = new ArrayList<>();
@@ -210,7 +215,7 @@ public class MemberService {
     }
 
 
-    public Map<String, Object> getMember(Integer id, Integer page) {
+    public Map<String, Object> getMember(Integer id, Integer page, String myUserId) {
         Integer rowPerPage = 9;
         Integer startIndex = (page - 1) * rowPerPage;
 
@@ -235,7 +240,7 @@ public class MemberService {
             i.setImgUrlList(shoeMapper.getMyShoeFileNameList(i.getId()));
         }
 
-        return Map.of("pageInfo", pageInfo, "memberInfo", member, "shoeBoardList", list);
+        return Map.of("pageInfo", pageInfo, "memberInfo", member, "shoeBoardList", list, "myUserId", myUserId);
     }
 
     public boolean addShoeBoard(ShoeBoard shoeBoard, MultipartFile[] files, Authentication authentication) throws Exception {
@@ -295,5 +300,9 @@ public class MemberService {
     public String findIdByNameAndEmail(String name, String email) {
         Member member = mapper.selectByNameAndEmail(name, email);
         return (member != null) ? member.getUserId() : null;
+    }
+
+    public boolean check(Authentication authentication, Integer id) {
+        return (mapper.getNickNameByUserId((authentication.getName())).equals(csMapper.getWriter(id)) || mapper.getMemberTypeByUserId(authentication.getName()).equals("admin") );
     }
 }
