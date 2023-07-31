@@ -61,7 +61,7 @@
 
     .card-text {
         font-family: 'Jeju Gothic', sans-serif;
-        font-size: 22px;
+        font-size: 17.5px;
         fort-weight: bold;
         height: 35px;
         overflow: hidden;
@@ -77,7 +77,6 @@
     .myPageOption {
         flex-basis: 33.33333%;
         max-width: 33.33333%;
-        /*margin-right: 12px;*/
         border-radius: 4px;
         margin: 0 5px;
         overflow: hidden;
@@ -88,8 +87,6 @@
         max-width: 66.666666%;
         margin: 0 5px;
         border-radius: 4px;
-        /*margin-left: 12px;*/
-        /*margin-bottom: 2rem;*/
     }
 
     .modal-body2 {
@@ -185,10 +182,9 @@
     </div>
 </div>
 <div class="layout" style="flex-direction: column">
-    <div class="flex headline" style="margin-left: 250px;">
+    <div class="flex headline" style="margin-left: 120px;">
         Zero-One 신발 만들기
     </div>
-    <br><br><br>
     <div class="flex px-3" style="margin-top: 60px; margin-bottom: 80px; display: flex;  justify-content: center;">
         <a href="/canvas1">
             <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/work/work8.jpg">
@@ -196,12 +192,12 @@
     </div>
 </div>
 
-<div class="flex headline" style="margin-left: 130px;">
+<div class="flex headline" style="margin-left: 120px;">
     나이키
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center; margin-left: 0; margin-right: 0;">
     <c:forEach items="${nike}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
@@ -213,21 +209,24 @@
                         <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
                             <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}"
                                  data-member-id="${board.memberId}">
-                                <img class="card-img" src="${board.fileName}" alt=""/>
+                                <img class="card-img w-100" src="${board.fileName}" alt=""/>
                                 <div class="card-body">
                                     <p class="card-text">${board.title}</p>
                                     <div class="flex caption">
-                                        🌄 ${board.nickName}
+                                        👟 ${board.nickName}
                                     </div>
                                     <div class="flex grey--text text--lighten-1">
                                         ―
                                     </div>
-                                    <p class="card-price">${board.price}</p>
+                                    <p class="card-price">₩${board.price}</p>
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary">${board.likeCount}</small>
-                                    <small class="text-body-secondary">${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -281,7 +280,7 @@
                         </div>
                         <div class="myPageOption">
                             <div class="layout modal-content" style="flex-direction: column; background-color: white;">
-                                <div style="margin: 16px 12px 0px;">
+                                <div style="margin: 16px 0px 0px;">
                                     <h1 id="boardTitle${board.id}">${board.title}</h1>
                                 </div>
                                 <hr style="margin: 0.7rem 0;">
@@ -339,12 +338,12 @@
     </c:forEach>
 </div>
 <br><br><br>
-<div class="flex headline" style="margin-left: 130px;">
+<div class="flex headline" style="margin-left: 120px;">
     아디다스
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center; margin-left: 0; margin-right: 0;">
     <c:forEach items="${adidas}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
@@ -360,17 +359,20 @@
                                 <div class="card-body">
                                     <p class="card-text">${board.title}</p>
                                     <div class="flex caption">
-                                        🌄 ${board.nickName}
+                                        👟 ${board.nickName}
                                     </div>
                                     <div class="flex grey--text text--lighten-1">
                                         ―
                                     </div>
-                                    <p class="card-price">${board.price}</p>
+                                    <p class="card-price">₩${board.price}</p>
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary">${board.likeCount}</small>
-                                    <small class="text-body-secondary">${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -481,12 +483,12 @@
     </c:forEach>
 </div>
 <br><br><br>
-<div class="flex headline" style="margin-left: 130px;">
+<div class="flex headline" style="margin-left: 120px;">
     반스
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center; margin-left: 0; margin-right: 0;">
     <c:forEach items="${vans}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
@@ -502,17 +504,20 @@
                                 <div class="card-body">
                                     <p class="card-text">${board.title}</p>
                                     <div class="flex caption">
-                                        🌄 ${board.nickName}
+                                        👟 ${board.nickName}
                                     </div>
                                     <div class="flex grey--text text--lighten-1">
                                         ―
                                     </div>
-                                    <p class="card-price">${board.price}</p>
+                                    <p class="card-price">₩${board.price}</p>
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary">${board.likeCount}</small>
-                                    <small class="text-body-secondary">${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -623,12 +628,12 @@
     </c:forEach>
 </div>
 <br><br><br>
-<div class="flex headline" style="margin-left: 130px;">
+<div class="flex headline" style="margin-left: 120px;">
     컨버스
 </div>
 <br>
 <div class="row"
-     style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+     style="display: flex; flex-wrap: wrap; justify-content: center; margin-left: 0; margin-right: 0;">
     <c:forEach items="${converse}" var="board" varStatus="status">
         <c:choose>
             <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
@@ -644,17 +649,20 @@
                                 <div class="card-body">
                                     <p class="card-text">${board.title}</p>
                                     <div class="flex caption">
-                                        🌄 ${board.nickName}
+                                        👟 ${board.nickName}
                                     </div>
                                     <div class="flex grey--text text--lighten-1">
                                         ―
                                     </div>
-                                    <p class="card-price">${board.price}</p>
+                                    <p class="card-price">₩${board.price}</p>
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary">${board.likeCount}</small>
-                                    <small class="text-body-secondary">${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -834,6 +842,22 @@
             </form>
         </div>
     </div>
+</div>
+<br>
+<div class="shopinfo">
+    제로원 대표 전형준 | 개인정보보호관리자 윤보상
+    <br>
+    주소 (14919)경기도 부천시 은행로 93
+    <br>
+    사업자등록번호 123-45-67890 | 통신판매업신고번호 2023-경기시흥-1234
+    <br>
+    고객센터 help@zeroone.com | 010-1234-5678
+    <br> <br>
+    본 사이트에 게시된 아티스트 및 작품 정보가 무단으로 수집되는 것을 거부합니다.
+    <br>
+    제로원컴퍼니는 통신판매 중개자로서 한 플랫폼 제로원의 거래당사자가 아니며,
+    아티스트가 등록한 상품정보 및 거래에 대해 제로원컴퍼니는 책임을 지지
+    않습니다.
 </div>
 <sec:authorize access="isAuthenticated()">
     <my:chatBtn></my:chatBtn>

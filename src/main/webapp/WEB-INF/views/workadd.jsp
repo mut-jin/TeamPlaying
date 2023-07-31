@@ -144,10 +144,12 @@
                             <li><a class="dropdown-item ShoeName nike-model" href="#">조던1 미드 올백</a></li>
                             <li><a class="dropdown-item ShoeName nike-model" href="#">우먼스 에어포스 1</a></li>
                             <li><a class="dropdown-item ShoeName nike-model" href="#">에어포스 1(블랙)</a></li>
+                            <li><a class="dropdown-item ShoeName nike-model" href="#">기타</a></li>
 
                             <!-- 아디다스 브랜드의 신발 모델 -->
                             <li><a class="dropdown-item ShoeName adidas-model" href="#">이지부스트 350</a></li>
                             <li><a class="dropdown-item ShoeName adidas-model" href="#">슈퍼스타</a></li>
+                            <li><a class="dropdown-item ShoeName adidas-model" href="#">기타</a></li>
 
                             <!-- 반스 브랜드의 신발 모델 -->
                             <li><a class="dropdown-item ShoeName vans-model" href="#">올드스쿨 (화이트)</a></li>
@@ -159,12 +161,14 @@
                             <li><a class="dropdown-item ShoeName vans-model" href="#">에라 (블랙)</a></li>
                             <li><a class="dropdown-item ShoeName vans-model" href="#">에라 (화이트)</a></li>
                             <li><a class="dropdown-item ShoeName vans-model" href="#">클래식 슬립온 (체커)</a></li>
+                            <li><a class="dropdown-item ShoeName vans-model" href="#">기타</a></li>
 
                             <!-- 컨버스 브랜드의 신발 모델 -->
                             <li><a class="dropdown-item ShoeName converse-model" href="#">척테일러 1970S 하이 (블랙)</a></li>
                             <li><a class="dropdown-item ShoeName converse-model" href="#">척테일러 1970S 하이 (화이트)</a></li>
                             <li><a class="dropdown-item ShoeName converse-model" href="#">척테일러 1970S 로우 (블랙)</a></li>
                             <li><a class="dropdown-item ShoeName converse-model" href="#">척테일러 1970S 로우 (화이트)</a></li>
+                            <li><a class="dropdown-item ShoeName converse-model" href="#">기타</a></li>
 
 
                         </ul>

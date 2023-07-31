@@ -303,6 +303,7 @@ public interface ShoeBoardMapper {
     List<ShoeBoard> getAllShoes(Integer memberId);
 
 
+
     //    @Select("""
 //            SELECT shoeName FROM shoeBoard
 //            WHERE brand = #{shoeBrand}
