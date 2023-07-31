@@ -508,19 +508,11 @@ public class MainController {
         return ResponseEntity.ok().body(res);
     }
 
-    @PostMapping("addRequest")
-        public String addRequest(CustomRequest customRequest, Authentication authentication) {
-        customRequest.setCustomerUserId(authentication.getName());
-        System.out.println(customRequest);
-        shoeBoardService.addCustomRequest(customRequest);
-        return "redirect:/shoppingList";
-    }
-
-    @PostMapping("csAnswer")
-    public String csAnswer(String answer, Integer id) {
-        csService.updateAnswer(answer, id);
-        return "redirect:/myCs/" + id;
-    }
+	@PostMapping("csAnswer")
+	public String csAnswer(String answer, Integer id) {
+		csService.updateAnswer(answer, id);
+		return "redirect:/myCs/" + id;
+	}
 
 //	@GetMapping("csModify/{id}")
 //	public String modify(@PathVariable("id") Integer id, Model model, Authentication authentication) {

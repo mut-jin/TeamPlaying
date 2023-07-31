@@ -4,6 +4,7 @@ import com.example.teamplaying.domain.CustomRequest;
 import com.example.teamplaying.domain.Payment;
 import com.example.teamplaying.domain.PaymentInfo;
 import com.example.teamplaying.mapper.PaymentMapper;
+import com.example.teamplaying.mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,16 @@ public class PaymentService {
     @Autowired
     PaymentMapper mapper;
 
+
     @Autowired
     public PaymentService(PaymentMapper paymentMapper) {
         this.paymentMapper = paymentMapper;
     }
 
-    public void savePaymentInfo(Payment payment) {
-        paymentMapper.insertPaymentInfo(payment);
+    public boolean savePaymentInfo(Payment payment) {
+        Integer cnt = paymentMapper.insertPaymentInfo(payment);
+
+        return cnt == 1;
     }
 
     public Map<String, Object> getMyRequest(String customerUserId, Integer page) {
@@ -50,11 +54,21 @@ public class PaymentService {
             customRequest.setFileNameList(mapper.getFiles(customRequest.getId()));
             System.out.println(customRequest.getProgress());
             if (customRequest.getProgress().equals("접수 대기중")){
-                customRequest.setProgress("true");
+                customRequest.setProgress("의뢰 확인중");
             }
             System.out.println(customRequest.getProgress().getClass());
         }
 
         return Map.of("pageInfo", pageInfo, "myRequestList", list);
+    }
+
+    public void updateProgress(Integer id) {
+        CustomRequest customRequest = paymentMapper.getRequestById(id);
+        customRequest.setProgress("작업중"); // 원하는 값으로 progress 컬럼을 업데이트
+
+        int rowsAffected = paymentMapper.updateProgress(id, customRequest.getProgress());
+        if (rowsAffected != 1) {
+            throw new RuntimeException("CustomRequest 테이블의 progress 컬럼 업데이트에 실패했습니다.");
+        }
     }
 }
