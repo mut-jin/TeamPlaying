@@ -530,6 +530,15 @@ public class MainController {
         return "members";
     }
 
+    @GetMapping("adminCs")
+    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
+    public String adminCs(Model model, Authentication authentication) {
+        List<CsBoard> csBoard = csService.getAllCs();
+        ModelAndView modelAndView = new ModelAndView("csList"); // 해당 JSP 파일명
+        model.addAttribute("csBoardList", csBoard);
+        return "adminCs";
+    }
+
     @PutMapping("commentUpdate")
     @ResponseBody
     @PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardCommentWriter(authentication, #comment.id)")

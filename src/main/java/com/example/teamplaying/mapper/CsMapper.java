@@ -98,4 +98,10 @@ public interface CsMapper {
             WHERE id = #{id}
             """)
     String getWriter(Integer id);
+
+    @Select("""
+            SELECT * FROM CsBoard
+            ORDER BY id DESC
+            """)
+    List<CsBoard> selectAllCs();
 }
