@@ -106,10 +106,12 @@
 <my:navBar></my:navBar>
 <div class="container" style="margin-top: 86px;">
     <div class="d-flex" style="margin-bottom: 16px;">
-        <div class="dropdown" style="flex-grow: 0; flex-basis: 25%; max-width: 25%; font-family: 'Jeju Gothic', sans-serif;">
+        <div class="dropdown"
+             style="flex-grow: 0; flex-basis: 25%; max-width: 25%; font-family: 'Jeju Gothic', sans-serif;">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false" style="background-color: black;">
-                <input type="text" value="${name}" id="typeSelect" readonly style="background-color: inherit; border: 0; color: white;">
+                <input type="text" value="${name}" id="typeSelect" readonly
+                       style="background-color: inherit; border: 0; color: white;">
             </button>
             <ul class="dropdown-menu" style="width: 220px; font-family: 'Jeju Gothic', sans-serif;">
                 <li><a class="dropdown-item" href="/artist?name=선택">선택</a></li>
@@ -121,23 +123,34 @@
         <div style="flex-grow: 1;"></div>
         <form action="/artist" class="d-flex"
               style="flex-bottom: 25%; flex-grow: 0;" role="search">
-            <input value="${param.search }" name="search" type="search" style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
-            <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0" type="submit"><i
+            <input value="${param.search }" name="search" type="search"
+                   style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
+            <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0"
+                    type="submit"><i
                     class="fa-solid fa-magnifying-glass"></i></button>
         </form>
     </div>
     <c:forEach items="${boardList}" var="list">
         <div class="d-flex" style="margin-bottom: 15px;">
             <div class="card shadow"
-               style="width: 100%; padding: 24px 12px 24px; text-decoration: none;">
+                 style="width: 100%; padding: 24px 12px 24px; text-decoration: none;">
                 <div style="display: flex; flex-wrap: wrap; align-items: center!important;">
-                    <a href="/artist/${list.id}" style="text-decoration: none; color: black; display: flex; flex-basis: 50%;">
+                    <a href="/artist/${list.id}"
+                       style="text-decoration: none; color: black; display: flex; flex-basis: 50%;">
                         <div style="flex-basis: 33.3%; max-width: 33.3%; text-align: center">
-                            <img style="width: 110px; height: 110px; border-radius: 50%;"
-                                 src="${list.profile}"
-                                 alt="">
+                            <c:if test="${list.profile eq 'basic'}">
+                                <img style="width: 110px; height: 110px; border-radius: 50%;"
+                                     src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                     alt="">
+                            </c:if>
+                            <c:if test="${list.profile ne 'basic'}">
+                                <img style="width: 110px; height: 110px; border-radius: 50%;"
+                                     src="${bucketUrl}/Member/${list.id}/${list.profile}"
+                                     alt="">
+                            </c:if>
                         </div>
-                        <div class="layout" style="justify-content: center; flex-direction: column; flex-basis: 66.7%; max-width: 66.7%">
+                        <div class="layout"
+                             style="justify-content: center; flex-direction: column; flex-basis: 66.7%; max-width: 66.7%">
                             <div style="margin-bottom: 8px; flex: 0 0 auto; font-weight: bolder">${list.nickName}</div>
                             <div style="margin-bottom: 8px; flex: 0 0 auto;">${list.address}</div>
                             <div style="margin-bottom: 8px; flex: 0 0 auto;"><i
@@ -149,8 +162,10 @@
                     <div class="layout" style="flex-basis: 50%; max-width: 50%; align-items: center; height: 100%;">
                         <c:forEach items="${list.shoeImgList}" var="img" varStatus="status">
                             <c:if test="${status.index < 4}">
-                                <div style="width: 15vh; height: 15vh; overflow:hidden; padding: 4px; flex-basis: 25%; max-width: 25%;" class="child" onclick="view(this)"
-                                     data-bs-toggle="modal" data-bs-target="#shoeModal${list.boardIdList[status.index]}" data-id="${list.boardIdList[status.index]}">
+                                <div style="width: 15vh; height: 15vh; overflow:hidden; padding: 4px; flex-basis: 25%; max-width: 25%;"
+                                     class="child" onclick="view(this)"
+                                     data-bs-toggle="modal" data-bs-target="#shoeModal${list.boardIdList[status.index]}"
+                                     data-id="${list.boardIdList[status.index]}">
                                     <img style="width: 15vh; border-radius: 4px;"
                                          src="${img}"
                                          alt="">
@@ -233,7 +248,8 @@
                                 댓글 달기
                             </button>
                         </div>
-                        <ul class="list-group" id="commentListContainer${board.id}" style="border-top: 1px solid black; border-radius: 0;" >
+                        <ul class="list-group" id="commentListContainer${board.id}"
+                            style="border-top: 1px solid black; border-radius: 0;">
                         </ul>
                     </div>
 
@@ -249,7 +265,16 @@
                     <div class="layout"
                          style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                         <div class="profile">
-                            <img src="${board.profile}" alt="" style="width: inherit; height: inherit;">
+                            <c:if test="${board.profile eq 'basic'}">
+                                <img style="width: inherit; height: inherit; border-radius: 50%;"
+                                     src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                     alt="">
+                            </c:if>
+                            <c:if test="${board.profile ne 'basic'}">
+                                <img style="width: inherit; height: inherit; border-radius: 50%;"
+                                     src="${bucketUrl}/Member/${board.id}/${board.profile}"
+                                     alt="">
+                            </c:if>
                         </div>
                         <div class="layout" style="flex-direction: column; padding: 12px 0;">
                             <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -313,7 +338,8 @@
                         <div id="requestTitleView" style="margin-bottom: 10px;"></div>
                         <%--                        <div>희망 수령일</div>--%>
                         <label style="margin-bottom: 5px;" for="requestMakeTime">희망 수령일</label>
-                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime" id="requestMakeTime">
+                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime"
+                               id="requestMakeTime">
                         <div style="margin-bottom: 5px;">추가 요청 사항을 알려주세요.</div>
                         <textarea style="padding: 10px;" name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
                         <input type="hidden" name="shoeName" id="requestShoeName">

@@ -93,13 +93,14 @@
             border-radius: 24px;
             height: 28px;
             margin: 8px 0 8px 16px;
+            display: flex;
+            justify-content: flex-end;
         }
 
         .profileText {
             font-size: 80%;
             height: 28px;
             min-width: 50px;
-            padding: 0 12.4444444444px;
             margin-top: 4px;
         }
 
@@ -146,7 +147,16 @@
             <div class="layout box" style="margin: 8px; flex-direction: column;">
                 <div style="padding: 24px 16px;">
                     <div class="layout" style="align-items: center; flex-direction: column">
-                        <img src="${memberInfo.profile}">
+                        <div class="profile" style="height: 100px; width: 100px; margin-left: 18px;">
+                            <c:if test="${memberInfo.profile eq 'basic'}">
+                                <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                     style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                            </c:if>
+                            <c:if test="${memberInfo.profile ne 'basic'}">
+                                <img src="${bucketUrl}/Member/${memberInfo.id}/${memberInfo.profile}"
+                                     style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                            </c:if>
+                        </div>
                         <div>${memberInfo.nickName}</div>
                         <div>${memberInfo.address}</div>
                         <c:if test="${memberInfo.userId ne myUserId && myUserId ne ''}">
@@ -291,7 +301,14 @@
                                 <div class="layout"
                                      style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                     <div class="profile">
-                                        <img src="${board.profile}" alt="" style="width: inherit; height: inherit;">
+                                    <c:if test="${board.profile eq 'basic'}">
+                                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                             style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                    </c:if>
+                                    <c:if test="${board.profile ne 'basic'}">
+                                        <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                             style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                    </c:if>
                                     </div>
                                     <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                         <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
