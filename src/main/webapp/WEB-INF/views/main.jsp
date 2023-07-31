@@ -61,10 +61,9 @@
 
     .card-text {
         font-family: 'Jeju Gothic', sans-serif;
-        font-size: 17.5px;
+        font-size: 18px;
         fort-weight: bold;
-        height: 35px;
-        overflow: hidden;
+        height: 61px;
     }
 
     .layout {
@@ -105,22 +104,48 @@
         margin: 8px 16px 8px 0;
     }
 
-    .profileBtn{
+    .profileBtn {
         background-color: white;
         border: 1px solid black;
         border-radius: 24px;
         height: 28px;
         margin: 8px 0 8px 16px;
+        display: flex;
+        justify-content: flex-end;
     }
 
     .profileText {
         font-size: 80%;
         height: 28px;
         min-width: 50px;
-        padding: 0 12.4444444444px;
         margin-top: 4px;
         color: black;
         text-decoration: none;
+    }
+
+    /* 스타일 추가를 위해 shopinfo 클래스를 선택합니다 */
+    .shopinfo {
+        padding: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    /* 첫 번째 줄과 두 번째 줄 사이 간격을 추가합니다 */
+    .shopinfo br:first-child {
+        margin-bottom: 10px;
+    }
+
+    /* 무신사스토어의 파란색과 유사한 링크 색상을 지정합니다 */
+    .shopinfo a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    /* 무신사스토어의 파란색 링크에 호버 효과를 추가합니다 */
+    .shopinfo a:hover {
+        text-decoration: underline;
     }
 </style>
 
@@ -150,7 +175,7 @@
         </div>
         <div class="flex text-center" style="margin-bottom: 30px;">
             <a href="/work">
-                <button type="button" class="btn btn-warning btn-lg" style="font-weight: bolder">작품 보러가기</button>
+                <button type="button" class="btn btn-warning btn-lg" style="font-weight: bolder;">작품 보러가기</button>
             </a>
         </div>
         <br>
@@ -172,11 +197,13 @@
         <div class="layout wrap align-center">
             <div class="flex xs12 md4 lg5 order-md-2 text-center">
                 <div style="background-color: white; display: flex; flex-direction: column; align-items: center;">
-                    <span style="font-size: 25px; margin-bottom: 10px;">당신의 신발을 변신시킬 아티스트들을 구경해보세요.</span>
+                    <span style="font-size: 25px; margin-bottom: 10px; font-family: 'Jeju Gothic', sans-serif;">당신의 신발을 변신시킬 아티스트들을 구경해보세요.</span>
                     <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/work/work5.png"
                          style="max-width: 100%; max-height: 100px;">
                     <a href="/artist">
-                        <button type="button" class="btn btn-warning" style="margin-top: 15px;">아티스트 보러가기</button>
+                        <button type="button" class="btn btn-warning"
+                                style="margin-top: 15px; font-family: 'Jeju Gothic', sans-serif;">아티스트 보러가기
+                        </button>
                     </a>
                 </div>
             </div>
@@ -184,7 +211,7 @@
     </div>
 </div>
 <div class="layout" style="flex-direction: column">
-    <div class="flex headline" style="margin-left: 120px;">
+    <div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
         Zero-One 신발 만들기
     </div>
     <div class="flex px-3" style="margin-top: 60px; margin-bottom: 80px; display: flex;  justify-content: center;">
@@ -194,7 +221,7 @@
     </div>
 </div>
 
-<div class="flex headline" style="margin-left: 120px;">
+<div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
     나이키
 </div>
 <br>
@@ -224,11 +251,14 @@
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-comment"></i> ${board.commentCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
+                                    <small class="text-body-secondary float-right"><i
+                                            class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -298,7 +328,14 @@
                                 <div class="layout"
                                      style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                     <div class="profile">
-                                        <img src="${board.profile}" alt="" style="border-radius: 50%; width: inherit; height: inherit;">
+                                        <c:if test="${board.profile eq 'basic'}">
+                                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                        <c:if test="${board.profile ne 'basic'}">
+                                            <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
                                     </div>
                                     <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                         <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -307,7 +344,8 @@
                                     <input type="hidden" id="boardBrand${board.id}" value="${board.brand}">
                                     <input type="hidden" id="boardMemberId${board.id}" value="${board.memberId}">
                                     <div class="profileBtn" style="width: 7vh;">
-                                        <a href="/artist/${board.memberId}" class="profileText" style="text-decoration: none; color: black;">
+                                        <a href="/artist/${board.memberId}" class="profileText"
+                                           style="text-decoration: none; color: black;">
                                             프로필
                                         </a>
                                     </div>
@@ -372,7 +410,7 @@
     </c:forEach>
 </div>
 <br><br><br>
-<div class="flex headline" style="margin-left: 120px;">
+<div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
     아디다스
 </div>
 <br>
@@ -402,11 +440,14 @@
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-comment"></i> ${board.commentCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
+                                    <small class="text-body-secondary float-right"><i
+                                            class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -476,7 +517,14 @@
                                 <div class="layout"
                                      style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                     <div class="profile">
-                                        <img src="${board.profile}" alt="" style="border-radius: 50%; width: inherit; height: inherit;">
+                                        <c:if test="${board.profile eq 'basic'}">
+                                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                        <c:if test="${board.profile ne 'basic'}">
+                                            <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
                                     </div>
                                     <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                         <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -549,7 +597,7 @@
     </c:forEach>
 </div>
 <br><br><br>
-<div class="flex headline" style="margin-left: 120px;">
+<div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
     반스
 </div>
 <br>
@@ -579,11 +627,14 @@
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-comment"></i> ${board.commentCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
+                                    <small class="text-body-secondary float-right"><i
+                                            class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -631,7 +682,8 @@
                                             </button>
                                         </c:if>
                                     </div>
-                                    <ul class="list-group" id="commentListContainer${board.id}" style="border-top: 1px solid black; border-radius: 0;">
+                                    <ul class="list-group" id="commentListContainer${board.id}"
+                                        style="border-top: 1px solid black; border-radius: 0;">
                                     </ul>
                                 </div>
 
@@ -653,7 +705,14 @@
                                 <div class="layout"
                                      style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                     <div class="profile">
-                                        <img src="${board.profile}" alt="" style="border-radius: 50%; width: inherit; height: inherit;">
+                                        <c:if test="${board.profile eq 'basic'}">
+                                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                        <c:if test="${board.profile ne 'basic'}">
+                                            <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
                                     </div>
                                     <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                         <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -726,7 +785,7 @@
     </c:forEach>
 </div>
 <br><br><br>
-<div class="flex headline" style="margin-left: 120px;">
+<div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
     컨버스
 </div>
 <br>
@@ -756,11 +815,14 @@
 
                                 </div>
                                 <div class="card-footer" style="margin-top: auto;">
-                                    <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-comment"></i> ${board.commentCount}</small>
                                     <span class="mx-2"></span>
-                                    <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
+                                    <small class="text-body-secondary float-right"><i
+                                            class="fa-regular fa-eye"></i> ${board.view}</small>
                                 </div>
                             </div>
                         </div>
@@ -830,7 +892,14 @@
                                 <div class="layout"
                                      style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                     <div class="profile">
-                                        <img src="${board.profile}" alt="" style="border-radius: 50%; width: inherit; height: inherit;">
+                                        <c:if test="${board.profile eq 'basic'}">
+                                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                        <c:if test="${board.profile ne 'basic'}">
+                                            <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
                                     </div>
                                     <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                         <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -957,7 +1026,8 @@
                         <div id="requestTitleView" style="margin-bottom: 10px;"></div>
                         <%--                        <div>희망 수령일</div>--%>
                         <label style="margin-bottom: 5px;" for="requestMakeTime">희망 수령일</label>
-                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime" id="requestMakeTime">
+                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime"
+                               id="requestMakeTime">
                         <div style="margin-bottom: 5px;">추가 요청 사항을 알려주세요.</div>
                         <textarea style="padding: 10px;" name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
                         <input type="hidden" name="shoeName" id="requestShoeName">
@@ -974,11 +1044,11 @@
         </div>
     </div>
 </div>
-<br>
+<br><br><br>
 <div class="shopinfo">
-    제로원 대표 전형준 | 개인정보보호관리자 윤보상
+    제로원 대표 전형준 | 개인정보보호관리자 윤보상, 장진명
     <br>
-    주소 (14919)경기도 부천시 은행로 93
+    주소 (14919)경기도 시흥시 은행로 93
     <br>
     사업자등록번호 123-45-67890 | 통신판매업신고번호 2023-경기시흥-1234
     <br>

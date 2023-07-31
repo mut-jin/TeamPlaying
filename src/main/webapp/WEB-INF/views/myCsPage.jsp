@@ -77,11 +77,12 @@
                     <div>${csBoard.answer}</div>
                 </div>
             </c:if>
+            <hr>
             <c:if test="${csBoard.answer == null && memberType == 'admin'}">
                 <form action="/csAnswer" method="post">
                     <input type="hidden" value="${csBoard.id}" name="id">
-                    <textarea id="answer" name="answer" id="" cols="30" rows="10"></textarea>
-                    <button type="submit">등록</button>
+                    <textarea id="answer" name="answer" cols="30" rows="10" style="width: 100%;"></textarea>
+                    <button type="submit" >등록</button>
                 </form>
             </c:if>
         </div>

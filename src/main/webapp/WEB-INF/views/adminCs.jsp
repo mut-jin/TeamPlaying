@@ -40,20 +40,22 @@
   <div class="layout shadow" style="flex-direction: column; align-items: center;">
     <h1 style="margin-top: 10px;">문의 목록</h1>
     <div class="layout" style="width: 100%;">
-      <form action="/myCs" class="d-flex"
+      <%--<form action="/myCs" class="d-flex"
             style="margin-left: 78%;" role="search">
         <input value="${param.search }" name="search" type="search" style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
         <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0" type="submit"><i
                 class="fa-solid fa-magnifying-glass"></i></button>
-      </form>
+      </form>--%>
     </div>
     <table class="table table-hover" style="text-align: center;">
       <thead>
       <tr>
         <th scope="col" style="width: 6%;">번호</th>
         <th scope="col" style="width: 15%;">문의 유형</th>
-        <th scope="col" style="width: 58%;">제 목</th>
+        <th scope="col">제 목</th>
+        <th scope="col">작성자</th>
         <th scope="col">작성일</th>
+        <th scope="col">답변 여부</th>
       </tr>
       </thead>
       <tbody>
@@ -61,38 +63,45 @@
         <tr onclick="location.href='myCs/${csBoard.id}'">
           <th style="width: 6%;" scope="row">${status.count}</th>
           <td style="width: 15%;">${csBoard.category}</td>
-          <td style="width: 58%; text-align: left;">${csBoard.title}</td>
-          <td>${csBoard.insert}</td>
+          <td style="text-align: center;">${csBoard.title}</td>
+          <td style="text-align: center;">${csBoard.writer}</td>
+          <td>${csBoard.inserted}</td>
+          <c:if test="${not empty csBoard.answer}">
+              <td> 답변완료 </td>
+          </c:if>
+          <c:if test="${empty csBoard.answer}">
+            <td> 미답변 </td>
+          </c:if>
         </tr>
       </c:forEach>
       </tbody>
     </table>
     <div class="container-lg">
       <div class="row">
-        <nav aria-label="Page navigation example">
+        <%--<nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <!-- 이전 버튼 -->
             <c:if test="${pageInfo.currentPageNum gt 1 }">
-              <my:pageItem pageUrl="/myCs" pageNum="${pageInfo.currentPageNum - 1 }">
+              <my:pageItem pageUrl="/adminCs" pageNum="${pageInfo.currentPageNum - 1 }">
                 <i class="fa-solid fa-angle-left"></i>
               </my:pageItem>
             </c:if>
 
             <c:forEach begin="${pageInfo.leftPageNum }" end="${pageInfo.rightPageNum }" var="pageNum">
-              <my:pageItem pageUrl="/myCs" pageNum="${pageNum }">
+              <my:pageItem pageUrl="/adminCs" pageNum="${pageNum }">
                 ${pageNum }
               </my:pageItem>
             </c:forEach>
 
             <!-- 다음 버튼 -->
             <c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
-              <%-- 페이지 번호 : ${pageInfo.currentPageNum + 1 } --%>
-              <my:pageItem pageUrl="/myCs" pageNum="${pageInfo.currentPageNum + 1 }">
+              &lt;%&ndash; 페이지 번호 : ${pageInfo.currentPageNum + 1 } &ndash;%&gt;
+              <my:pageItem pageUrl="/adminCs" pageNum="${pageInfo.currentPageNum + 1 }">
                 <i class="fa-solid fa-angle-right"></i>
               </my:pageItem>
             </c:if>
           </ul>
-        </nav>
+        </nav>--%>
       </div>
     </div>
   </div>

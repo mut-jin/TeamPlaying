@@ -159,5 +159,9 @@ public class CsService {
 
     public String getWriterById(Integer id) {
         return csMapper.getWriter(id);
+
+    public List<CsBoard> getAllCs() {
+        return csMapper.selectAllCs();
+
     }
 }

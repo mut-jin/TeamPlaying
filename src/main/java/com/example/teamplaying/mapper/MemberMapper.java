@@ -24,8 +24,8 @@ public interface MemberMapper {
 
     @Insert("""
             insert into Member
-            (userId, password, name, nickName, birth, memberType, address, addressDetail, phone, email, introduce)
-            values (#{userId}, #{password}, #{name} ,#{nickName}, #{birth}, #{memberType}, #{address}, #{addressDetail}, #{phone}, #{email}, #{introduce})
+            (userId, password, name, nickName, birth, memberType, address, addressDetail, phone, email, introduce, profile)
+            values (#{userId}, #{password}, #{name} ,#{nickName}, #{birth}, #{memberType}, #{address}, #{addressDetail}, #{phone}, #{email}, #{introduce}, #{profile})
             """)
     Integer insertMember(Member member);
 
@@ -249,4 +249,10 @@ public interface MemberMapper {
             WHERE userId = #{userId}
             """)
     String getMemberTypeByUserId(String userId);
+
+    @Select("""
+            SELECT profile FROM Member
+            WHERE id = #{memberId}
+            """)
+    String getProfile(Integer memberId);
 }

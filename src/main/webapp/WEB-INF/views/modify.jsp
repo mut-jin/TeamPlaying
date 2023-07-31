@@ -80,21 +80,32 @@
 <div class="container-lg">
     <div></div>
     <form action="/modify" method="post">
-        <div class="row justify-content-center">
-            <div class="shadow" style="height: 750px;">
-                <h1><img
-                        src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%ED%9A%8C%EC%9B%90%EC%A0%95%EB%B3%B4.png"
-                        alt=""/></h1>
-                <!-- .mb-3*4>label+input -->
+        <div class="row justify-content-center myInfo">
+            <div class="shadow" style="height: 800px;">
+                <h1>프로필</h1>
+                <br>
                 <div class="mb-3">
-                    <label for="inputId"><img
-                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%95%84%EC%9D%B4%EB%94%94.png"
-                            alt=""/></label>
+                    <label class="form-label">프로필사진</label>
+                    <c:if test="${board.profile eq 'basic'}">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                             style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                    </c:if>
+                    <c:if test="${board.profile ne 'basic'}">
+                        <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                             style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                    </c:if>
+                    <input type="hidden" value="${board.profile}" name="pastProfile">
+                    <div>프로필 사진 변경</div>
+                    <input class="form-control" type="file" value="${member.profile}" name="profile"/>
+                    <div class="form-text">1MB 크기의 파일, 총 10MB 크기만 허용</div>
+                </div>
+                <div class="mb-3">
+                    <label for="inputId" class="form-label">아이디</label>
                     <input id="inputId" class="form-control" type="text" name="userId" value="${member.userId }"
                            readonly />
                 </div>
                 <div class="mb-3" style="display: none;">
-                    <label for="inputPassWord"> 비밀번호 </label>
+                    <label for="inputPassWord" class="form-label"> 비밀번호 </label>
                     <input id="inputPassword" class="form-control" type="text" name="password"
                            value=""/>
                 </div>
@@ -103,59 +114,46 @@
 <%--                    <input id="inputName" type="text" class="form-control" name="name" value="${member.name }"/>--%>
 <%--                </div>--%>
                 <div class="mb-3">
-                    <label for="inputNickName"><img style="margin-left: -1px;"
-                                                    src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EB%B3%84%EB%AA%85.png"
-                                                    alt=""/></label>
+                    <label for="inputNickName" class="form-label">닉네임</label>
                     <input id="inputNickName" class="form-control" type="text" name="nickName"
-                           value="${member.nickName }" readonly/>
+                           value="${member.nickName }"/>
 
                 </div>
                 <div class="mb-3">
-                    <label for="inputBirth"><img
-                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%83%9D%EC%9D%BC.png"
-                            alt=""/></label>
-                    <input id="inputBirth" class="form-control" type="text" name="birth" value="${member.birth }"
-                           readonly/>
+                    <label for="inputBirth" class="form-label">생년월일</label>
+                    <input id="inputBirth" class="form-control" type="text" name="birth" value="${member.birth }"/>
 
                 </div>
                 <div>
-                    <label for="inputAddress"><img style="margin-left: -3px;"
-                                                   src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%A3%BC%EC%86%8C.png"
-                                                   alt=""/></label>
+                    <label for="inputAddress" class="form-label">주소</label>
                     <div class="search-container" id="inputAddress">
                         <input type="text" id="address_kakao" name="address" value="${member.address}" readonly
                                class="search-input" placeholder="주소">
                     </div>
-                    <div class="search-container">
+                    <div class="search-container" class="form-label">
                         <input id="inputAddressDetail" type="text" class="form-control search-input"
                                name="addressDetail" value="${member.addressDetail}" placeholder="상세주소">
                     </div>
                 </div>
+                <br>
                 <div class="mb-3">
-                    <label for="inputPhone"></label>
-                    <img
-                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%A0%84%ED%99%94%EB%B2%88%ED%98%B8.png"
-                            alt=""/>
+                    <label for="inputPhone" class="form-label">전화번호</label>
                     <input id="inputPhone" class="form-control" type="text" name="phone" value="${member.phone }"/>
 
                 </div>
                 <div class="mb-3">
-                    <label for="inputEmail"><img style="margin-left: -3px;"
-                                                 src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%9D%B4%EB%A9%94%EC%9D%BC.png"
-                                                 alt=""/></label>
+                    <label for="inputEmail" class="form-label">이메일</label>
                     <input id="inputEmail" class="form-control" type="text" name="email" value="${member.email }"/>
 
                 </div>
                 <div class="mb-3">
-                    <label for="inputIntroduce"><img style="margin-left: -1px;"
-                                                     src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%86%8C%EA%B0%9C.png"
-                                                     alt=""/></label>
+                    <label for="inputIntroduce" class="form-label">소개</label>
                     <input id="inputIntroduce" class="form-control" type="text" name="introduce"
                            value="${member.introduce }"/>
 
                 </div>
 
-                <button class="btn btn-primary">Modify</button>
+                <button class="btn btn-primary">수정</button>
             </div>
         </div>
     </form>
@@ -301,7 +299,6 @@
   <script src="/js/groupChat.js"></script>
   <script src="/js/chat.js" charset="UTF-8"></script>
 </sec:authorize> --%>
-
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d88d8436c67d406cea914acf60c7b220&libraries=services"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

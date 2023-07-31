@@ -140,6 +140,7 @@ public class MainController {
             rttr.addFlashAttribute("message", "회원 가입 실패 ❌❌");
             return "redirect:/main";
         }
+
     }
 
     @GetMapping("list")
@@ -179,8 +180,8 @@ public class MainController {
 
     // 2.
     @PostMapping("modify")
-    public String modifyProcess(Member member, String oldPassword, RedirectAttributes rttr) {
-        boolean ok = memberService.modify(member, oldPassword);
+    public String modifyProcess(Member member, RedirectAttributes rttr) {
+        boolean ok = memberService.modify(member);
 
         if (ok) {
             rttr.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
@@ -565,7 +566,16 @@ public class MainController {
         model.addAttribute("members", members);
         return "members";
     }
-      
+
+    @GetMapping("adminCs")
+    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
+    public String adminCs(Model model, Authentication authentication) {
+        List<CsBoard> csBoard = csService.getAllCs();
+        ModelAndView modelAndView = new ModelAndView("csList"); // 해당 JSP 파일명
+        model.addAttribute("csBoardList", csBoard);
+        return "adminCs";
+    }
+
     @PutMapping("commentUpdate")
     @ResponseBody
     @PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardCommentWriter(authentication, #comment.id)")

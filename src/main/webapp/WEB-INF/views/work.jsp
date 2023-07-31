@@ -44,10 +44,9 @@
 
         .card-text {
             font-family: 'Jeju Gothic', sans-serif;
-            font-size: 17.5px;
+            font-size: 18px;
             fort-weight: bold;
-            height: 35px;
-            overflow: hidden;
+            height: 61px;
         }
 
         .card-img {
@@ -120,13 +119,14 @@
             border-radius: 24px;
             height: 28px;
             margin: 8px 0 8px 16px;
+            display: flex;
+            justify-content: flex-end;
         }
 
         .profileText {
             font-size: 80%;
             height: 28px;
             min-width: 50px;
-            padding: 0 12.4444444444px;
             margin-top: 4px;
         }
 
@@ -149,8 +149,8 @@
 <div class="container" style="margin-top: 86px;">
     <form action="/work" class="search-form" role="search">
         <input id="searchInput" value="${param.search}" name="search" class="form-control search-input"
-               type="text" placeholder="Search" aria-label="search">
-        <button id="search" class="btn btn-outline-success" type="submit">
+               type="text" placeholder="Search" aria-label="search" style="border-color: black;">
+        <button id="search" class="btn btn-outline-success" type="submit" style="color: black; border-color: black;">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </form>
@@ -204,7 +204,7 @@
                     <c:param name="search" value="${param.search}"></c:param>
                 </c:if>
             </c:url>
-            <ul class="dropdown-menu" style="width: 300px;">
+            <ul class="dropdown-menu" style="width: 300px; font-family: 'Jeju Gothic', sans-serif;">
 
                 <li><a class="dropdown-item" href="${allBrandUrl}">모든 작품</a></li>
                 <li><a class="dropdown-item ShoeBrand" href="${nikeBrandUrl}" id="nike">나이키</a></li>
@@ -231,17 +231,21 @@
     <br><br>
 
 
-    <div id="workListData" class="row" style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
+    <div id="workListData" class="row"
+         style="display: flex; flex-wrap: wrap; margin-right: -275px; margin-left: -250px; justify-content: center;">
         <c:forEach items="${shoeBoardList}" var="board" varStatus="status">
             <c:choose>
                 <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
-                    <div id="shoeBoard${board.id}" class="shadow" style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 58vh; padding: 5px;"
+                    <div id="shoeBoard${board.id}" class="shadow"
+                         style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 58vh; padding: 5px;"
                          onclick="view(this)"
                          data-bs-toggle="modal" data-bs-target="#shoeModal${board.id}" data-id="${board.id}">
                         <div class="card my-card" data-brand="${board.brand}">
                             <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
-                                <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}" data-member-id="${board.memberId}">
-                                    <img class="card-img" src="${bucketUrl }/shoeBoard/${board.id }/${board.imgUrlList[0]}" alt=""/>
+                                <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}"
+                                     data-member-id="${board.memberId}">
+                                    <img class="card-img"
+                                         src="${bucketUrl }/shoeBoard/${board.id }/${board.imgUrlList[0]}" alt=""/>
                                     <div class="card-body">
                                         <p class="card-text">${board.title}</p>
                                         <div class="flex caption">
@@ -253,11 +257,14 @@
                                         <p class="card-price">₩${board.price}</p>
                                     </div>
                                     <div class="card-footer" style="margin-top: auto;">
-                                        <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                        <small class="text-body-secondary"><i
+                                                class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
                                         <span class="mx-2"></span>
-                                        <small class="text-body-secondary"><i class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                        <small class="text-body-secondary"><i
+                                                class="fa-regular fa-comment"></i> ${board.commentCount}</small>
                                         <span class="mx-2"></span>
-                                        <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
+                                        <small class="text-body-secondary float-right"><i
+                                                class="fa-regular fa-eye"></i> ${board.view}</small>
                                     </div>
                                 </div>
                             </div>
@@ -305,14 +312,16 @@
                                                 </button>
                                             </c:if>
                                         </div>
-                                        <ul class="list-group" id="commentListContainer${board.id}" style="border-top: 1px solid black; border-radius: 0;">
+                                        <ul class="list-group" id="commentListContainer${board.id}"
+                                            style="border-top: 1px solid black; border-radius: 0;">
                                         </ul>
                                     </div>
 
                                 </div>
                             </div>
                             <div class="myPageOption">
-                                <div class="layout modal-content" style="flex-direction: column; background-color: white;">
+                                <div class="layout modal-content"
+                                     style="flex-direction: column; background-color: white;">
                                     <div style="margin: 16px 12px 0px;">
                                         <h1 id="boardTitle${board.id}">${board.title}</h1>
                                         <c:if test="${myUserId eq board.userId || myMemberType eq 'admin'}">
@@ -327,7 +336,16 @@
                                     <div class="layout"
                                          style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                         <div class="profile">
-                                            <img src="${board.profile}" alt="" style="border-radius: 50%; width: inherit; height: inherit;">
+                                            <c:if test="${board.profile eq 'basic'}">
+                                                <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                     style="border-radius: 50%; width: inherit; height: inherit;"
+                                                     alt="">
+                                            </c:if>
+                                            <c:if test="${board.profile ne 'basic'}">
+                                                <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                     style="border-radius: 50%; width: inherit; height: inherit;"
+                                                     alt="">
+                                            </c:if>
                                         </div>
                                         <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                             <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -336,7 +354,8 @@
                                         <input type="hidden" id="boardBrand${board.id}" value="${board.brand}">
                                         <input type="hidden" id="boardMemberId${board.id}" value="${board.memberId}">
                                         <div class="profileBtn" style="width: 7vh;">
-                                            <a href="/artist/${board.memberId}" class="profileText" style="text-decoration: none; color: black;">
+                                            <a href="/artist/${board.memberId}" class="profileText"
+                                               style="text-decoration: none; color: black;">
                                                 프로필
                                             </a>
                                         </div>
@@ -354,14 +373,16 @@
                                         </div>
                                         <div class="layout">
                                             <div style="font-weight: 700; margin-right: auto;">작업비용</div>
-                                            <div id="boardPrice${board.id}" style="margin-left: auto;">${board.price}</div>
+                                            <div id="boardPrice${board.id}"
+                                                 style="margin-left: auto;">${board.price}</div>
                                         </div>
                                     </div>
                                     <div class="layout" style="overflow: hidden; ">
                                         <button value="${board.id}" id="likeBtn${board.id}"
                                                 style="display: flex; justify-content: center; align-items: center; height: 44px; border-radius: 0; border: 0; margin: 0; background-color: #9e9e9e; color: white;"
-                                                class="myPageOption likeIcon"><i style="margin-right: 5px; font-size: 150%;"
-                                                                                 class="fa-regular fa-thumbs-up"></i> ${board.likeCount}
+                                                class="myPageOption likeIcon"><i
+                                                style="margin-right: 5px; font-size: 150%;"
+                                                class="fa-regular fa-thumbs-up"></i> ${board.likeCount}
                                         </button>
                                         <button data-bs-toggle="modal" data-bs-target="#requestModal"
                                                 style="height: 44px; border-radius: 0; border: 0; margin: 0; background-color: orange; color: white"
@@ -459,7 +480,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dism    iss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dism iss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     ...
@@ -528,7 +549,8 @@
                         <div id="requestTitleView" style="margin-bottom: 10px;"></div>
                         <%--                        <div>희망 수령일</div>--%>
                         <label style="margin-bottom: 5px;" for="requestMakeTime">희망 수령일</label>
-                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime" id="requestMakeTime">
+                        <input style="padding: 10px; margin-bottom: 20px;" type="date" name="makeTime"
+                               id="requestMakeTime">
                         <div style="margin-bottom: 5px;">추가 요청 사항을 알려주세요.</div>
                         <textarea style="padding: 10px;" name="body" id="" rows="7" placeholder="추가 요청 사항"></textarea>
                         <input type="hidden" name="shoeName" id="requestShoeName">
@@ -576,15 +598,13 @@
 
 
 <style>
-    .btn.btn-warning.dropdown-toggle::after {
+    .btn.btn-dark.dropdown-toggle::after {
         position: absolute;
         right: 10px;
         top: 50%;
         transform: translateY(-50%);
     }
 </style>
-
-
 
 
 </body>

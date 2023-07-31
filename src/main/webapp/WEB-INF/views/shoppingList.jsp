@@ -94,16 +94,6 @@
             <div class="row justify-content-center myInfo">
                 <div class="layout shadow" style="flex-direction: column; align-items: center;">
                     <h1 style="margin-top: 10px;">주문 내역</h1>
-                    <div class="layout" style="width: 100%;">
-                        <form action="/shoppingList" class="d-flex"
-                              style="margin-left: 78%;" role="search">
-                            <input value="${param.search }" name="search" type="search"
-                                   style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
-                            <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0"
-                                    type="submit"><i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </form>
-                    </div>
                     <table class="table table-hover" style="text-align: center;">
                         <thead>
                         <tr>
@@ -218,8 +208,8 @@
                             조건 수정
                         </button>--%>
                         <c:if test="${list.progress eq '의뢰 확인중' or list.progress eq '결제 대기중' or list.progress eq '수정 요청'}">
-                            <button type="button" class="btn btn-primary" id="refuseBtn" value="${list.id}">
-                                거절
+                            <button type="button" class="btn btn-danger" id="refuseBtn" value="${list.id}">
+                                의뢰 취소
                             </button>
                         </c:if>
                     </div>

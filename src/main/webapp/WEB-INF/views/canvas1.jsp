@@ -20,14 +20,21 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: yellow;
+        background-color: lightgray;
         width: 100%;
         position: absolute;
         transform: translate(-50%, -50%);
         left: 50%;
         margin-top: 20px;
         border-radius: 10px;
-        border: 2px solid #000;
+        border: 1px solid #000;
+    }
+
+    #image-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 66%;
     }
 
 
@@ -44,7 +51,15 @@
 
     #image-list {
         text-align: center;
+        overflow-y: auto; /* 세로 스크롤이 필요할 때만 스크롤을 보여줍니다. */
+        max-height: 200px; /* 원하는 높이로 설정해 주세요. */
     }
+
+    #image-list img {
+        width: 97px;
+        height: auto;
+    }
+
     .canvas-container {
         display: flex;
         align-items: center;
@@ -52,73 +67,79 @@
         width: 100%;
         height: 100%;
     }
+
+    .shadow {
+        box-shadow: 0 3px 30px 0 rgba(0, 0, 0, .16) !important;
+    }
 </style>
 <body>
 <my:navBar></my:navBar>
     <div class="row justify-content-center">
         <div class="d-flex mb-3 row">
             <div class="col-2 left-div d-flex flex-column align-items-center" style="display: flex; flex-direction: column; align-items: center; margin-top: 200px;">
-                <div class="card" style="margin-bottom: 100px;">
+                <div class="card shadow" style="margin-bottom: 100px;">
                     <div id="outImage" class="canvas-image">
                         <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-out1.webp" alt="..." style="width: 200px; height: auto">
                     </div>
-                    <div class="card-body">
-                        <button> 버튼 </button>
+                    <div class="card-body d-flex justify-content-center">
+                        <h5> Inside </h5>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card shadow">
                     <div id="innerImage" class="canvas-image">
                         <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-in1.webp" alt="..." style="width: 200px; height: auto">
                     </div>
-                    <div class="card-body">
-                        <button> 버튼 </button>
+                    <div class="card-body d-flex justify-content-center">
+                        <h5> Outside </h5>
                     </div>
                 </div>
             </div>
             <div class="col-8 d-flex justify-content-center" style="margin-top: 200px;">
-                <div class="canvas-container" id="canvas-container">
+                <div class="canvas-container shadow" id="canvas-container">
                     <canvas id="drawing-board" style="border-radius: 10px; border: 2px solid #000;"></canvas>
                     <img id="canvas-image" src="" alt="Selected Image">
                 </div>
             </div>
             <div class="col-2 right-div d-flex flex-column align-items-center" style="display: flex; flex-direction: column; align-items: center; margin-top: 200px;">
-                <div class="card">
+                <div class="card shadow">
                     <div id="leftImage" class="canvas-image">
                         <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-left1.webp" alt="..." style="width: 200px; height: auto">
                     </div>
-                    <div class="card-body">
-                        <button> 버튼 </button>
+                    <div class="card-body d-flex justify-content-center">
+                        <h5> Upper Left </h5>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card shadow">
                     <div id="backImage" class="canvas-image">
                         <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-back1.webp" alt="..." style="width: 200px; height: auto">
                     </div>
-                    <div class="card-body">
-                        <button> 버튼 </button>
+                    <div class="card-body d-flex justify-content-center">
+                        <h5> Back side </h5>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card shadow">
                     <div id="rightImage" class="canvas-image">
                         <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-right1.webp" alt="..." style="width: 200px; height: auto">
                     </div>
-                    <div class="card-body">
-                        <button> 버튼 </button>
+                    <div class="card-body d-flex justify-content-center">
+                        <h5> Upper Right </h5>
                     </div>
                 </div>
             </div>
         </div>
         <div id="tool">
-            <div class="mb-3">
+            <div class="mb-3 shadow">
                 <div id="toolbar">
-                    <label for="stroke">Stroke</label>
+                    <label for="stroke" style="font-weight: bold;">선 색상</label>
                     <input id="stroke" name='stroke' type="color">
-                    <label for="lineWidth">Line Width</label>
+                    <label for="lineWidth" style="font-weight: bold;">선 굵기</label>
                     <input id="lineWidth" name='lineWidth' type="number" value="5">
                     <button id="clear">Clear</button>
                     <button id="save">Save</button>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button id="showButtonsBtn"> 보이기 </button>
+                    <button id="hideButtonsBtn"> 숨기기 </button>
+                    <div class="dropup">
+                        <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight: bold;">
                             신발 목록
                         </button>
                         <ul class="dropdown-menu">
@@ -130,10 +151,30 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-3">
-                <div id="image-list">
-                    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/UserPhoto.jpg" alt="Image 1" class="draggable-image">
-                    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/UserPhoto+(1).jpg" alt="Image 2" class="draggable-image">
+            <div class="mb-3 d-flex justify-content-center" style="margin-top: 30px;">
+                <div class="card shadow" id="image-box">
+                    <div class="card-body">
+                        <div id="image-list">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/adidas.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/apple.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/basketball.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/bmw.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/bob1.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/cha12.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/clef.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/Disney.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/fbi.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/ham.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/infinity.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/like.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/linux.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/miki.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/navi.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/nike.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/red_arrow.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/sunflower.png" alt="Image 1" class="draggable-image">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -145,7 +186,6 @@
 </div>--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-
 
 
 
@@ -164,6 +204,23 @@
 
     const shoeImage = [];
     // left-div의 이미지를 클릭했을 때
+
+    const showButtonsBtn = document.getElementById('showButtonsBtn');
+    const hideButtonsBtn = document.getElementById('hideButtonsBtn');
+
+    showButtonsBtn.addEventListener('click', () => {
+        for (const image of images) {
+            image.showButtons = true;
+        }
+        drawCanvas();
+    });
+
+    hideButtonsBtn.addEventListener('click', () => {
+        for (const image of images) {
+            image.showButtons = false;
+        }
+        drawCanvas();
+    });
 
     // Dropdown 아이템 클릭 이벤트 처리
     const dropdownItems = document.querySelectorAll('.dropdown-item');
@@ -187,10 +244,18 @@
                 document.getElementById('rightImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/oldschool/oldschool-right.png';  // 오른쪽 위 이미지 변경
                 clearCanvas();
             } else if (selectedShoe === '컨버스') {
-                // 컨버스에 대한 이미지 URL 변경
+                document.getElementById('outImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/outImage.png';  // 바깥 이미지 변경
+                document.getElementById('innerImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/innerImage.png';  // 안쪽 이미지 변경
+                document.getElementById('leftImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/leftImage.png';  // 왼쪽 위 이미지 변경
+                document.getElementById('backImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/backImage.png';  // 뒷면 이미지 변경
+                document.getElementById('rightImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/rightImage.png';  // 오른쪽 위 이미지 변경
                 clearCanvas();
             } else if (selectedShoe === '조던') {
-                // 조던에 대한 이미지 URL 변경
+                document.getElementById('outImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/outImage.png';  // 바깥 이미지 변경
+                document.getElementById('innerImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/innerImage.png';  // 안쪽 이미지 변경
+                document.getElementById('leftImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/leftImage.png';  // 왼쪽 위 이미지 변경
+                document.getElementById('backImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/backImage.png';  // 뒷면 이미지 변경
+                document.getElementById('rightImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/rightImage.png';  // 오른쪽 위 이미지 변경
                 clearCanvas();
             }
         });
@@ -253,14 +318,33 @@
         drawDecorations('outImage');
     });
 
+
+    function drawImageWithAspectRatio(image, x, y, targetWidth, targetHeight) {
+        const imageAspectRatio = image.width / image.height;
+        let width = targetWidth;
+        let height = targetHeight;
+        if (imageAspectRatio > 1) {
+            height = targetWidth / imageAspectRatio;
+        } else {
+            width = targetHeight * imageAspectRatio;
+        }
+        ctx.drawImage(image, x, y, width, height);
+    }
     // 예시: 이미지를 선택하고 꾸밀 요소 추가하기
-    const imageListImages = document.querySelectorAll('.image-list img');
+    /*const imageListImages = document.querySelectorAll('.image-list img');
+    const targetWidth = 97; // 원하는 가로 크기
     imageListImages.forEach((image) => {
         image.addEventListener('click', function () {
             const selectedImageType = this.dataset.imageType;
-            selectImage(this, selectedImageType);
+            const img = new Image();
+            img.src = this.src;
+            img.onload = () => {
+                const canvasCenterX = canvas.width / 2 - targetWidth / 2;
+                const canvasCenterY = canvas.height / 2 - img.height / 2;
+                drawImageWithAspectRatio(img, canvasCenterX, canvasCenterY, targetWidth, img.height);
+            };
         });
-    });
+    });*/
 
     // 예시: painting 요소를 클릭하면 꾸밀 요소 추가하기
     canvas.addEventListener('click', (event) => {
@@ -479,20 +563,29 @@
                 buttonOffsetY: 0,
                 rotation: 0, // 회전 각도 초기값
                 loaded: false,
-                layer: 'front'
+                layer: 'front',
+                showButtons: true
             };
             newImage.crossOrigin = 'Anonymous';
             newImage.image.onload = () => {
-                newImage.loaded = true;
-                newImage.offsetX = canvas.width / 2 - newImage.image.width / 2;
-                newImage.offsetY = canvas.height / 2 - newImage.image.height / 2;
-                newImage.buttonOffsetX = newImage.offsetX + newImage.image.width - 10;
+                const targetWidth = 97;
+                const scaleFactor = targetWidth / newImage.image.width;
+                const targetHeight = newImage.image.height * scaleFactor;
+
+                // 원본 비율 유지하며 97px 크기로 이미지를 중앙에 그립니다.
+                const canvasCenterX = canvas.width / 2 - targetWidth / 2;
+                const canvasCenterY = canvas.height / 2 - targetHeight / 2;
+
+                newImage.offsetX = canvasCenterX;
+                newImage.offsetY = canvasCenterY;
+                newImage.buttonOffsetX = newImage.offsetX + targetWidth - 10;
                 newImage.buttonOffsetY = newImage.offsetY - 10;
+                newImage.loaded = true;
                 drawCanvas();
             };
             newImage.image.src = clickedImage.src;
-
             images.push(newImage);
+
         }
     });
 
@@ -525,7 +618,6 @@
                 rotateImageIndex = rotateButtonIndex;
                 rotateStartX = clickedX;
                 rotateStartY = clickedY;
-                images[rotateButtonIndex].showButtons = !images[rotateButtonIndex].showButtons;
                 drawCanvas();
                 rotateCenterX = images[rotateButtonIndex].offsetX + images[rotateButtonIndex].image.width / 2;
                 rotateCenterY = images[rotateButtonIndex].offsetY + images[rotateButtonIndex].image.height / 2;
@@ -553,24 +645,25 @@
         ctx.fillStyle = '#00ff00';
         ctx.fillRect(buttonOffsetX, buttonOffsetY, rotateButtonSize, rotateButtonSize);*/
         const buttonSize = 20;
-        const centerX = image.offsetX + image.width - buttonSize;
-        const centerY = image.offsetY - buttonSize;
-        const radius = buttonSize / 2;
-        const arrowSize = 5;
+        const centerX = x - buttonSize / 2;;
+        const centerY = y - buttonSize / 2;;
+/*        const radius = buttonSize / 2;
+        const arrowSize = 5;*/
 
         ctx.fillStyle = '#00ff00'; // 버튼 색상
-        ctx.beginPath();
+        ctx.fillRect(centerX, centerY, buttonSize, buttonSize);
+        /*ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI); // 원 그리기
-        ctx.fill();
+        ctx.fill();*/
 
         // 원 중심을 기준으로 삼각형 그리기 (시계 방향)
-        ctx.fillStyle = '#ffffff'; // 삼각형 색상
+        /*ctx.fillStyle = '#ffffff'; // 삼각형 색상
         ctx.beginPath();
         ctx.moveTo(centerX + arrowSize, centerY);
         ctx.lineTo(centerX - arrowSize, centerY - arrowSize);
         ctx.lineTo(centerX - arrowSize, centerY + arrowSize);
         ctx.closePath();
-        ctx.fill();
+        ctx.fill();*/
     }
 
     canvas.addEventListener('mouseup', () => {
@@ -711,14 +804,14 @@
         ctx.fillRect(x, y, buttonSize, buttonSize); // 사각형 그리기
 
         // X 모양 그리기
-        ctx.strokeStyle = '#ffffff'; // X 모양 색상
+        /*ctx.strokeStyle = '#ffffff'; // X 모양 색상
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(x + 4, y + 4);
         ctx.lineTo(x + buttonSize - 4, y + buttonSize - 4);
         ctx.moveTo(x + 4, y + buttonSize - 4);
         ctx.lineTo(x + buttonSize - 4, y + 4);
-        ctx.stroke();
+        ctx.stroke();*/
     }
 
     function findClickedImage(x, y) {
@@ -832,6 +925,7 @@
     // 초기화
     adjustCanvasSize();
 </script>
+
 
 
 

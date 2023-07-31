@@ -122,24 +122,9 @@ public class MemberService {
         return cnt == 1;
     }
 
-    public boolean modify(Member member, String oldPassword) {
+    public boolean modify(Member member) {
 
-        // 패스워드를 바꾸기 위해 노력했다면...
-        if (!member.getPassword().isBlank()) {
-
-            // 입력된 패스워드를 암호화
-            String plain = member.getPassword();
-            member.setPassword(passwordEncoder.encode(plain));
-        }
-
-        Member oldMember = mapper.selectById(member.getUserId());
-
-        int cnt = 0;
-
-        if (passwordEncoder.matches(oldPassword, oldMember.getPassword())) {
-            // 기존 암호와 같으면
-            cnt = mapper.update(member);
-        }
+        int cnt = mapper.update(member);
 
         return cnt == 1;
     }
@@ -186,7 +171,8 @@ public class MemberService {
             List<String> shoeList = new ArrayList<>();
             List<Integer> boardIdList = new ArrayList<>();
             List<Integer> boardIdLists = shoeMapper.getBoardIdList(i.getId(), startIndex, rowPerPage);
-            for (ShoeBoard shoeBoard : shoeMapper.getAllShoes(i.getId())) {
+            for(ShoeBoard shoeBoard : shoeMapper.getAllShoes(i.getId())) {
+                shoeBoard.setProfile(mapper.getProfile(shoeBoard.getMemberId()));
                 shoeBoardList.add(shoeBoard);
             }
             for (Integer boardID : boardIdLists) {
@@ -197,7 +183,7 @@ public class MemberService {
             }
 
             i.setBoardIdList(boardIdList);
-            i.setProfile(bucketUrl + "/Member/" + i.getId() + "/" + i.getProfile());
+//            i.setProfile(bucketUrl + "/Member/" + i.getId() + "/" + i.getProfile());
             i.setSubCount(shoeMapper.getMySubscribe(i.getId()));
             i.setShoeImgList(shoeList);
             if (i.getTotalView() == null) {
@@ -231,10 +217,11 @@ public class MemberService {
         pageInfo.put("currentPageNum", page);
 
         Member member = mapper.getMemberById(id);
-        member.setProfile(bucketUrl + "/Member/" + id + "/" + member.getProfile());
+//        member.setProfile(bucketUrl + "/Member/" + id + "/" + member.getProfile());
         List<ShoeBoard> list = shoeMapper.getAllShoesByArtistId(id, startIndex, rowPerPage);
         for (ShoeBoard i : list) {
             i.setImgUrlList(shoeMapper.getMyShoeFileNameList(i.getId()));
+            i.setProfile(mapper.getProfile(i.getMemberId()));
         }
         String myMemberType = "";
         if (!myUserId.equals("")) {

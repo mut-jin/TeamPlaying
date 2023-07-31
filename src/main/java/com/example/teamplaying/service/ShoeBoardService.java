@@ -56,6 +56,7 @@ public class ShoeBoardService {
 //            for (String j : mapper.getMyShoeFileNameList(i.getId())) {
 //                shoeList.add(bucketUrl + "/shoeBoard/" + i.getId() + "/" + j);
 //            }
+            i.setProfile(memberMapper.getProfile(i.getMemberId()));
             i.setImgUrlList(mapper.getMyShoeFileNameList(i.getId()));
         }
 
@@ -112,7 +113,6 @@ public class ShoeBoardService {
         for (ShoeBoard shoeBoard : list) {
             shoeBoard.setFileName(bucketUrl + "/shoeBoard/" + shoeBoard.getId() + "/" + shoeBoard.getFileName());
             shoeBoard.setImgUrlList(mapper.getMyShoeFileNameList(shoeBoard.getId()));
-            shoeBoard.setProfile(bucketUrl + "/member/" + shoeBoard.getMemberId() + "/" + shoeBoard.getProfile());
         }
         return list;
     }
