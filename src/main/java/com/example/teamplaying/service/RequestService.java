@@ -4,6 +4,7 @@ import com.example.teamplaying.domain.Chat;
 import com.example.teamplaying.domain.CustomRequest;
 import com.example.teamplaying.mapper.ChatMapper;
 import com.example.teamplaying.mapper.MemberMapper;
+import com.example.teamplaying.mapper.PaymentMapper;
 import com.example.teamplaying.mapper.RequestMapper;
 import com.example.teamplaying.mapper.ShoeBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -167,4 +168,7 @@ public class RequestService {
 
         return res;
     }
+
+
+
 }

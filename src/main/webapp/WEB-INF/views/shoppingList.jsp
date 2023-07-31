@@ -40,6 +40,19 @@
             margin-bottom: 2rem;
         }
 
+        .image-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .myPageMenu {
+            text-decoration: none;
+            color: black;
+            margin-bottom: 8px;
+        }
+
         .hover {
             padding: 5px;
             border-radius: 8px;
@@ -47,12 +60,6 @@
 
         .hover:hover {
             background-color: #FFC107;
-        }
-
-        .myPageMenu {
-            text-decoration: none;
-            color: black;
-            margin-bottom: 8px;
         }
 
     </style>
@@ -66,9 +73,6 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
-<br>
-<br>
-<br>
     <my:navBar></my:navBar>
     <div class="container" style="margin-top: 100px;">
         <div class="layout" style="justify-content: center;">
@@ -89,13 +93,13 @@
                 <div class="layout shadow" style="flex-direction: column; align-items: center;">
                     <h1 style="margin-top: 10px;">주문 내역</h1>
                     <div class="layout" style="width: 100%;">
-                        <form action="/myCs" class="d-flex"
+                        <form action="/shoppingList" class="d-flex"
                               style="margin-left: 78%;" role="search">
                             <input value="${param.search }" name="search" type="search"
                                    style="flex-basis: 75%; max-width: 75%; flex-grow: 0; border-width: 1px 0px 1px 1px;">
                             <button style="background-color: white; border-width: 1px 1px 1px 0px; flex-basis: 25%; max-width: 25%; flex-grow: 0"
-                                    type="submit"><i
-                                    class="fa-solid fa-magnifying-glass"></i></button>
+                                    type="submit"><i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
                         </form>
                     </div>
                     <table class="table table-hover" style="text-align: center;">
@@ -132,14 +136,14 @@
                                 <ul class="pagination justify-content-center">
                                     <!-- 이전 버튼 -->
                                     <c:if test="${pageInfo.currentPageNum gt 1 }">
-                                        <my:pageItem pageUrl="/myCs" pageNum="${pageInfo.currentPageNum - 1 }">
+                                        <my:pageItem pageUrl="/shoppingList" pageNum="${pageInfo.currentPageNum - 1 }">
                                             <i class="fa-solid fa-angle-left"></i>
                                         </my:pageItem>
                                     </c:if>
 
                                     <c:forEach begin="${pageInfo.leftPageNum }" end="${pageInfo.rightPageNum }"
                                                var="pageNum">
-                                        <my:pageItem pageUrl="/myCs" pageNum="${pageNum }">
+                                        <my:pageItem pageUrl="/shoppingList" pageNum="${pageNum }">
                                             ${pageNum }
                                         </my:pageItem>
                                     </c:forEach>
@@ -147,7 +151,7 @@
                                     <!-- 다음 버튼 -->
                                     <c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
                                         <%-- 페이지 번호 : ${pageInfo.currentPageNum + 1 } --%>
-                                        <my:pageItem pageUrl="/myCs" pageNum="${pageInfo.currentPageNum + 1 }">
+                                        <my:pageItem pageUrl="/shoppingList" pageNum="${pageInfo.currentPageNum + 1 }">
                                             <i class="fa-solid fa-angle-right"></i>
                                         </my:pageItem>
                                     </c:if>
@@ -175,20 +179,20 @@
                         <div class="layout" style="flex-direction: column">
                             <div class="mb-10">신발 정보</div>
                             <input type="text" id="brand${list.id}" style="height: 40px;" name="brand"
-                                   class="mb-20" value="${list.brand}">
+                                   class="mb-20" value="${list.brand}" readonly>
                             <input type="text" id="shoeName${list.id}" style="height: 40px;"
-                                   name="shoeName" class="mb-20" value="${list.shoeName}">
+                                   name="shoeName" class="mb-20" value="${list.shoeName}" readonly>
                             <div class="mb-10">요청 사항</div>
                             <textarea name="requestBody" id="requestBody${list.id}" class="mb-20" id=""
-                                      rows="7">${list.body}</textarea>
+                                      rows="7" readonly>${list.body}</textarea>
                             <div class="mb-10">희망 가격을 입력해주세요</div>
                             <input type="text" id="price${list.id}" style="height: 40px;" name="price"
-                                   class="mb-20" value="${list.price}">
+                                   class="mb-20" value="${list.price}" readonly>
                             <div class="mb-10">제작 희망 기간</div>
                             <input type="date" id="makeTime${list.id}" name="makeTime"
-                                   style="height: 40px;" value="${list.makeTime}">
+                                   style="height: 40px;" value="${list.makeTime}" readonly>
                             <input type="hidden" id="artistUserId${list.id}"
-                                   value="${list.artistUserId}">
+                                   value="${list.artistUserId}" readonly>
                             <div class="mb-10">참고할 이미지</div>
                             <div>
                                 <c:forEach items="${list.fileNameList}" var="file">
@@ -203,13 +207,19 @@
                         <%--<button type="button" class="btn btn-primary" id="acceptBtn" value="작업중">
                             수락
                         </button>--%>
-                            <button id="check_module" class="btn btn-primary" value="작업중" type="button">결제</button>
-                        <button type="button" class="btn btn-primary" id="modifyBtn" value="조건 수정 요청">
+                        <c:if test="${list.progress eq '결제 대기중' or list.progress eq '수정 요청'}">
+                            <button class="image-button" id="payBtn${list.id}" value="${list.id}">
+                                <img class="img-button" src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/payment_icon_yellow_small.png" />
+                            </button>
+                        </c:if>
+                        <%--<button type="button" class="btn btn-primary" id="modifyBtn" value="조건 수정 요청">
                             조건 수정
-                        </button>
-                        <button type="button" class="btn btn-primary" id="refuseBtn" value="${list.id}">
-                            거절
-                        </button>
+                        </button>--%>
+                        <c:if test="${list.progress eq '의뢰 확인중' or list.progress eq '결제 대기중' or list.progress eq '수정 요청'}">
+                            <button type="button" class="btn btn-primary" id="refuseBtn" value="${list.id}">
+                                거절
+                            </button>
+                        </c:if>
                     </div>
                         <%--                </c:if>--%>
                         <%--            </form>--%>
@@ -234,55 +244,119 @@
     <%--<script src="/js/shoppingList.js"></script>--%>
 
     <script>
-        $("#check_module").click(function () {
-            var IMP = window.IMP; // 생략가능
-            IMP.init('imp35730816');
-            // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
-            // ''안에 띄어쓰기 없이 가맹점 식별코드를 붙여넣어주세요. 안그러면 결제창이 안뜹니다.
-            IMP.request_pay({
-                pg: 'kakaopay.TC0ONETIME',
-                pay_method: 'card',
-                merchant_uid: 'merchant_' + new Date().getTime(),
-                /*
-                 *  merchant_uid에 경우
-                 *  https://docs.iamport.kr/implementation/payment
-                 *  위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
-                 */
-                name: "아메리카노",
-                // 결제창에서 보여질 이름
-                // name: '주문명 : <%--${auction.a_title}',--%>
-                // 위와같이 model에 담은 정보를 넣어 쓸수도 있습니다.
-                amount: 2000,
-                // amount: <%--${bid.b_bid},--%>
-                // 가격
-                buyer_name: 'mason'
-                // 구매자 이름, 구매자 정보도 model값으로 바꿀 수 있습니다.
-                // 구매자 정보에 여러가지도 있으므로, 자세한 내용은 맨 위 링크를 참고해주세요.
-            }, function (rsp) {
-                console.log(rsp);
+        $(document).ready(function () {
+            $("[id^='payBtn']").click(function () {
+                var id = $(this).val(); // 결제 버튼의 값을 가져와서 id 변수에 할당
+                var IMP = window.IMP; // 생략가능
+                IMP.init('imp35730816');
+                // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
+                // ''안에 띄어쓰기 없이 가맹점 식별코드를 붙여넣어주세요. 안그러면 결제창이 안뜹니다.
 
-                // 결제검증
-                $.ajax({
-                    type: "POST",
-                    url: "makePayment", // 결제 정보를 서버로 전달
-                    contentType: 'application/json;charset=utf-8',
-                    data: JSON.stringify(rsp), // 결제 결과를 JSON 형태로 서버에 전송
-                    success: function (response) {
-                        if(response.success) {
-                            // alert("결제 및 결제검증 완료");
-                            // 결제 성공 시 비즈니스 로직
-                        } else {
-                            // alert("결제 실패");
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
+                // 클릭한 결제 버튼의 id에서 해당 상품의 정보 가져오기
+                var listId = $(this).val();
+                var brand = $("#brand" + listId).val();
+                var shoeName = $("#shoeName" + listId).val();
+                var price = $("#price" + listId).val();
+
+                IMP.request_pay({
+                    pg: 'kakaopay.TC0ONETIME',
+                    pay_method: 'card',
+                    merchant_uid: 'merchant_' + new Date().getTime(),
+                    /*
+                     *  merchant_uid에 경우
+                     *  https://docs.iamport.kr/implementation/payment
+                     *  위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
+                     */
+                    name: brand + " - " + shoeName,
+                    // 결제창에서 보여질 이름
+                    // name: '주문명 : <%--${auction.a_title}',--%>
+                    // 위와같이 model에 담은 정보를 넣어 쓸수도 있습니다.
+                    amount: price,
+                    // amount: <%--${bid.b_bid},--%>
+                    // 가격
+                    buyer_name: 'mason'
+                    // 구매자 이름, 구매자 정보도 model값으로 바꿀 수 있습니다.
+                    // 구매자 정보에 여러가지도 있으므로, 자세한 내용은 맨 위 링크를 참고해주세요.
+                }, function (rsp) {
+                    console.log(rsp);
+
+                    if(rsp.success) {
+                        window.location.href = "/shoppingList";
+                        location.reload(); // 페이지 새로고침
+
+                        $.ajax({
+                            type: "POST",
+                            url: "makePayment",
+                            contentType: 'application/json;charset=utf-8',
+                            data: JSON.stringify(rsp),
+                            success: function (response) {
+                                if(response.success) {
+                                    $.ajax({
+                                        type: "PUT",
+                                        url: "updateProgress/" + id,
+                                        success: function (updateResponse) {
+
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error(error);
+                                        }
+                                    });
+                                } else {
+                                    alert("결제 실패");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert("결제 중 문제가 발생하였습니다.");
+                                console.error(error);
+                            }
+                        });
+                    } else {
+                        alert("결제 실패");
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            })
+                    /*// 결제검증
+                    $.ajax({
+                        type: "POST",
+                        url: "makePayment", // 결제 정보를 서버로 전달
+                        contentType: 'application/json;charset=utf-8',
+                        data: JSON.stringify(rsp), // 결제 결과를 JSON 형태로 서버에 전송
+                        success: function (response) {
+                            if(response.success) {
+                                // alert("결제 및 결제검증 완료");
+                                // 결제 성공 시 비즈니스 로직
+                                window.location.href = response.redirectUrl;
+                                location.reload(); // 페이지 새로고침
+                                $.ajax({
+                                    type: "PUT",
+                                    url: "updateProgress/" + id,
+                                    success: function (updateResponse) {
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error(error);
+                                    }
+                                });
+                            } else {
+                                alert("결제 실패");
+
+                                // location.reload(); // 페이지 새로고침
+                                /!*$.ajax({
+                                    type: "PUT",
+                                    url: "updateProgress/" + id,
+                                    success: function (updateResponse) {
+
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error(error);
+                                    }
+                                });*!/
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("결제 중 문제가 발생하였습니다.");
+                            console.error(error);
+                        }
+                    })*/
+            });
         });
     });
 </script>

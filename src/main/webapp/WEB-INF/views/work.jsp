@@ -44,7 +44,7 @@
 
         .card-text {
             font-family: 'Jeju Gothic', sans-serif;
-            font-size: 22px;
+            font-size: 17.5px;
             fort-weight: bold;
             height: 35px;
             overflow: hidden;
@@ -129,6 +129,7 @@
             padding: 0 12.4444444444px;
             margin-top: 4px;
         }
+
     </style>
 
 </head>
@@ -244,12 +245,12 @@
                                     <div class="card-body">
                                         <p class="card-text">${board.title}</p>
                                         <div class="flex caption">
-                                            🌄 ${board.nickName}
+                                            👟 ${board.nickName}
                                         </div>
                                         <div class="flex grey--text text--lighten-1">
                                             ―
                                         </div>
-                                        <p class="card-price">${board.price}</p>
+                                        <p class="card-price">₩${board.price}</p>
                                     </div>
                                     <div class="card-footer" style="margin-top: auto;">
                                         <small class="text-body-secondary"><i class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
@@ -258,7 +259,6 @@
                                         <span class="mx-2"></span>
                                         <small class="text-body-secondary float-right"><i class="fa-regular fa-eye"></i> ${board.view}</small>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -369,7 +369,24 @@
         </c:forEach>
     </div>
 
-
+    <!-- 댓글 삭제 Modal -->
+    <div class="modal fade" id="deleteWorkConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel2"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">게시글 삭제 확인</h1>
+                    <button class="btn-close cancel" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">삭제 하시겠습니까?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary cancel" type="button" data-bs-dismiss="modal">닫기</button>
+                    <button id="deleteWorkModalButton" data-bs-dismiss="modal" type="submit" class="btn btn-danger">삭제
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -534,6 +551,8 @@
         transform: translateY(-50%);
     }
 </style>
+
+
 
 
 </body>

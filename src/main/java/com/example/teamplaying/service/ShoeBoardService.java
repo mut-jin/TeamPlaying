@@ -220,7 +220,7 @@ public class ShoeBoardService {
     }
 
 
-//    public List<String> getShoeNameList(String shoeBrand) {
-//        return mapper.getShoeNameList(shoeBrand);
-//    }
+
 }
+
+

@@ -521,7 +521,14 @@ public class MainController {
     public ShoeComment commentGet(@PathVariable("id") Integer id) {
         return shoeBoardService.getComment(id);
     }
-
+    @GetMapping("members")
+    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
+    public String showMemberList(Model model, Authentication authentication) {
+        List<Member> members = memberService.getAllMembers();
+        ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
+        model.addAttribute("members", members);
+        return "members";
+      
     @PutMapping("commentUpdate")
     @ResponseBody
     @PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardCommentWriter(authentication, #comment.id)")
@@ -566,6 +573,23 @@ public class MainController {
                     .body("Failed to deactivate member.");
         }
     }
+//
+//    @DeleteMapping("/workRemove")
+//    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
+//    public String workRemove(Integer id, RedirectAttributes rttr) {
+//        boolean ok = shoeBoardService.remove(id);
+//        if (ok) {
+//            // query string에 추가
+////			rttr.addAttribute("success", "remove");
+//
+//            // 모델에 추가
+//            rttr.addFlashAttribute("message", id + "번 게시물이 삭제되었습니다.");
+//            return "redirect:/work";
+//        } else {
+//            return "redirect:/work" + id;
+//        }
+//    }
+
 
 //    // 아이디 찾기 폼
 //    @RequestMapping(value = "findID")
@@ -573,14 +597,6 @@ public class MainController {
 //        return "findID";
 //    }
 
-    @GetMapping("members")
-    @PreAuthorize("@customSecurityChecker.checkAdmin(authentication)")
-    public String showMemberList(Model model, Authentication authentication) {
-        List<Member> members = memberService.getAllMembers();
-        ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
-        model.addAttribute("members", members);
-        return "members";
-    }
 
     @GetMapping("shoeDelete")
     public String shoeDelete(Integer boardId,
@@ -594,14 +610,6 @@ public class MainController {
             rttr.addFlashAttribute("message", "작품 삭제에 문제가 발생했습니다.");
         }
         return "redirect:/artist/" + id;
-    }
-
-    @GetMapping("shoeModify")
-    public void shoeModify(Integer boardId,
-                           Authentication authentication,
-                           Model model) {
-        ShoeBoard shoeBoard = shoeBoardService.getShoeBoard(boardId);
-        model.addAllAttributes(Map.of("board", shoeBoard));
     }
 
 

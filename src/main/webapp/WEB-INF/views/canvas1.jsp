@@ -58,11 +58,21 @@
     <div class="row justify-content-center">
         <div class="d-flex mb-3 row">
             <div class="col-2 left-div d-flex flex-column align-items-center" style="display: flex; flex-direction: column; align-items: center; margin-top: 200px;">
-                <div id="outImage" class="canvas-image" style="margin-bottom: 200px;">
-                    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-out1.webp" alt="..." style="width: 200px; height: auto">
+                <div class="card" style="margin-bottom: 100px;">
+                    <div id="outImage" class="canvas-image">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-out1.webp" alt="..." style="width: 200px; height: auto">
+                    </div>
+                    <div class="card-body">
+                        <button> 버튼 </button>
+                    </div>
                 </div>
-                <div id="innerImage" class="canvas-image">
-                    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-in1.webp" alt="..." style="width: 200px; height: auto">
+                <div class="card">
+                    <div id="innerImage" class="canvas-image">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-in1.webp" alt="..." style="width: 200px; height: auto">
+                    </div>
+                    <div class="card-body">
+                        <button> 버튼 </button>
+                    </div>
                 </div>
             </div>
             <div class="col-8 d-flex justify-content-center" style="margin-top: 200px;">
@@ -72,14 +82,29 @@
                 </div>
             </div>
             <div class="col-2 right-div d-flex flex-column align-items-center" style="display: flex; flex-direction: column; align-items: center; margin-top: 200px;">
-                <div id="leftImage" class="canvas-image" style="margin-bottom: 80px;">
-                    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-left1.webp" alt="..." style="width: 200px; height: auto">
+                <div class="card">
+                    <div id="leftImage" class="canvas-image">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-left1.webp" alt="..." style="width: 200px; height: auto">
+                    </div>
+                    <div class="card-body">
+                        <button> 버튼 </button>
+                    </div>
                 </div>
-                <div id="backImage" class="canvas-image" style="margin-bottom: 80px;">
-                    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-back1.webp" alt="..." style="width: 200px; height: auto">
+                <div class="card">
+                    <div id="backImage" class="canvas-image">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-back1.webp" alt="..." style="width: 200px; height: auto">
+                    </div>
+                    <div class="card-body">
+                        <button> 버튼 </button>
+                    </div>
                 </div>
-                <div id="rightImage" class="canvas-image">
-                    <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-right1.webp" alt="..." style="width: 200px; height: auto">
+                <div class="card">
+                    <div id="rightImage" class="canvas-image">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-right1.webp" alt="..." style="width: 200px; height: auto">
+                    </div>
+                    <div class="card-body">
+                        <button> 버튼 </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -528,8 +553,8 @@
         ctx.fillStyle = '#00ff00';
         ctx.fillRect(buttonOffsetX, buttonOffsetY, rotateButtonSize, rotateButtonSize);*/
         const buttonSize = 20;
-        const centerX = x + buttonSize / 2;
-        const centerY = y + buttonSize / 2;
+        const centerX = image.offsetX + image.width - buttonSize;
+        const centerY = image.offsetY - buttonSize;
         const radius = buttonSize / 2;
         const arrowSize = 5;
 

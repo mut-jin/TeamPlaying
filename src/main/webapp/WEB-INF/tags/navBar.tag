@@ -82,6 +82,13 @@
                            style="color: white;">회원 관리</a>
                     </li>
                 </sec:authorize>
+                <sec:authorize access="hasAuthority('admin')">
+                    <!-- memberType이 admin인 경우에만 회원 관리 메뉴를 표시 -->
+                    <li class="nav-item">
+                        <a class="nav-link ${current eq 'adminMenu' ? 'active' : '' }" href="/members"
+                           style="color: white;">문의 목록</a>
+                    </li>
+                </sec:authorize>
                 <sec:authorize access="isAnonymous()">
                     <li class="nav-item">
                         <a class="nav-link ${current eq 'login' ? 'active' : '' }" href="/login"
