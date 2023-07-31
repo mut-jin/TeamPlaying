@@ -302,11 +302,6 @@ public interface ShoeBoardMapper {
             """)
     List<ShoeBoard> getAllShoes(Integer memberId);
 
-    @Delete("""
-			DELETE FROM shoeBoar
-			WHERE id = #{id}
-			""")
-    int workDeleteById(Integer id);
 
 
     //    @Select("""

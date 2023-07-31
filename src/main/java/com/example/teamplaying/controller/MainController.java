@@ -558,14 +558,6 @@ public class MainController {
 //        }
 //    }
 
-    @DeleteMapping("work/{id}")
-    @ResponseBody
-    @PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardWork(authentication, #id)")
-    public ResponseEntity<Map<String, Object>> workRemove(@PathVariable("id") Integer id) {
-        Map<String, Object> res = shoeBoardService.workRemove(id);
-
-        return ResponseEntity.ok().body(res);
-    }
 
 //    // 아이디 찾기 폼
 //    @RequestMapping(value = "findID")
