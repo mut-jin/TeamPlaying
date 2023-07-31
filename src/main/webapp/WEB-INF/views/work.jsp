@@ -44,10 +44,9 @@
 
         .card-text {
             font-family: 'Jeju Gothic', sans-serif;
-            font-size: 17.5px;
+            font-size: 18px;
             fort-weight: bold;
-            height: 35px;
-            overflow: hidden;
+            height: 61px;
         }
 
         .card-img {
@@ -149,15 +148,15 @@
 <div class="container" style="margin-top: 86px;">
     <form action="/work" class="search-form" role="search">
         <input id="searchInput" value="${param.search}" name="search" class="form-control search-input"
-               type="text" placeholder="Search" aria-label="search">
-        <button id="search" class="btn btn-outline-success" type="submit">
+               type="text" placeholder="Search" aria-label="search" style="border-color: black;">
+        <button id="search" class="btn btn-outline-success" type="submit" style="color: black; border-color: black;">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </form>
     <div class="d-flex" style="margin-left: -165px;">
-        <div class="dropdown" style="margin-right: 20px;">
-            <button id="brandDropDown" class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="width: 300px; text-align: left;">
+        <div class="dropdown" style="margin-right: 20px; font-family: 'Jeju Gothic', sans-serif;">
+            <button id="brandDropDown" class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="width: 300px; text-align: left; color: white;">
                 모든 작품
             </button>
             <c:url value="/work" var="nikeBrandUrl">
@@ -204,7 +203,7 @@
                     <c:param name="search" value="${param.search}"></c:param>
                 </c:if>
             </c:url>
-            <ul class="dropdown-menu" style="width: 300px;">
+            <ul class="dropdown-menu" style="width: 300px; font-family: 'Jeju Gothic', sans-serif;">
 
                 <li><a class="dropdown-item" href="${allBrandUrl}">모든 작품</a></li>
                 <li><a class="dropdown-item ShoeBrand" href="${nikeBrandUrl}" id="nike">나이키</a></li>
@@ -214,11 +213,11 @@
             </ul>
         </div>
         <div class="dropdown">
-            <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="width: 300px; text-align: left;">
+            <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="width: 300px; text-align: left; color: white; font-family: 'Jeju Gothic', sans-serif;">
                 정렬
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="font-family: 'Jeju Gothic', sans-serif;">
                 <li><a class="dropdown-item" href="/work?name=최신순">최신순</a></li>
                 <li><a class="dropdown-item" href="/work?order=likeCount&direction=DESC&name=좋아요순">좋아요순</a></li>
                 <li><a class="dropdown-item" href="/work?order=view&direction=DESC&name=조회수순">조회수순</a></li>
@@ -544,7 +543,7 @@
 
 
 <style>
-    .btn.btn-warning.dropdown-toggle::after {
+    .btn.btn-dark.dropdown-toggle::after {
         position: absolute;
         right: 10px;
         top: 50%;

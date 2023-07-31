@@ -19,6 +19,8 @@
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
+        @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
         *, :after, :before {
             background-repeat: no-repeat;
             box-sizing: inherit;
@@ -104,12 +106,12 @@
 <my:navBar></my:navBar>
 <div class="container" style="margin-top: 86px;">
     <div class="d-flex" style="margin-bottom: 16px;">
-        <div class="dropdown" style="flex-grow: 0; flex-basis: 25%; max-width: 25%;">
+        <div class="dropdown" style="flex-grow: 0; flex-basis: 25%; max-width: 25%; font-family: 'Jeju Gothic', sans-serif;">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                    aria-expanded="false" style="background-color: black;">
                 <input type="text" value="${name}" id="typeSelect" readonly style="background-color: inherit; border: 0; color: white;">
             </button>
-            <ul class="dropdown-menu" style="width: 220px;">
+            <ul class="dropdown-menu" style="width: 220px; font-family: 'Jeju Gothic', sans-serif;">
                 <li><a class="dropdown-item" href="/artist?name=선택">선택</a></li>
                 <li><a class="dropdown-item" href="/artist?order=subscribe&name=구독자 순">구독자 순</a></li>
                 <li><a class="dropdown-item" href="/artist?order=totalWork&name=최다 작품 순">최다 작품 순 </a></li>

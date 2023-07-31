@@ -117,57 +117,42 @@
 
         <div class="row justify-content-center myInfo">
             <div class="shadow" style="height: 800px;">
-                <h1><img
-                        src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%ED%9A%8C%EC%9B%90%EC%A0%95%EB%B3%B4.png"
-                        alt=""/></h1>
+                <h1>프로필</h1>
+                <br>
                 <!-- .mb-3*4>label+input -->
                 <div class="mb-3">
-                    <label class="form-label" for=""><img
-                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%95%84%EC%9D%B4%EB%94%94.png"
-                            alt=""/></label>
+                    <label class="form-label" for="">아이디</label>
                     <input class="form-control" type="text" value="${member.userId }" name="userId" readonly/>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for=""><img style="margin-left: -1px;"
-                                                          src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EB%B3%84%EB%AA%85.png"
-                                                          alt=""/></label>
+                    <label class="form-label" for="">닉네임</label>
                     <input class="form-control" type="text" value="${member.nickName }" name="nickName" readonly/>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for=""><img
-                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%83%9D%EC%9D%BC.png"
-                            alt=""/></label>
+                    <label class="form-label" for="">생년월일</label>
                     <input class="form-control" type="text" value="${member.birth }" name="birth" readonly/>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for=""><img style="margin-left: -3px;"
-                                                          src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%A3%BC%EC%86%8C.png"
-                                                          alt=""/></label>
+                    <label class="form-label" for="">주소</label>
                     <input class="form-control" type="text" value="${member.address }" name="address" readonly/>
                     <input class="form-control" type="text" value="${member.addressDetail }" name="addressDetail"
                            readonly/>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for=""><img
-                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%A0%84%ED%99%94%EB%B2%88%ED%98%B8.png"
-                            alt=""/></label>
+                    <label class="form-label" for="">전화번호</label>
                     <input class="form-control" type="text" value="${member.phone }" name="phone" readonly/>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for=""><img style="margin-left: -3px;"
-                                                          src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%9D%B4%EB%A9%94%EC%9D%BC.png"
-                                                          alt=""/></label>
+                    <label class="form-label" for="">이메일</label>
                     <input class="form-control" type="text" value="${member.email }" name="email" readonly/>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for=""><img style="margin-left: -1px;"
-                                                          src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/signup/%EC%86%8C%EA%B0%9C.png"
-                                                          alt=""/></label>
+                    <label class="form-label" for="">소개</label>
                     <input class="form-control" type="text" value="${member.introduce }" name="introduce" readonly/>
                 </div>
-                <a class="btn btn-dark" href="/modify?userId=${member.userId }">Modify</a>
+                <a class="btn btn-dark" href="/modify?userId=${member.userId }">수정</a>
                 <button type="button" data-bs-toggle="modal" class="btn btn-danger" data-bs-target="#confirmModal">
-                    Withdrawal
+                    회원탈퇴
                 </button>
             </div>
         </div>

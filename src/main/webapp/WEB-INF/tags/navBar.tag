@@ -4,6 +4,8 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <style>
+    @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
     #navbar-brand-link {
         padding: 0;
     }
@@ -37,13 +39,17 @@
         margin: 0 10px;
     }
 
+    .nav-link {
+        font-family: 'Jeju Gothic', sans-serif;
+    }
+
 
 </style>
 <nav class="navbar navbar-expand-lg fixed-top" style="top: -8px;">
     <div id="navbar-container" class="container-fluid" style="background-color: black;">
 
         <a id="navbar-brand-link" class="navbar-brand" href="/main"
-           style="color: white; font-size: 25px; margin-top: -5px;">
+           style="color: white; font-size: 25px; margin-top: -2px; font-family: 'Jeju Gothic', sans-serif;">
             Zero-One
             <%-- 👟 --%>
         </a>
@@ -85,7 +91,7 @@
                 <sec:authorize access="hasAuthority('admin')">
                     <!-- memberType이 admin인 경우에만 회원 관리 메뉴를 표시 -->
                     <li class="nav-item">
-                        <a class="nav-link ${current eq 'adminMenu' ? 'active' : '' }" href="/members"
+                        <a class="nav-link ${current eq 'adminMenu' ? 'active' : '' }" href="/adminCs"
                            style="color: white;">문의 목록</a>
                     </li>
                 </sec:authorize>
@@ -110,10 +116,10 @@
                     <li class="nav-item">
                         <div class="dropdown">
                             <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false" style="color: white;">
+                                    aria-expanded="false" style="color: white; font-family: 'Jeju Gothic', sans-serif;">
                                 고객센터
                             </button>
-                            <ul class="dropdown-menu" style="min-width: 0; width: -webkit-fill-available;">
+                            <ul class="dropdown-menu" style="min-width: 0; width: -webkit-fill-available; font-family: 'Jeju Gothic', sans-serif;">
                                 <li><a class="dropdown-item" href="/cs">1:1 문의</a></li>
                                 <li><a class="dropdown-item" href="/myCs">내 문의</a></li>
                             </ul>
@@ -122,7 +128,7 @@
                 </sec:authorize>
                 <sec:authorize access="hasAuthority('artist')">
                     <li class="nav-item">
-                        <a class="btn btn-warning" href="/workadd" style="color: white; margin-left: 10px;">
+                        <a class="btn btn-warning" href="/workadd" style="color: white; margin-left: 10px; font-family: 'Jeju Gothic', sans-serif;">
                             작품 등록
                         </a>
                     </li>
