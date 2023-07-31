@@ -156,4 +156,8 @@ public class CsService {
     public void updateAnswer(String answer, Integer id) {
         csMapper.updateAnswer(answer, id);
     }
+
+    public List<CsBoard> getAllCs() {
+        return csMapper.selectAllCs();
+    }
 }

@@ -52,7 +52,7 @@
     #image-list {
         text-align: center;
         overflow-y: auto; /* 세로 스크롤이 필요할 때만 스크롤을 보여줍니다. */
-        max-height: 300px; /* 원하는 높이로 설정해 주세요. */
+        max-height: 200px; /* 원하는 높이로 설정해 주세요. */
     }
 
     #image-list img {
@@ -244,10 +244,18 @@
                 document.getElementById('rightImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/oldschool/oldschool-right.png';  // 오른쪽 위 이미지 변경
                 clearCanvas();
             } else if (selectedShoe === '컨버스') {
-                // 컨버스에 대한 이미지 URL 변경
+                document.getElementById('outImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/outImage.png';  // 바깥 이미지 변경
+                document.getElementById('innerImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/innerImage.png';  // 안쪽 이미지 변경
+                document.getElementById('leftImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/leftImage.png';  // 왼쪽 위 이미지 변경
+                document.getElementById('backImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/backImage.png';  // 뒷면 이미지 변경
+                document.getElementById('rightImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/convers1/rightImage.png';  // 오른쪽 위 이미지 변경
                 clearCanvas();
             } else if (selectedShoe === '조던') {
-                // 조던에 대한 이미지 URL 변경
+                document.getElementById('outImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/outImage.png';  // 바깥 이미지 변경
+                document.getElementById('innerImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/innerImage.png';  // 안쪽 이미지 변경
+                document.getElementById('leftImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/leftImage.png';  // 왼쪽 위 이미지 변경
+                document.getElementById('backImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/backImage.png';  // 뒷면 이미지 변경
+                document.getElementById('rightImage').firstElementChild.src = 'https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/jordon1/rightImage.png';  // 오른쪽 위 이미지 변경
                 clearCanvas();
             }
         });
