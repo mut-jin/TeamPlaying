@@ -61,10 +61,9 @@
 
     .card-text {
         font-family: 'Jeju Gothic', sans-serif;
-        font-size: 17.5px;
+        font-size: 18px;
         fort-weight: bold;
-        height: 35px;
-        overflow: hidden;
+        height: 61px;
     }
 
     .layout {
@@ -120,6 +119,31 @@
         padding: 0 12.4444444444px;
         margin-top: 4px;
     }
+
+    /* 스타일 추가를 위해 shopinfo 클래스를 선택합니다 */
+    .shopinfo {
+        padding: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    /* 첫 번째 줄과 두 번째 줄 사이 간격을 추가합니다 */
+    .shopinfo br:first-child {
+        margin-bottom: 10px;
+    }
+
+    /* 무신사스토어의 파란색과 유사한 링크 색상을 지정합니다 */
+    .shopinfo a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    /* 무신사스토어의 파란색 링크에 호버 효과를 추가합니다 */
+    .shopinfo a:hover {
+        text-decoration: underline;
+    }
 </style>
 
 
@@ -148,7 +172,7 @@
         </div>
         <div class="flex text-center" style="margin-bottom: 30px;">
             <a href="/work">
-                <button type="button" class="btn btn-warning btn-lg" style="font-weight: bolder">작품 보러가기</button>
+                <button type="button" class="btn btn-warning btn-lg" style="font-weight: bolder;">작품 보러가기</button>
             </a>
         </div>
         <br>
@@ -170,11 +194,11 @@
         <div class="layout wrap align-center">
             <div class="flex xs12 md4 lg5 order-md-2 text-center">
                 <div style="background-color: white; display: flex; flex-direction: column; align-items: center;">
-                    <span style="font-size: 25px; margin-bottom: 10px;">당신의 신발을 변신시킬 아티스트들을 구경해보세요.</span>
+                    <span style="font-size: 25px; margin-bottom: 10px; font-family: 'Jeju Gothic', sans-serif;">당신의 신발을 변신시킬 아티스트들을 구경해보세요.</span>
                     <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/work/work5.png"
                          style="max-width: 100%; max-height: 100px;">
                     <a href="/artist">
-                        <button type="button" class="btn btn-warning" style="margin-top: 15px;">아티스트 보러가기</button>
+                        <button type="button" class="btn btn-warning" style="margin-top: 15px; font-family: 'Jeju Gothic', sans-serif;">아티스트 보러가기</button>
                     </a>
                 </div>
             </div>
@@ -182,7 +206,7 @@
     </div>
 </div>
 <div class="layout" style="flex-direction: column">
-    <div class="flex headline" style="margin-left: 120px;">
+    <div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
         Zero-One 신발 만들기
     </div>
     <div class="flex px-3" style="margin-top: 60px; margin-bottom: 80px; display: flex;  justify-content: center;">
@@ -192,7 +216,7 @@
     </div>
 </div>
 
-<div class="flex headline" style="margin-left: 120px;">
+<div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
     나이키
 </div>
 <br>
@@ -338,7 +362,7 @@
     </c:forEach>
 </div>
 <br><br><br>
-<div class="flex headline" style="margin-left: 120px;">
+<div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
     아디다스
 </div>
 <br>
@@ -483,7 +507,7 @@
     </c:forEach>
 </div>
 <br><br><br>
-<div class="flex headline" style="margin-left: 120px;">
+<div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
     반스
 </div>
 <br>
@@ -628,7 +652,7 @@
     </c:forEach>
 </div>
 <br><br><br>
-<div class="flex headline" style="margin-left: 120px;">
+<div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
     컨버스
 </div>
 <br>
@@ -844,11 +868,11 @@
         </div>
     </div>
 </div>
-<br>
+<br><br><br>
 <div class="shopinfo">
-    제로원 대표 전형준 | 개인정보보호관리자 윤보상
+    제로원 대표 전형준 | 개인정보보호관리자 윤보상, 장진명
     <br>
-    주소 (14919)경기도 부천시 은행로 93
+    주소 (14919)경기도 시흥시 은행로 93
     <br>
     사업자등록번호 123-45-67890 | 통신판매업신고번호 2023-경기시흥-1234
     <br>

@@ -528,7 +528,8 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
         model.addAttribute("members", members);
         return "members";
-      
+    }
+
     @PutMapping("commentUpdate")
     @ResponseBody
     @PreAuthorize("authenticated and @customSecurityChecker.checkShoeBoardCommentWriter(authentication, #comment.id)")

@@ -14,6 +14,8 @@
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
+        @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
         .logo-container {
             display: flex;
             justify-content: center;
@@ -39,34 +41,20 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
             <br><br><br><br>
-            <h1 class="login-title" style="margin-left:200px;"><img
-                    src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%EB%A1%9C%EA%B7%B8%EC%9D%B8.png"
-                    alt=""/></h1>
+            <h1 class="login-title" style="margin-left:265px; font-family: 'Jeju Gothic', sans-serif;">로그인</h1>
             <br/>
             <form method="post">
                 <div class="mb-3" style="margin-left:120px;">
-                    <label for="inputUsername" class="form-label"><img
-                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%EC%95%84%EC%9D%B4%EB%94%94.png"
-                            alt=""/></label>
+                    <label for="inputUsername" class="form-label" style="font-family: 'Jeju Gothic', sans-serif;">아이디</label>
                     <input id="inputUsername" class="form-control" type="text" name="username"/>
                 </div>
                 <div class="mb-3" style="margin-left:120px;">
-                    <label for="inputPassword" class="form-label"><img
-                            src="https://bucket0503-qqwweerr11223344.s3.ap-northeast-2.amazonaws.com/project/login/%ED%8C%A8%EC%8A%A4%EC%9B%8C%EB%93%9C.png"
-                            alt=""/></label>
+                    <label for="inputPassword" class="form-label" style="font-family: 'Jeju Gothic', sans-serif;">비밀번호</label>
                     <input id="inputPassword" class="form-control" type="password" name="password"/>
                 </div>
                 <br/>
                 <div class="mb-3" style="margin-left:120px;">
-                    <input class="btn btn-dark" style="width: 412.8px; height: 39px;" type="submit" value="Login">
-                </div>
-                <div class="mb-3" style="margin-left:120px;">
-                    <a href="/findID">
-                        <input class="btn btn-dark" style="width: 203.5px; height: 39px;" value="find ID">
-                    </a>
-                    <a href="/findPW">
-                        <input class="btn btn-dark" style="width: 203.5px; height: 39px;" value="find PW">
-                    </a>
+                    <input class="btn btn-dark" style="width: 412.8px; height: 39px; font-family: 'Jeju Gothic', sans-serif;" type="submit" value="로그인">
                 </div>
 
                 <sec:csrfInput/>
