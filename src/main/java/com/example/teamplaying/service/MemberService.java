@@ -1,5 +1,6 @@
 package com.example.teamplaying.service;
 
+import com.example.teamplaying.dao.MemberDao;
 import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.domain.ShoeBoard;
 import com.example.teamplaying.mapper.CsMapper;
@@ -16,10 +17,6 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import com.example.teamplaying.domain.Member;
-import com.example.teamplaying.dao.MemberDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,7 +136,7 @@ public class MemberService {
 
         int cnt = 0;
 
-        if(passwordEncoder.matches(oldPassword, oldMember.getPassword())) {
+        if (passwordEncoder.matches(oldPassword, oldMember.getPassword())) {
             // 기존 암호와 같으면
             cnt = mapper.update(member);
         }
@@ -164,7 +161,7 @@ public class MemberService {
         return Map.of("available", member == null);
     }
 
-    public Map<String, Object> getArtistBoard(Integer page, String search, String order, String name) {
+    public Map<String, Object> getArtistBoard(Integer page, String search, String order, String name, String myUserId, String myMemberType) {
         Integer rowPerPage = 8;
         Integer startIndex = (page - 1) * rowPerPage;
 
@@ -189,7 +186,7 @@ public class MemberService {
             List<String> shoeList = new ArrayList<>();
             List<Integer> boardIdList = new ArrayList<>();
             List<Integer> boardIdLists = shoeMapper.getBoardIdList(i.getId(), startIndex, rowPerPage);
-            for(ShoeBoard shoeBoard : shoeMapper.getAllShoes(i.getId())) {
+            for (ShoeBoard shoeBoard : shoeMapper.getAllShoes(i.getId())) {
                 shoeBoardList.add(shoeBoard);
             }
             for (Integer boardID : boardIdLists) {
@@ -211,7 +208,7 @@ public class MemberService {
             i.setImgUrlList(shoeMapper.getMyShoeFileNameList(i.getId()));
         }
 
-        return Map.of("pageInfo", pageInfo, "boardList", list, "name", name, "shoeBoardList", shoeBoardList);
+        return Map.of("pageInfo", pageInfo, "boardList", list, "name", name, "shoeBoardList", shoeBoardList, "myUserId", myUserId, "myMemberType", myMemberType);
     }
 
 
@@ -239,8 +236,12 @@ public class MemberService {
         for (ShoeBoard i : list) {
             i.setImgUrlList(shoeMapper.getMyShoeFileNameList(i.getId()));
         }
+        String myMemberType = "";
+        if (!myUserId.equals("")) {
+             myMemberType = mapper.getMemberTypeByUserId(myUserId);
+        }
 
-        return Map.of("pageInfo", pageInfo, "memberInfo", member, "shoeBoardList", list, "myUserId", myUserId);
+        return Map.of("pageInfo", pageInfo, "memberInfo", member, "shoeBoardList", list, "myUserId", myUserId, "myMemberType", myMemberType);
     }
 
     public boolean addShoeBoard(ShoeBoard shoeBoard, MultipartFile[] files, Authentication authentication) throws Exception {
@@ -303,6 +304,11 @@ public class MemberService {
     }
 
     public boolean check(Authentication authentication, Integer id) {
-        return (mapper.getNickNameByUserId((authentication.getName())).equals(csMapper.getWriter(id)) || mapper.getMemberTypeByUserId(authentication.getName()).equals("admin") );
+        return (mapper.getNickNameByUserId((authentication.getName())).equals(csMapper.getWriter(id)) || mapper.getMemberTypeByUserId(authentication.getName()).equals("admin"));
     }
+
+    public String getMemberType(String name) {
+        return mapper.getMemberTypeByUserId(name);
+    }
+
 }

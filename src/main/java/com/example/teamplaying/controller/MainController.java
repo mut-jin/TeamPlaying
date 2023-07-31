@@ -95,6 +95,16 @@ public class MainController {
         List<ShoeBoard> converse = shoeBoardService.getAllShoesByBrand("컨버스");
         getShoeList.put("converse", converse);
 
+        String myMemberType = "";
+
+        if(authentication == null) {
+            getShoeList.put("myUserId", "");
+        } else {
+            myMemberType = memberService.getMemberType(authentication.getName());
+            getShoeList.put("myMemberType", myMemberType);
+            getShoeList.put("myUserId", authentication.getName());
+        }
+
         model.addAllAttributes(getShoeList);
 
 //		model.addAttribute("나이키", nike);
@@ -154,8 +164,10 @@ public class MainController {
             return "redirect:/login";
         }
         Member member = memberService.get(authentication.getName());
+        String myMemberType = memberService.getMemberType(authentication.getName());
         System.out.println(member);
         model.addAttribute("member", member);
+        model.addAttribute("myMemberType", myMemberType);
         return "totalMyPage";
     }
 
@@ -201,8 +213,18 @@ public class MainController {
                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                        @RequestParam(value = "search", defaultValue = "") String search,
                        @RequestParam(value = "name", defaultValue = "선택") String name,
-                       @RequestParam(value = "order", defaultValue = "id") String order) {
-        Map<String, Object> result = memberService.getArtistBoard(page, search, order, name);
+                       @RequestParam(value = "order", defaultValue = "id") String order,
+                       Authentication authentication) {
+        String myUserId;
+        String myMemberType = "";
+        if(authentication == null) {
+            myUserId = "";
+        } else {
+            myMemberType = memberService.getMemberType(authentication.getName());
+            myUserId = authentication.getName();
+        }
+
+        Map<String, Object> result = memberService.getArtistBoard(page, search, order, name, myUserId, myMemberType);
 
         model.addAllAttributes(result);
 
@@ -250,11 +272,19 @@ public class MainController {
                        @RequestParam(value = "type", required = false) String type,
                        @RequestParam(value = "brand", required = false) String brand,
                        @RequestParam(value = "order", defaultValue = "id") String order,
-                       @RequestParam(value = "direction", defaultValue = "DESC") String direction
+                       @RequestParam(value = "direction", defaultValue = "DESC") String direction,
+                       @RequestParam(value = "name", defaultValue = "정렬") String name
     ) {
-
+        String myMemberType = "";
+        String myUserId;
+        if(authentication == null) {
+            myUserId = "";
+        } else {
+            myUserId = authentication.getName();
+            myMemberType = memberService.getMemberType(authentication.getName());
+        }
         // 기존의 코드는 그대로 유지합니다
-        Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type, brand, order, direction);
+        Map<String, Object> result = shoeBoardService.getshoeBoard(page, search, type, brand, order, direction, name, myUserId, myMemberType);
         model.addAllAttributes(result);
 
         return "work";
@@ -350,10 +380,13 @@ public class MainController {
         return "myCsPage";
     }
 
-    @PreAuthorize("isAuthenticated() && @customSecurityChecker.checkCsBoardWriter(authentication, id)")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("csRemove")
     public String csRemove(Integer id, RedirectAttributes rttr,
                            Authentication authentication) {
+        if(!csService.getWriterById(id).equals(memberService.getNickName(authentication.getName()))) {
+            return "main";
+        }
         boolean ok = csService.remove(id);
         if (ok) {
             rttr.addFlashAttribute("message", "문의가 삭제되었습니다..");
@@ -363,21 +396,24 @@ public class MainController {
         return "redirect:/myCs";
     }
 
-    @PreAuthorize("isAuthenticated() && @customSecurityChecker.checkCsBoardWriter(authentication, id)")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("csModify")
-    public void csModify(Integer id, Model model,
+    public String csModify(Integer id, Model model,
                          Authentication authentication) {
+        if(!csService.getWriterById(id).equals(memberService.getNickName(authentication.getName()))) {
+            return "main";
+        }
         Map<String, Object> result = csService.getCsBoardById(id);
         model.addAllAttributes(result);
+        return "csModify";
     }
 
-    @PreAuthorize("isAuthenticated() && @customSecurityChecker.checkCsBoardWriter(authentication, id)")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("csModify")
     public String csModifyProcess(CsBoard csBoard,
                                   @RequestParam(value = "removeFileList", required = false) List<String> removeFileName,
                                   @RequestParam(value = "files", required = false) MultipartFile[] addFiles,
-                                  RedirectAttributes rttr,
-                                  Authentication authentication) throws Exception {
+                                  RedirectAttributes rttr) throws Exception {
         boolean ok = csService.modify(csBoard, removeFileName, addFiles);
         if (ok) {
             // 해당 게시물 보기로 리디렉션
@@ -528,6 +564,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("MemberList"); // 해당 JSP 파일명
         model.addAttribute("members", members);
         return "members";
+    }
       
     @PutMapping("commentUpdate")
     @ResponseBody
@@ -601,7 +638,8 @@ public class MainController {
     @GetMapping("shoeDelete")
     public String shoeDelete(Integer boardId,
                              RedirectAttributes rttr,
-                             Authentication authentication) {
+                             Authentication authentication,
+                             String url) {
         boolean ok = shoeBoardService.shoeDelete(boardId);
         Integer id = memberService.getIdByUserId(authentication.getName());
         if (ok) {
@@ -609,9 +647,15 @@ public class MainController {
         } else {
             rttr.addFlashAttribute("message", "작품 삭제에 문제가 발생했습니다.");
         }
-        return "redirect:/artist/" + id;
+        return "redirect:/" + url;
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    @PutMapping("progressChange")
+    public void progressChange(@RequestBody CustomRequest customRequest) {
+        shoeBoardService.modifyProcess(customRequest);
+    }
 
 }
 

@@ -158,7 +158,7 @@
         <div class="dropdown" style="margin-right: 20px;">
             <button id="brandDropDown" class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false" style="width: 300px; text-align: left;">
-                모든 작품
+                ${pageInfo.brand}
             </button>
             <c:url value="/work" var="nikeBrandUrl">
                 <c:if test="${not empty param.page}">
@@ -216,14 +216,14 @@
         <div class="dropdown">
             <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false" style="width: 300px; text-align: left;">
-                정렬
+                ${alignInfo}
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/work?name=최신순">최신순</a></li>
-                <li><a class="dropdown-item" href="/work?order=likeCount&direction=DESC&name=좋아요순">좋아요순</a></li>
-                <li><a class="dropdown-item" href="/work?order=view&direction=DESC&name=조회수순">조회수순</a></li>
-                <li><a class="dropdown-item" href="/work?order=price&direction=DESC&name=높은가격순">높은가격순</a></li>
-                <li><a class="dropdown-item" href="/work?order=price&direction=ASC&name=낮은가격순">낮은가격순</a></li>
+                <li><a class="dropdown-item" href="/work?name=최신순&brand=${pageInfo.brand}">최신순</a></li>
+                <li><a class="dropdown-item" href="/work?order=likeCount&direction=DESC&name=좋아요순&brand=${pageInfo.brand}">좋아요순</a></li>
+                <li><a class="dropdown-item" href="/work?order=view&direction=DESC&name=조회수순&brand=${pageInfo.brand}">조회수순</a></li>
+                <li><a class="dropdown-item" href="/work?order=price&direction=DESC&name=높은가격순&brand=${pageInfo.brand}">높은가격순</a></li>
+                <li><a class="dropdown-item" href="/work?order=price&direction=ASC&name=낮은가격순&brand=${pageInfo.brand}">낮은가격순</a></li>
             </ul>
         </div>
     </div>
@@ -298,10 +298,12 @@
                                             </div>
                                         </div>
                                         <div class="layout" style="margin: 15px 0 10px;">
-                                            <button type="button" class="sendCommentBtn" value="${board.id}"
-                                                    style="color: white; background-color: #9e9e9e; border: 0; margin-left: auto; border-radius: 28px; height: 36px; min-width: 64px; padding: 0 16px;">
-                                                댓글 달기
-                                            </button>
+                                            <c:if test="${myUserId ne ''}">
+                                                <button type="button" class="sendCommentBtn" value="${board.id}"
+                                                        style="color: white; background-color: #9e9e9e; border: 0; margin-left: auto; border-radius: 28px; height: 36px; min-width: 64px; padding: 0 16px;">
+                                                    댓글 달기
+                                                </button>
+                                            </c:if>
                                         </div>
                                         <ul class="list-group" id="commentListContainer${board.id}" style="border-top: 1px solid black; border-radius: 0;">
                                         </ul>
@@ -313,12 +315,19 @@
                                 <div class="layout modal-content" style="flex-direction: column; background-color: white;">
                                     <div style="margin: 16px 12px 0px;">
                                         <h1 id="boardTitle${board.id}">${board.title}</h1>
+                                        <c:if test="${myUserId eq board.userId || myMemberType eq 'admin'}">
+                                            <div>
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#shoeBoardRemoveModal${board.id}">삭제
+                                                </button>
+                                            </div>
+                                        </c:if>
                                     </div>
                                     <hr style="margin: 0.7rem 0;">
                                     <div class="layout"
                                          style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
                                         <div class="profile">
-                                            <img src="${board.profile}" alt="" style="width: inherit; height: inherit;">
+                                            <img src="${board.profile}" alt="" style="border-radius: 50%; width: inherit; height: inherit;">
                                         </div>
                                         <div class="layout" style="flex-direction: column; padding: 12px 0;">
                                             <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
@@ -360,6 +369,29 @@
                                                 class="myInfo requestBtn" value="${board.title}">커스텀 작업 의뢰하기
                                         </button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- shoeBoardRemoveModal -->
+                    <div class="modal fade" id="shoeBoardRemoveModal${board.id}" tabindex="-1"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    해당 게시물을 삭제하시겠습니까?
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="/shoeDelete">
+                                        <input type="hidden" value="work" name="url">
+                                        <input type="hidden" value="${board.id}" name="boardId">
+                                        <button style="margin-right: 1px;" type="submit" class="btn btn-outline-danger">삭제</button>
+                                    </form>
+                                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">취소
+                                    </button>
                                 </div>
                             </div>
                         </div>

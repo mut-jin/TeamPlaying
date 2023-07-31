@@ -69,6 +69,7 @@ public interface RequestMapper {
                 brand = #{brand},
                 body = #{body},
                 price = #{price},
+                makeTime = #{makeTime},
                 progress = #{progress}
             WHERE
                 id = #{id}

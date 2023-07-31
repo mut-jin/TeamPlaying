@@ -40,7 +40,7 @@
         <div class="layout" style="align-items: center; margin: 0; padding: 15px 0 15px 20px; border-top: 2px solid limegreen;">
             <h2>의뢰</h2>
             <c:if test="${csBoard.answer == null}">
-                <form action="/csModify" style="margin-right: 2px; margin-left: auto;">
+                <form action="/csModify" style="margin-bottom: 0; margin-right: 2px; margin-left: auto;">
                     <input type="hidden" name="id" value="${csBoard.id}">
                     <button class="btn btn-primary" type="submit">수정</button>
                 </form>
@@ -69,7 +69,7 @@
             </div>
             <c:if test="${csBoard.answer != null}">
                 <div class="layout"
-                     style="background-color: #f7f7f7; padding: 30px 10px 30px; border-top: 1px solid #e7e7e7;">
+                     style="margin-bottom: 20px; background-color: #f7f7f7; padding: 30px 10px 30px; border-top: 1px solid #e7e7e7;">
                     <div class="layout" style="max-width: 48px;">
                         <div style="margin-top: 3px; color: #b9b9b9">┗</div>
                         <h4 style="padding: 0 7px 0; font-weight: bolder;">A</h4>

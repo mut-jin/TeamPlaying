@@ -121,8 +121,9 @@ public class RequestService {
             customRequest.setContains(shoeBoardMapper.contains(customRequest.getTitle()) != null);
         }
 
+        String myMemberType = memberMapper.getMemberTypeByUserId(artistId);
 
-        return Map.of("pageInfo", pageInfo, "myRequestList", list);
+        return Map.of("pageInfo", pageInfo, "myRequestList", list, "myMemberType", myMemberType);
     }
 
     public void removeRequest(Integer id) {

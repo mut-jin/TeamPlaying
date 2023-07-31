@@ -156,4 +156,8 @@ public class CsService {
     public void updateAnswer(String answer, Integer id) {
         csMapper.updateAnswer(answer, id);
     }
+
+    public String getWriterById(Integer id) {
+        return csMapper.getWriter(id);
+    }
 }
