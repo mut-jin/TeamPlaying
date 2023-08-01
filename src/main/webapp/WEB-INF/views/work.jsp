@@ -157,7 +157,7 @@
     <div class="d-flex" style="margin-left: -165px;">
         <div class="dropdown" style="margin-right: 20px;">
             <button id="brandDropDown" class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="width: 300px; text-align: left;">
+                    aria-expanded="false" style="width: 300px; text-align: left; font-family: 'Jeju Gothic', sans-serif;">
                 ${pageInfo.brand}
             </button>
             <c:url value="/work" var="nikeBrandUrl">
@@ -225,10 +225,10 @@
         </div>
         <div class="dropdown">
             <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="width: 300px; text-align: left;">
+                    aria-expanded="false" style="width: 300px; text-align: left; font-family: 'Jeju Gothic', sans-serif;">
                 ${alignInfo}
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="font-family: 'Jeju Gothic', sans-serif;">
                 <li><a class="dropdown-item" href="/work?name=최신순&brand=${pageInfo.brand}">최신순</a></li>
                 <li><a class="dropdown-item" href="/work?order=likeCount&direction=DESC&name=좋아요순&brand=${pageInfo.brand}">좋아요순</a></li>
                 <li><a class="dropdown-item" href="/work?order=view&direction=DESC&name=조회수순&brand=${pageInfo.brand}">조회수순</a></li>

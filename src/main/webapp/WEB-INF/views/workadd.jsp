@@ -139,7 +139,7 @@
                                 </button>
                             </li>
                             <li>
-                                <button type="button" class="dropdown-item ShoeBrand converse" id="etc" value="기타">기타
+                                <button type="button" class="dropdown-item ShoeBrand etc" id="etc" value="기타">기타
                                 </button>
                             </li>
                         </ul>

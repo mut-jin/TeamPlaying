@@ -95,6 +95,9 @@ public class MainController {
         List<ShoeBoard> converse = shoeBoardService.getAllShoesByBrand("컨버스");
         getShoeList.put("converse", converse);
 
+        List<ShoeBoard> etc = shoeBoardService.getAllShoesByBrand("기타");
+        getShoeList.put("etc", etc);
+
         String myMemberType = "";
 
         if(authentication == null) {
