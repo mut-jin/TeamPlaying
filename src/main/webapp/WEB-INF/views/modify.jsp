@@ -20,7 +20,7 @@
         .container-lg {
             width: 500px;
             margin: 0 auto; /* Center the container horizontally */
-            margin-top: 100px; /* Add top margin for spacing */
+            margin-top: 44px; /* Add top margin for spacing */
         }
 
         .btn-success {
@@ -79,35 +79,23 @@
 
 <div class="container-lg">
     <div></div>
-    <form action="/modify" method="post">
+    <form action="/modify" method="post" enctype="multipart/form-data">
         <div class="row justify-content-center myInfo">
-            <div class="shadow" style="height: 800px;">
+            <div class="shadow" style="padding-bottom: 20px; padding-top: 5px;">
                 <h1>프로필</h1>
-                <br>
                 <div class="mb-3">
-                    <label class="form-label">프로필사진</label>
-                    <c:if test="${board.profile eq 'basic'}">
+                    <c:if test="${member.profile eq 'basic'}">
                         <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
-                             style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                             style="border-radius: 50%; width: 100px; height: 100px;" alt="">
                     </c:if>
-                    <c:if test="${board.profile ne 'basic'}">
-                        <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
-                             style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                    <c:if test="${member.profile ne 'basic'}">
+                        <img src="${bucketUrl}/Member/${member.id}/${member.profile}"
+                             style="border-radius: 50%; width: 100px; height: 100px;" alt="">
                     </c:if>
-                    <input type="hidden" value="${board.profile}" name="pastProfile">
-                    <div>프로필 사진 변경</div>
-                    <input class="form-control" type="file" value="${member.profile}" name="profile"/>
+                    <input type="hidden" value="${member.profile}" name="profile">
+                    <div style="margin-top: 10px;">프로필 사진 변경</div>
+                    <input class="form-control" type="file" name="file"/>
                     <div class="form-text">1MB 크기의 파일, 총 10MB 크기만 허용</div>
-                </div>
-                <div class="mb-3">
-                    <label for="inputId" class="form-label">아이디</label>
-                    <input id="inputId" class="form-control" type="text" name="userId" value="${member.userId }"
-                           readonly />
-                </div>
-                <div class="mb-3" style="display: none;">
-                    <label for="inputPassWord" class="form-label"> 비밀번호 </label>
-                    <input id="inputPassword" class="form-control" type="text" name="password"
-                           value=""/>
                 </div>
 <%--                <div class="mb-3">--%>
 <%--                    <label for="inputName"> 이름 </label>--%>

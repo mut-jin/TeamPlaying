@@ -1,8 +1,6 @@
 package com.example.teamplaying.service;
 
-import com.example.teamplaying.domain.Chat;
 import com.example.teamplaying.domain.CustomRequest;
-import com.example.teamplaying.mapper.ChatMapper;
 import com.example.teamplaying.mapper.MemberMapper;
 import com.example.teamplaying.mapper.PaymentMapper;
 import com.example.teamplaying.mapper.RequestMapper;
@@ -29,9 +27,6 @@ public class RequestService {
     private RequestMapper mapper;
 
     @Autowired
-    private ChatMapper chatMapper;
-
-    @Autowired
     private MemberMapper memberMapper;
 
     @Autowired
@@ -46,56 +41,56 @@ public class RequestService {
     @Value("${aws.s3.bucketName}")
     private String bucketName;
 
-    public List<Integer> customRequest(CustomRequest customRequest, MultipartFile[] files) throws IOException {
-        int cnt = mapper.insertCustomRequest(customRequest);
-
-        if (cnt != 1) {
-            return List.of(cnt);
-        }
-
-        int roomCnt = 0;
-        Chat chat = new Chat();
-        chat.setSenderId(customRequest.getCustomerUserId());
-        chat.setRecipientId(customRequest.getArtistUserId());
-        for (int i : chatMapper.checkChatRoom(customRequest.getArtistUserId(), customRequest.getCustomerUserId())) {
-            roomCnt += i;
-        }
-        if (roomCnt <= 0) {
-            chatMapper.createChatRoom(customRequest.getArtistUserId(), customRequest.getCustomerUserId());
-        }
-        chat.setChatRoomId(chatMapper.getChatRoomIdByYourId(chat.getSenderId(), chat.getRecipientId()));
-//        String myDateTime = customRequest.getMakeTime().toString().substring(2);
-//        String myDate = myDateTime.substring(0, 2);
-//        String myTime = myDateTime.substring(3);
-        String customerNickName = memberMapper.getNickNameByUserId(customRequest.getCustomerUserId());
-        chat.setMessage(customerNickName + "님이 커스텀 의뢰를 요청하셨습니다.");
-//            chat.setMessage(chat.getMessage() + "\n참고 이미지");
-        chatMapper.addChat(chat);
-        if (files != null) {
-            for (MultipartFile file : files) {
-                if (file.getSize() > 0) {
-
-                    // 이름이 될 내용
-                    String objectKey = "TeamPlay/request/" + customRequest.getId() + "/" + file.getOriginalFilename();
-
-                    // s3 첫번째 파라미터
-                    PutObjectRequest por = PutObjectRequest.builder().bucket(bucketName).key(objectKey)
-                            .acl(ObjectCannedACL.PUBLIC_READ).build();
-
-                    // s3 두번째 파라미터
-                    RequestBody rb = RequestBody.fromInputStream(file.getInputStream(), file.getSize());
-
-                    s3.putObject(por, rb);
-
-                    chat.setFileName(file.getOriginalFilename());
-
-                    mapper.insertFileCustomRequest(file.getOriginalFilename(), customRequest.getId());
-                }
-            }
-        }
-
-        return List.of(cnt, chat.getId());
-    }
+//    public List<Integer> customRequest(CustomRequest customRequest, MultipartFile[] files) throws IOException {
+//        int cnt = mapper.insertCustomRequest(customRequest);
+//
+//        if (cnt != 1) {
+//            return List.of(cnt);
+//        }
+//
+//        int roomCnt = 0;
+//        Chat chat = new Chat();
+//        chat.setSenderId(customRequest.getCustomerUserId());
+//        chat.setRecipientId(customRequest.getArtistUserId());
+//        for (int i : chatMapper.checkChatRoom(customRequest.getArtistUserId(), customRequest.getCustomerUserId())) {
+//            roomCnt += i;
+//        }
+//        if (roomCnt <= 0) {
+//            chatMapper.createChatRoom(customRequest.getArtistUserId(), customRequest.getCustomerUserId());
+//        }
+//        chat.setChatRoomId(chatMapper.getChatRoomIdByYourId(chat.getSenderId(), chat.getRecipientId()));
+////        String myDateTime = customRequest.getMakeTime().toString().substring(2);
+////        String myDate = myDateTime.substring(0, 2);
+////        String myTime = myDateTime.substring(3);
+//        String customerNickName = memberMapper.getNickNameByUserId(customRequest.getCustomerUserId());
+//        chat.setMessage(customerNickName + "님이 커스텀 의뢰를 요청하셨습니다.");
+////            chat.setMessage(chat.getMessage() + "\n참고 이미지");
+//        chatMapper.addChat(chat);
+//        if (files != null) {
+//            for (MultipartFile file : files) {
+//                if (file.getSize() > 0) {
+//
+//                    // 이름이 될 내용
+//                    String objectKey = "TeamPlay/request/" + customRequest.getId() + "/" + file.getOriginalFilename();
+//
+//                    // s3 첫번째 파라미터
+//                    PutObjectRequest por = PutObjectRequest.builder().bucket(bucketName).key(objectKey)
+//                            .acl(ObjectCannedACL.PUBLIC_READ).build();
+//
+//                    // s3 두번째 파라미터
+//                    RequestBody rb = RequestBody.fromInputStream(file.getInputStream(), file.getSize());
+//
+//                    s3.putObject(por, rb);
+//
+//                    chat.setFileName(file.getOriginalFilename());
+//
+//                    mapper.insertFileCustomRequest(file.getOriginalFilename(), customRequest.getId());
+//                }
+//            }
+//        }
+//
+//        return List.of(cnt, chat.getId());
+//    }
 
     public Map<String, Object> getMyRequest(String artistId, Integer page) {
         Integer rowPerPage = 10;
