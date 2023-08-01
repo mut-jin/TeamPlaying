@@ -157,7 +157,7 @@
     <div class="d-flex" style="margin-left: -165px;">
         <div class="dropdown" style="margin-right: 20px;">
             <button id="brandDropDown" class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="width: 300px; text-align: left;">
+                    aria-expanded="false" style="width: 300px; text-align: left; font-family: 'Jeju Gothic', sans-serif;">
                 ${pageInfo.brand}
             </button>
             <c:url value="/work" var="nikeBrandUrl">
@@ -196,6 +196,15 @@
                 </c:if>
                 <c:param name="brand" value="컨버스"></c:param>
             </c:url>
+            <c:url value="/work" var="etcBrandUrl">
+                <c:if test="${not empty param.page}">
+                    <c:param name="page" value="${param.page}"></c:param>
+                </c:if>
+                <c:if test="${not empty param.search}">
+                    <c:param name="search" value="${param.search}"></c:param>
+                </c:if>
+                <c:param name="brand" value="기타"></c:param>
+            </c:url>
             <c:url value="/work" var="allBrandUrl">
                 <c:if test="${not empty param.page}">
                     <c:param name="page" value="${param.page}"></c:param>
@@ -211,14 +220,15 @@
                 <li><a class="dropdown-item ShoeBrand" href="${adidasBrandUrl}" id="adidas">아디다스</a></li>
                 <li><a class="dropdown-item ShoeBrand" href="${vansBrandUrl}" id="vans">반스</a></li>
                 <li><a class="dropdown-item ShoeBrand" href="${converseBrandUrl}" id="converse">컨버스</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="${etcBrandUrl}" id="etc">기타</a></li>
             </ul>
         </div>
         <div class="dropdown">
             <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="width: 300px; text-align: left;">
+                    aria-expanded="false" style="width: 300px; text-align: left; font-family: 'Jeju Gothic', sans-serif;">
                 ${alignInfo}
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="font-family: 'Jeju Gothic', sans-serif;">
                 <li><a class="dropdown-item" href="/work?name=최신순&brand=${pageInfo.brand}">최신순</a></li>
                 <li><a class="dropdown-item" href="/work?order=likeCount&direction=DESC&name=좋아요순&brand=${pageInfo.brand}">좋아요순</a></li>
                 <li><a class="dropdown-item" href="/work?order=view&direction=DESC&name=조회수순&brand=${pageInfo.brand}">조회수순</a></li>

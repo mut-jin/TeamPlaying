@@ -971,6 +971,193 @@
         </c:choose>
     </c:forEach>
 </div>
+<br><br><br>
+<div class="flex headline" style="margin-left: 120px; font-family: 'Jeju Gothic', sans-serif;">
+    기타
+</div>
+<br>
+<div class="row"
+     style="display: flex; flex-wrap: wrap; justify-content: center; margin-left: 0; margin-right: 0;">
+    <c:forEach items="${etc}" var="board" varStatus="status">
+        <c:choose>
+            <c:when test="${brand == null || brand eq 'all' || board.brand eq brand}">
+                <div class="col-md-2" id="shoeBoard${board.id}"
+                     style="flex: 0 0 calc(16.666% - 5px); max-width: 30vh; max-height: 53vh; padding: 5px;"
+                     onclick="view(this)"
+                     data-bs-toggle="modal" data-bs-target="#shoeModal${board.id}" data-id="${board.id}">
+                    <div class="card my-card" data-brand="${board.brand}">
+                        <div onclick="console.log('data-brand:', this.getAttribute('data-brand'))">
+                            <div data-toggle="modal" data-target="#myModal" data-brand="${board.brand}"
+                                 data-member-id="${board.memberId}">
+                                <img class="card-img" src="${board.fileName}" alt=""/>
+                                <div class="card-body">
+                                    <p class="card-text">${board.title}</p>
+                                    <div class="flex caption">
+                                        👟 ${board.nickName}
+                                    </div>
+                                    <div class="flex grey--text text--lighten-1">
+                                        ―
+                                    </div>
+                                    <p class="card-price">₩${board.price}</p>
+
+                                </div>
+                                <div class="card-footer" style="margin-top: auto;">
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-thumbs-up"></i> ${board.likeCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary"><i
+                                            class="fa-regular fa-comment"></i> ${board.commentCount}</small>
+                                    <span class="mx-2"></span>
+                                    <small class="text-body-secondary float-right"><i
+                                            class="fa-regular fa-eye"></i> ${board.view}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="shoeModal${board.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog layout" style="max-width: 68%; margin-top: 5vh;">
+                        <div class="modal-content myInfo">
+                            <div class="modal-body layout modal-body2">
+                                <div style="margin-bottom: 40px; max-width: 100%; width: 100%;">
+                                    <c:forEach items="${board.imgUrlList}" var="file">
+                                        <img style="width: inherit; max-width: inherit"
+                                             src="${bucketUrl }/shoeBoard/${board.id }/${file}" alt="">
+                                    </c:forEach>
+                                </div>
+                                <div style="margin: 0 20px 40px;">${board.body}</div>
+                                <div class="layout" style="margin-bottom: 12px; justify-content: center;">
+                                    <span id="view${board.id}">${board.view} Views</span>
+                                    &nbsp&nbsp&nbsp
+                                    <span id="like${board.id}">${board.likeCount} Likes</span>
+                                    &nbsp&nbsp&nbsp
+                                    <span id="comment${board.id}">${board.commentCount} Comments</span>
+                                </div>
+                                <div class="layout" style="flex-direction: column; margin: 20px 20px 0">
+                                    <div class="layout">
+                                        <div>
+                                            <div style="background-color: #9e9e9e; border-radius: 50%; text-align: center; min-width: 48px; width: 48px; height: 48px; overflow: hidden;">
+                                                <i style="color: white; margin-top: 15px; width: inherit; height:inherit;"
+                                                   class="fa-regular fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div style="padding-left: 12px; width: 100%;">
+                                            <textarea name="" id="shoeComment${board.id}"
+                                                      style="min-height: 130px; max-width: 100%; width: 100%; line-height: 1.75rem; padding-right: 12px;"
+                                                      placeholder="작품에 대한 댓글을 남겨주세요."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="layout" style="margin: 15px 0 10px;">
+                                        <c:if test="${myUserId ne ''}">
+                                            <button type="button" class="sendCommentBtn" value="${board.id}"
+                                                    style="color: white; background-color: #9e9e9e; border: 0; margin-left: auto; border-radius: 28px; height: 36px; min-width: 64px; padding: 0 16px;">
+                                                댓글 달기
+                                            </button>
+                                        </c:if>
+                                    </div>
+                                    <ul class="list-group" id="commentListContainer${board.id}">
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="myPageOption">
+                            <div class="layout modal-content" style="flex-direction: column; background-color: white;">
+                                <div style="margin: 16px 12px 0px;">
+                                    <h1 id="boardTitle${board.id}">${board.title}</h1>
+                                    <c:if test="${myUserId eq board.userId || myMemberType eq 'admin'}">
+                                        <div>
+                                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#shoeBoardRemoveModal${board.id}">삭제
+                                            </button>
+                                        </div>
+                                    </c:if>
+                                </div>
+                                <hr style="margin: 0.7rem 0;">
+                                <div class="layout"
+                                     style="min-height: 48px; padding: 0 16px;position: relative; align-items: center;">
+                                    <div class="profile">
+                                        <c:if test="${board.profile eq 'basic'}">
+                                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/profile_basic.jpg"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                        <c:if test="${board.profile ne 'basic'}">
+                                            <img src="${bucketUrl}/Member/${board.memberId}/${board.profile}"
+                                                 style="border-radius: 50%; width: inherit; height: inherit;" alt="">
+                                        </c:if>
+                                    </div>
+                                    <div class="layout" style="flex-direction: column; padding: 12px 0;">
+                                        <div style="font-weight: 700; margin-bottom: 2px; font-size: 90%; line-height: 1.2;">${board.nickName}</div>
+                                        <div style="font-size: 90%; line-height: 1.2;">${board.address}</div>
+                                    </div>
+                                    <input type="hidden" id="boardBrand${board.id}" value="${board.brand}">
+                                    <input type="hidden" id="boardMemberId${board.id}" value="${board.memberId}">
+                                    <div class="profileBtn" style="width: 7vh;">
+                                        <a href="/artist/${board.memberId}" class="profileText">
+                                            프로필
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr style="margin: 0.7rem 0;">
+                                <div class="layout" style="flex-direction: column; margin: 12px;">
+                                    <div class="layout">
+                                        <div style="font-weight: 700; margin-right: auto;">사용신발</div>
+                                        <div id="boardShoeName${board.id}"
+                                             style="margin-left: auto;">${board.shoeName}</div>
+                                    </div>
+                                    <div class="layout">
+                                        <div style="font-weight: 700; margin-right: auto;">작업기간</div>
+                                        <div style="margin-left: auto;">${board.makeTime}</div>
+                                    </div>
+                                    <div class="layout">
+                                        <div style="font-weight: 700; margin-right: auto;">작업비용</div>
+                                        <div id="boardPrice${board.id}" style="margin-left: auto;">${board.price}</div>
+                                    </div>
+                                </div>
+                                <div class="layout" style="overflow: hidden; ">
+                                    <button value="${board.id}" id="likeBtn${board.id}"
+                                            style="display: flex; justify-content: center; align-items: center; height: 44px; border-radius: 0; border: 0; margin: 0; background-color: #9e9e9e; color: white;"
+                                            class="myPageOption likeIcon"><i style="margin-right: 5px; font-size: 150%;"
+                                                                             class="fa-regular fa-thumbs-up"></i> ${board.likeCount}
+                                    </button>
+                                    <button data-bs-toggle="modal" data-bs-target="#requestModal"
+                                            style="height: 44px; border-radius: 0; border: 0; margin: 0; background-color: orange; color: white"
+                                            class="myInfo requestBtn" value="${board.title}">커스텀 작업 의뢰하기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- shoeBoardRemoveModal -->
+                <div class="modal fade" id="shoeBoardRemoveModal${board.id}" tabindex="-1"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                해당 게시물을 삭제하시겠습니까?
+                            </div>
+                            <div class="modal-footer">
+                                <form action="/shoeDelete">
+                                    <input type="hidden" value="main" name="url">
+                                    <input type="hidden" value="${board.id}" name="boardId">
+                                    <button style="margin-right: 1px;" type="submit" class="btn btn-outline-danger">삭제</button>
+                                </form>
+                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">취소
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+        </c:choose>
+    </c:forEach>
+</div>
 <!-- 댓글 삭제 Modal -->
 <div class="modal fade" id="deleteCommentConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel2"
      aria-hidden="true">
