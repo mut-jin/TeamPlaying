@@ -79,7 +79,7 @@
             <div class="col-2 left-div d-flex flex-column align-items-center" style="display: flex; flex-direction: column; align-items: center; margin-top: 200px;">
                 <div class="card shadow" style="margin-bottom: 100px;">
                     <div id="outImage" class="canvas-image">
-                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-out1.webp" alt="..." style="width: 200px; height: auto">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce1/innerImage.webp" alt="..." style="width: 200px; height: auto">
                     </div>
                     <div class="card-body d-flex justify-content-center">
                         <h5> Inside </h5>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="card shadow">
                     <div id="innerImage" class="canvas-image">
-                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-in1.webp" alt="..." style="width: 200px; height: auto">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce1/outImage.webp" alt="..." style="width: 200px; height: auto">
                     </div>
                     <div class="card-body d-flex justify-content-center">
                         <h5> Outside </h5>
@@ -103,7 +103,7 @@
             <div class="col-2 right-div d-flex flex-column align-items-center" style="display: flex; flex-direction: column; align-items: center; margin-top: 200px;">
                 <div class="card shadow">
                     <div id="leftImage" class="canvas-image">
-                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-left1.webp" alt="..." style="width: 200px; height: auto">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce1/left.png" alt="..." style="width: 200px; height: auto">
                     </div>
                     <div class="card-body d-flex justify-content-center">
                         <h5> Upper Left </h5>
@@ -111,7 +111,7 @@
                 </div>
                 <div class="card shadow">
                     <div id="backImage" class="canvas-image">
-                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-back1.webp" alt="..." style="width: 200px; height: auto">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce1/backImage.webp" alt="..." style="width: 200px; height: auto">
                     </div>
                     <div class="card-body d-flex justify-content-center">
                         <h5> Back side </h5>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="card shadow">
                     <div id="rightImage" class="canvas-image">
-                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce/airforce-right1.webp" alt="..." style="width: 200px; height: auto">
+                        <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/ShoeExample/airforce1/right.png" alt="..." style="width: 200px; height: auto">
                     </div>
                     <div class="card-body d-flex justify-content-center">
                         <h5> Upper Right </h5>
@@ -155,24 +155,36 @@
                 <div class="card shadow" id="image-box">
                     <div class="card-body">
                         <div id="image-list">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/adidas.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/apple.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/basketball.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/bmw.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/bob1.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/cha12.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/clef.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/Disney.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/fbi.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/ham.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/infinity.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/like.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/linux.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/miki.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/navi.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/nike.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/red_arrow.png" alt="Image 1" class="draggable-image">
-                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image/sunflower.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/adidas.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/apple.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/basketball.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/bmw.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/bob1.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/cha12.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/clef.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/Disney.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/fbi.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/ham.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/sunflower.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/infinity.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/like.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/linux.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/miki.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/navi.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/nike.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/red_arrow.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/A.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/bitcoin.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/cocacola.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/converse.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/fifa.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/france.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/gta.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/spain.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/time_bomb.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/twitter.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/ukraine.png" alt="Image 1" class="draggable-image">
+                            <img src="https://bucket0503-mason.s3.ap-northeast-2.amazonaws.com/TeamPlay/decoration/image1/whisky.png" alt="Image 1" class="draggable-image">
                         </div>
                     </div>
                 </div>

@@ -54,7 +54,7 @@ public class CsService {
         pageInfo.put("currentPageNum", page);
 
         List<CsBoard> list = csMapper.getCsBoardByWriter(writer, startIndex, rowPerPage, search);
-        for(CsBoard csBoard : list) {
+        for (CsBoard csBoard : list) {
             csBoard.setInsert(csBoard.getInserted().toLocalDate());
         }
         return Map.of("pageInfo", pageInfo, "csBoardList", list);
@@ -89,6 +89,7 @@ public class CsService {
         String myMemberType = memberMapper.getMemberTypeByUserId(myUserId);
         return Map.of("csBoard", csBoard, "files", list, "memberType", myMemberType);
     }
+
     public Map<String, Object> getCsBoardById(Integer id) {
         CsBoard csBoard = csMapper.getCsBoardById(id);
         List<String> list = csMapper.getCsFileNameList(id);
@@ -161,8 +162,9 @@ public class CsService {
         return csMapper.getWriter(id);
     }
 
+    }
+
     public List<CsBoard> getAllCs() {
         return csMapper.selectAllCs();
-
     }
 }
