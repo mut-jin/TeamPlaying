@@ -87,6 +87,14 @@
             margin: 0 auto;
         }
 
+        .form-group {
+            position: relative;
+            display: inline-block; /* 이렇게 추가해줍니다. */
+        }
+
+        .other-information {
+            margin-top: 10px; /* 다른 정보와의 간격을 조절합니다. */
+        }
     </style>
 </head>
 <body>
@@ -113,16 +121,26 @@
                         </button>
                         <ul class="dropdown-menu" style="width: 466px; font-size: 22px; font-weight: bolder">
                             <li>
-                                <button type="button" class="dropdown-item ShoeBrand nike" id="nike" value="나이키">나이키</button>
+                                <button type="button" class="dropdown-item ShoeBrand nike" id="nike" value="나이키">나이키
+                                </button>
                             </li>
                             <li>
-                                <button type="button" class="dropdown-item ShoeBrand adidas" id="adidas" value="아디다스">아디다스</button>
+                                <button type="button" class="dropdown-item ShoeBrand adidas" id="adidas" value="아디다스">
+                                    아디다스
+                                </button>
                             </li>
                             <li>
-                                <button type="button" class="dropdown-item ShoeBrand vans" id="vans" value="반스">반스</button>
+                                <button type="button" class="dropdown-item ShoeBrand vans" id="vans" value="반스">반스
+                                </button>
                             </li>
                             <li>
-                                <button type="button" class="dropdown-item ShoeBrand converse" id="converse" value="컨버스">컨버스</button>
+                                <button type="button" class="dropdown-item ShoeBrand converse" id="converse"
+                                        value="컨버스">컨버스
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item ShoeBrand converse" id="etc" value="기타">기타
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -132,7 +150,8 @@
                     <div class="dropdown" onclick="highlightInput(this)">
                         <button style="background-color: white;" class="btn dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                            <input id="shoeModel" name="shoeName" style="border: 0; width: 420px;" placeholder="신발 모델명"/>
+                            <input id="shoeModel" name="shoeName" style="border: 0; width: 420px;"
+                                   placeholder="신발 모델명"/>
                         </button>
 
 
@@ -170,46 +189,48 @@
                             <li><a class="dropdown-item ShoeName converse-model" href="#">척테일러 1970S 로우 (화이트)</a></li>
                             <li><a class="dropdown-item ShoeName converse-model" href="#">기타</a></li>
 
-
+                            <%-- 기타 브랜드의 신발 모델 --%>
+                            <li><a class="dropdown-item ShoeName etc-model" href="#">기타</a></li>
                         </ul>
                     </div>
 
                     <br>
                     <div class="form-text">1MB 크기의 파일, 총 10MB 크기만 허용</div>
-                    <div class="form-group">
+                    <div class="form-group" style="width: 466px;">
                         <!-- <label for="fileInput" class="form-label"></label>  -->
                         <input class="form-control form-control-user" style="height: 38px;" type="file" multiple
                                name="files" accept="image/*"
                                id="fileInput" onchange="setDetailImage(event);"/>
                     </div>
-                    <div id="images_container" style="width: 250px; height: 200px; object-fit: cover;"></div>
+                    <div id="images_preview"></div>
+                    <div class="other-information">
+                        <div>
+                            <label for="inputPrice" class="form-label">작업 비용</label>
+                            <input id="inputPrice" type="title" class="form-control" name="price"
+                                   placeholder="작업 비용" onclick="highlightInput(this)"/>
+                        </div>
+                        <br>
+                        <div class="mb-3">
+                            <label for="inputMakeTime" class="form-label">작업 일수</label>
+                            <input id="inputMakeTime" type="makeTime" class="form-control" name="makeTime"
+                                   value="${shoeBoard.makeTime }"
+                                   placeholder="작업 일수" onclick="highlightInput(this)"/>
+                        </div>
 
-                    <div>
-                        <label for="inputPrice" class="form-label">작업 비용</label>
-                        <input id="inputPrice" type="title" class="form-control" name="price"
-                               placeholder="작업 비용" onclick="highlightInput(this)"/>
-                    </div>
-                    <br>
-                    <div class="mb-3">
-                        <label for="inputMakeTime" class="form-label">작업 일수</label>
-                        <input id="inputMakeTime" type="makeTime" class="form-control" name="makeTime"
-                               value="${shoeBoard.makeTime }"
-                               placeholder="작업 일수" onclick="highlightInput(this)"/>
-                    </div>
+                        <div class="mb-3">
+                            <label for="inputBody" class="form-label">작품 설명</label>
+                            <input id="inputBody" style="height: 250px;" type="body" class="form-control" name="body"
+                                   value="${shoeBoard.body }"
+                                   placeholder="작품 설명" onclick="highlightInput(this)"/>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="inputBody" class="form-label">작품 설명</label>
-                        <input id="inputBody" style="height: 250px;" type="body" class="form-control" name="body"
-                               value="${shoeBoard.body }"
-                               placeholder="작품 설명" onclick="highlightInput(this)"/>
+                        <div class="mb-3">
+                            <button class="btn btn-warning"
+                                    style="width: 466px; height: 50px; color: white; font-size: 20px;" type="submit">
+                                등록하기
+                            </button>
+                        </div>
                     </div>
-
-                    <div class="mb-3">
-                        <button class="btn btn-warning"
-                                style="width: 466px; height: 50px; color: white; font-size: 20px;" type="submit">등록하기
-                        </button>
-                    </div>
-
 
                 </div>
             </form>
@@ -273,6 +294,31 @@
         }
     }
 </script>
+
+<script>
+    function setDetailImage(event) {
+        const previewContainer = document.getElementById("images_preview");
+        previewContainer.innerHTML = "";
+
+        const files = event.target.files;
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const image = document.createElement("img");
+                image.src = e.target.result;
+                image.style.width = "250px";
+                image.style.height = "200px";
+                image.style.objectFit = "cover";
+                previewContainer.appendChild(image);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
 
 </body>
 </html>

@@ -196,6 +196,15 @@
                 </c:if>
                 <c:param name="brand" value="컨버스"></c:param>
             </c:url>
+            <c:url value="/work" var="etcBrandUrl">
+                <c:if test="${not empty param.page}">
+                    <c:param name="page" value="${param.page}"></c:param>
+                </c:if>
+                <c:if test="${not empty param.search}">
+                    <c:param name="search" value="${param.search}"></c:param>
+                </c:if>
+                <c:param name="brand" value="기타"></c:param>
+            </c:url>
             <c:url value="/work" var="allBrandUrl">
                 <c:if test="${not empty param.page}">
                     <c:param name="page" value="${param.page}"></c:param>
@@ -211,6 +220,7 @@
                 <li><a class="dropdown-item ShoeBrand" href="${adidasBrandUrl}" id="adidas">아디다스</a></li>
                 <li><a class="dropdown-item ShoeBrand" href="${vansBrandUrl}" id="vans">반스</a></li>
                 <li><a class="dropdown-item ShoeBrand" href="${converseBrandUrl}" id="converse">컨버스</a></li>
+                <li><a class="dropdown-item ShoeBrand" href="${etcBrandUrl}" id="etc">기타</a></li>
             </ul>
         </div>
         <div class="dropdown">
