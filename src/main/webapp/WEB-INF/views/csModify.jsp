@@ -67,7 +67,8 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 5px;">문의 내용</div>
-                    <textarea name="body" rows="20" style="padding: 10px 0 0 10px; margin-bottom: 20px; width: 100%; height: 250px;"
+                    <textarea name="body" rows="20"
+                              style="padding: 10px 0 0 10px; margin-bottom: 20px; width: 100%; height: 250px;"
                               placeholder="문의 내용">${csBoard.body}</textarea>
                     <div style="width: 70%; margin-bottom: 30px;">
                         <input class="form-control" style="height: 38px; width: 635px;" type="file" multiple
@@ -75,22 +76,28 @@
                     </div>
                     <div class="layout" style="margin-bottom: 30px;">
                         <c:forEach items="${files}" var="file" varStatus="status">
-                            <div style="position: relative; display: inline-block; overflow: hidden; width: 150px; height: 150px;" id="file${status.index}">
-                                <img src="${bucketUrl }/csBoard/${csBoard.id }/${file}" alt="" style="width: 100%; height: 100%;">
-                                <button type="button" class="removeFile" data-board-fileId="file${status.index}" data-board-file="${file}" style="border: 0; color: #ec2a2a; padding: 3px; background-color: #ffffff00; position: absolute; top: 0; right: 0;">
+                            <div style="position: relative; display: inline-block; overflow: hidden; width: 150px; height: 150px;"
+                                 id="file${status.index}">
+                                <img src="${bucketUrl }/csBoard/${csBoard.id }/${file}" alt=""
+                                     style="width: 100%; height: 100%;">
+                                <button type="button" class="removeFile" data-board-fileId="file${status.index}"
+                                        data-board-file="${file}"
+                                        style="border: 0; color: #ec2a2a; padding: 3px; background-color: #ffffff00; position: absolute; top: 0; right: 0;">
                                     <i class="fa-solid fa-xmark" style="font-size: x-large"></i>
                                 </button>
                             </div>
                         </c:forEach>
                     </div>
                     <div style="margin-left: auto; margin-bottom: 30px;">
-                        <input type="hidden" name="id" value="${csBoard.id }" />
+                        <input type="hidden" name="id" value="${csBoard.id }"/>
                         <input type="hidden" name="removeFileList" id="removeFileList" value="">
                         <input class="btn btn-primary" type="submit" value="수정하기">
-                        <input class="btn btn-danger" type="button" onclick="location.href='/myCs/${csBoard.id}'" value="취소하기">
+                        <input class="btn btn-danger" type="button" onclick="location.href='/myCs/${csBoard.id}'"
+                               value="취소하기">
                     </div>
                 </div>
             </div>
+        </div>
     </form>
 </div>
 
