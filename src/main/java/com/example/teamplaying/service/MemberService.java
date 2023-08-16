@@ -298,4 +298,8 @@ public class MemberService {
         return mapper.getMemberTypeByUserId(name);
     }
 
+
+    public Map<String, Object> checkId(String id) {
+        return null;
+    }
 }

@@ -29,7 +29,7 @@ button.active {
 	</div>
 	<div id="chatSearchBox" class="mb-3" style="position: sticky; top: 45px; display: none; border: 1px solid black; width: 320px; height: 25.99px; margin-left: 10px; margin-top: 10px;">
 		<input type="text" style="width: 249px; border: 0px;" id="chatSearch" />
-		<button type="button" style="margin-left: auto; border: 0px; border-right: 1px solid black; background-color: background-color: #375bac; color: white;" id="chatSearchBtn">검색</button>
+		<button type="button" style="margin-left: auto; border: 0px; border-right: 1px solid black; background-color: background-color; #375bac; color: white;" id="chatSearchBtn">검색</button>
 		<button type="button" style="display: none; margin-left: auto; border: 0px; border-right: 1px solid black;" id="nextBtn">다음</button>
 		<button type="button" id="chatSearchRemove" style="background-color: white; border-color: white; border: 0px;">
 			<i class="fa-solid fa-x"></i>
@@ -118,7 +118,7 @@ button.active {
 	</div>
 </div>
 
-<button type="button" id="chatButton" class="btn btn-lg btn-primary position-fixed bottom-0 start-0" style="border-radius: 50%; margin-bottom: 15px; margin-left: 15px; z-index: 1;">
+<button type="button" id="chatButton"  class="btn btn-lg btn-primary position-fixed bottom-0 start-0" style="border-radius: 50%; margin-bottom: 15px; margin-left: 15px; z-index: 1; display: none;">
 	<i class="fa-regular fa-comments"></i>
 	<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="myChatCount"> 0 </span>
 </button>

@@ -39,7 +39,7 @@
     <div class="layout shadow" style="flex-direction: column">
         <div class="layout" style="align-items: center; margin: 0; padding: 15px 0 15px 20px; border-top: 2px solid limegreen;">
             <h2>의뢰</h2>
-            <c:if test="${csBoard.answer == null}">
+            <c:if test="${csBoard.answer == null and csBoard.writer != 'admin0'}">
                 <form action="/csModify" style="margin-bottom: 0; margin-right: 2px; margin-left: auto;">
                     <input type="hidden" name="id" value="${csBoard.id}">
                     <button class="btn btn-primary" type="submit">수정</button>

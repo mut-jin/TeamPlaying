@@ -162,7 +162,6 @@ public class CsService {
         return csMapper.getWriter(id);
     }
 
-    }
 
     public List<CsBoard> getAllCs() {
         return csMapper.selectAllCs();

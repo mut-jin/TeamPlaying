@@ -81,7 +81,7 @@
     <div></div>
     <form action="/modify" method="post">
         <div class="row justify-content-center myInfo">
-            <div class="shadow" style="height: 800px;">
+            <div class="shadow" style="padding-bottom: 5%">
                 <h1>프로필</h1>
                 <br>
                 <div class="mb-3">

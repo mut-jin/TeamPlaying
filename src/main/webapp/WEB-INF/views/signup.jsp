@@ -86,10 +86,18 @@
             <form method="post">
                 <div class="mb-3">
                     <label for="inputId" class="form-label">아이디</label>
-                    <input id="inputId" type="text" class="form-control" name="userId" value="${member.userId }"/>
-                    <!-- <div id="availableIdMessage">사용 가능한 ID입니다.</div>
-              <div id="notAvailableIdMessage">사용 불가능한 ID입니다.</div>
-              <button type="button" id="checkIdBtn" class="btn btn-secondary">중복확인</button> -->
+                    <div class="input-group">
+                        <input id="inputId" type="text" class="form-control" name="userId" value="${member.userId }"/>
+                        <button class="btn btn-outline-secondary" type="button" id="checkIdBtn">중복확인</button>
+                    </div>
+                    <div class="d-none form-text text-primary" id="availableIdMessage">
+                        <i class="fa-solid fa-check"></i>
+                        사용 가능한 ID입니다.
+                    </div>
+                    <div class="d-none form-text text-danger" id="notAvailableIdMessage">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        사용 불가능한 ID입니다.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="inputPassword" class="form-label">비밀번호</label>
@@ -97,16 +105,38 @@
                            value="${member.password }"/>
                 </div>
                 <div class="mb-3">
+                    <label for="inputPasswordCheck" class="form-label">패스워드 확인</label>
+                    <input id="inputPasswordCheck" type="password" class="form-control" />
+
+                    <div id="passwordSuccessText" class="d-none form-text text-primary">
+                        <i class="fa-solid fa-check"></i>
+                        패스워드가 일치 합니다.
+                    </div>
+
+                    <div id="passwordFailText" class="d-none form-text text-danger">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        패스워드가 일치하지 않습니다.
+                    </div>
+                </div>
+                <div class="mb-3">
                     <label for="inputName" class="form-label">이름</label>
                     <input id="inputName" type="text" class="form-control" name="name" value="${member.name }"/>
                 </div>
                 <div class="mb-3">
                     <label for="inputNickName" class="form-label">닉네임</label>
-                    <input id="inputNickName" type="text" class="form-control" name="nickName"
-                           value="${member.nickName }"/>
-                    <!-- <div id="availableNickNameMessage">사용 가능한 별명입니다.</div>
-              <div id="notAvailableNickNameMessage">사용 불가능한 별명입니다.</div>
-              <button type="button" id="checkNickNameBtn" class="btn btn-secondary">중복확인</button> -->
+                    <div class="input-group">
+                        <input id="inputNickName" type="text" class="form-control" name="nickName"
+                               value="${member.nickName }"/>
+                        <button class="btn btn-outline-secondary" type="button" id="checkNickNameBtn">중복확인</button>
+                    </div>
+                    <div class="d-none form-text text-primary" id="availableNickNameMessage">
+                        <i class="fa-solid fa-check"></i>
+                        사용 가능한 별명입니다.
+                    </div>
+                    <div class="d-none form-text text-danger" id="notAvailableNickNameMessage">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        사용 불가능한 별명입니다.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="inputBirth" class="form-label">생년월일</label>
@@ -149,10 +179,13 @@
                 </div>
                 <div class="mb-3">
                     <label for="inputEmail" class="form-label">이메일</label>
-                    <input id="inputEmail" type="text" class="form-control" name="email" value="${member.email }"/>
-                    <!-- <div id="availableEmailMessage">사용 가능한 이메일입니다.</div>
-              <div id="notAvailableEmailMessage">사용 불가능한 이메일입니다.</div>
-              <button type="button" id="checkEmailBtn" class="btn btn-secondary">중복확인</button> -->
+                    <div class="input-group">
+                        <input id="inputEmail" type="email" class="form-control" name="email" value="${member.email }"/>
+                        <button class="btn btn-outline-secondary" type="button" id="emailAuth">인증코드받기</button>
+                    </div>
+                    <label for="authCode" class="form-label">인증코드입력</label>
+                    <input class="form-control" id="authCode" maxlength="6" disabled="disabled" name="authCode" type="text" placeholder="인증 코드 6자리를 입력해주세요." autofocus>
+                    <span id="emailAuthWarn"></span>
                 </div>
                 <div class="mb-3">
                     <label for="inputIntroduce" class="form-label">소개</label>
@@ -168,6 +201,7 @@
     </div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/signup.js"></script>
 <script>
     window.onload = function () {
         document.getElementById("address_kakao").addEventListener("click", function () { //주소입력칸을 클릭하면
@@ -179,6 +213,7 @@
             }).open();
         });
     }
+
 </script>
 
 

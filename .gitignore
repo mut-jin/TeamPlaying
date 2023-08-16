@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 custom.properties
+/src/main/resources/com/example/teamplaying/mapper/root-context.xml

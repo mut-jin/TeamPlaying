@@ -38,7 +38,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class MainController {
-    private final MemberService memberService;
+
+    @Autowired
+    private MemberService memberService;
 
 
     @Autowired

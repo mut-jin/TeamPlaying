@@ -42,6 +42,7 @@ public interface MemberMapper {
             FROM Member
             WHERE userId = #{userId}
             """)
+    @ResultMap("memberMap")
     Member selectById(String userId);
 
     @Delete("""
@@ -255,4 +256,9 @@ public interface MemberMapper {
             WHERE id = #{memberId}
             """)
     String getProfile(Integer memberId);
+
+    @Select("""
+            SELECT COUNT(*) FROM Member WHERE userId = #{userId}
+            """)
+    int idCheck(String userId);
 }
