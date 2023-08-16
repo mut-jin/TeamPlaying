@@ -15,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -122,7 +124,30 @@ public class MemberService {
         return cnt == 1;
     }
 
-    public boolean modify(Member member) {
+    public boolean modify(Member member, MultipartFile file, Authentication authentication) throws IOException {
+        Integer myId = mapper.getId(authentication.getName());
+        Member myInfo = mapper.getMemberById(myId);
+        member.setName(myInfo.getName());
+        member.setUserId(myInfo.getUserId());
+
+        String objectKey = "TeamPlay/Member/" + myId + "/" + member.getProfile();
+        DeleteObjectRequest dor = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey)
+                .build();
+        s3.deleteObject(dor);
+
+        String objectKey2 = "TeamPlay/Member/" + myId + "/" + file.getOriginalFilename();
+        PutObjectRequest por = PutObjectRequest.builder()
+                .acl(ObjectCannedACL.PUBLIC_READ)
+                .bucket(bucketName)
+                .key(objectKey2)
+                .build();
+        RequestBody rb = RequestBody.fromInputStream(file.getInputStream(), file.getSize());
+
+        s3.putObject(por, rb);
+
+        member.setProfile(file.getOriginalFilename());
 
         int cnt = mapper.update(member);
 

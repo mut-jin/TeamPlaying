@@ -54,17 +54,15 @@ public interface MemberMapper {
     @Update("""
             UPDATE Member
             SET
-               <if test = "password neq null and password neq ''">
-               password = #{password},
-               </if>
                name     = #{name},
                nickName = #{nickName},
                birth    = #{birth},
-               gender   = #{gender},
                address  = #{address},
                phone    = #{phone},
                email    = #{email},
-               introduce= #{introduce}
+               introduce= #{introduce},
+               profile = #{profile},
+               addressDetail = #{addressDetail}
             WHERE
                userId = #{userId};
             """)
@@ -182,6 +180,7 @@ public interface MemberMapper {
                  nickName,
                  address,
                  introduce,
+                 name,
                  (SELECT SUM(view) FROM shoeBoard WHERE memberId = m.id) totalView,
                  (SELECT COUNT(*) FROM shoeBoard WHERE memberId = m.id) workCount,
                  (SELECT COUNT(*) FROM subscribe WHERE artistId = m.id) subCount

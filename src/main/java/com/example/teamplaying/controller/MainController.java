@@ -185,12 +185,15 @@ public class MainController {
 
     // 2.
     @PostMapping("modify")
-    public String modifyProcess(Member member, RedirectAttributes rttr) {
-        boolean ok = memberService.modify(member);
+    public String modifyProcess(Member member, RedirectAttributes rttr,
+                                @RequestParam MultipartFile file,
+                                Authentication authentication) throws IOException {
+        System.out.println("file:" + file);
+        boolean ok = memberService.modify(member, file, authentication);
 
         if (ok) {
             rttr.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
-            return "redirect:/info?userId=" + member.getUserId();
+            return "redirect:/totalMyPage";
         } else {
             rttr.addFlashAttribute("message", "회원 정보시 문제가 발생했습니다.");
             return "redirect:/modify?userId=" + member.getUserId();
