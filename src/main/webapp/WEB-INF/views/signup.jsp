@@ -38,9 +38,9 @@
             margin-bottom: 1rem;
         }
 
-        #checkIdBtn, #checkNickNameBtn, #checkEmailBtn {
+        /*#checkIdBtn, #checkNickNameBtn, #checkEmailBtn {
             margin-top: 0.5rem;
-        }
+        }*/
 
         .search-container {
             display: flex;
@@ -85,7 +85,7 @@
             <br/>
             <form method="post">
                 <div class="mb-3">
-                    <label for="inputId" class="form-label">아이디</label>
+                    <label for="inputId" class="form-label">아이디</label> (필수)
                     <div class="input-group">
                         <input id="inputId" type="text" class="form-control" name="userId" value="${member.userId }"/>
                         <button class="btn btn-outline-secondary" type="button" id="checkIdBtn">중복확인</button>
@@ -100,12 +100,12 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="inputPassword" class="form-label">비밀번호</label>
+                    <label for="inputPassword" class="form-label">패스워드</label> (필수)
                     <input id="inputPassword" type="password" class="form-control" name="password"
                            value="${member.password }"/>
                 </div>
                 <div class="mb-3">
-                    <label for="inputPasswordCheck" class="form-label">패스워드 확인</label>
+                    <label for="inputPasswordCheck" class="form-label">패스워드 확인</label> (필수)
                     <input id="inputPasswordCheck" type="password" class="form-control" />
 
                     <div id="passwordSuccessText" class="d-none form-text text-primary">
@@ -119,11 +119,11 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="inputName" class="form-label">이름</label>
+                    <label for="inputName" class="form-label">이름</label> (필수)
                     <input id="inputName" type="text" class="form-control" name="name" value="${member.name }"/>
                 </div>
                 <div class="mb-3">
-                    <label for="inputNickName" class="form-label">닉네임</label>
+                    <label for="inputNickName" class="form-label">닉네임</label> (필수)
                     <div class="input-group">
                         <input id="inputNickName" type="text" class="form-control" name="nickName"
                                value="${member.nickName }"/>
@@ -131,19 +131,19 @@
                     </div>
                     <div class="d-none form-text text-primary" id="availableNickNameMessage">
                         <i class="fa-solid fa-check"></i>
-                        사용 가능한 별명입니다.
+                        사용 가능한 닉네임입니다.
                     </div>
                     <div class="d-none form-text text-danger" id="notAvailableNickNameMessage">
                         <i class="fa-solid fa-triangle-exclamation"></i>
-                        사용 불가능한 별명입니다.
+                        사용 불가능한 닉네임입니다.
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="inputBirth" class="form-label">생년월일</label>
+                    <label for="inputBirth" class="form-label">생년월일</label> (필수)
                     <input id="inputBirth" type="text" class="form-control" name="birth" value="${member.birth }"/>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">회원구분</label>
+                    <label class="form-label">회원구분</label> (필수)
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="memberType" id="memberTypeInputCustomer"
                                value="customer" checked>
@@ -161,7 +161,7 @@
                     </div>
                 </div>
 
-                <label class="form-label">주소</label>
+                <label class="form-label">주소</label> (필수)
                 <div>
                     <div class="search-container">
                         <input type="text" id="address_kakao" name="address" value="${member.address}" readonly class="search-input" placeholder="주소">
@@ -172,20 +172,20 @@
                 </div>
 
                 <br>
-
                 <div class="mb-3">
-                    <label for="inputPhone" class="form-label">전화번호</label>
-                    <input id="inputPhone" type="text" class="form-control" name="phone" value="${member.phone }"/>
-                </div>
-                <div class="mb-3">
-                    <label for="inputEmail" class="form-label">이메일</label>
+                    <label for="inputEmail" class="form-label">이메일</label> (필수)
                     <div class="input-group">
-                        <input id="inputEmail" type="email" class="form-control" name="email" value="${member.email }"/>
+                        <input id="inputEmail" type="text" class="form-control" name="email" value="${member.email }"/>
                         <button class="btn btn-outline-secondary" type="button" id="emailAuth">인증코드받기</button>
                     </div>
+                    <br>
                     <label for="authCode" class="form-label">인증코드입력</label>
                     <input class="form-control" id="authCode" maxlength="6" disabled="disabled" name="authCode" type="text" placeholder="인증 코드 6자리를 입력해주세요." autofocus>
                     <span id="emailAuthWarn"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="inputPhone" class="form-label">전화번호</label> (필수)
+                    <input id="inputPhone" type="text" class="form-control" name="phone" value="${member.phone }"/>
                 </div>
                 <div class="mb-3">
                     <label for="inputIntroduce" class="form-label">소개</label>
@@ -193,7 +193,7 @@
                            value="${member.introduce }"/>
                 </div>
                 <div class="mb-3">
-                    <input id="signupSubmit" class="btn btn-dark" type="submit" value="회원가입">
+                    <input id="signupSubmit" class="btn btn-dark" type="submit" value="회원가입" disabled="disabled">
                 </div>
             </form>
         </div>
