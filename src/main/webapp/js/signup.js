@@ -162,3 +162,25 @@ $("#emailAuth").click(function() {
         }
     }); //End Ajax
 });
+
+//인증 코드 비교
+$("#authCode").on("focusout", function() {
+    const inputCode = $("#authCode").val(); //인증번호 입력 칸에 작성한 내용 가져오기
+
+    console.log("입력코드 : " + inputCode);
+    console.log("인증코드 : " + code);
+
+    if(Number(inputCode) === code){
+        $("#emailAuthWarn").html('인증번호가 일치합니다.');
+        $("#emailAuthWarn").css('color', 'green');
+        $('#emailAuth').attr('disabled', true);
+        $('#email').attr('readonly', true);
+        $("#signupSubmit").attr("disabled", false);
+        //$("#inputEmail").prop("readonly", true);
+        $("#authCode").attr("disabled", true);
+    }else{
+        $("#emailAuthWarn").html('인증번호가 불일치 합니다. 다시 확인해주세요!');
+        $("#emailAuthWarn").css('color', 'red');
+        $("#signupSubmit").attr("disabled", true);
+    }
+});

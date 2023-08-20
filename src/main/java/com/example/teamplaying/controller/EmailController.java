@@ -29,7 +29,7 @@ public class EmailController {
         int checkNum = random.nextInt(888888)+111111;
 
         //이메일 보낼 양식
-        String setFrom = "(ID@naver.com)"; //2단계 인증 x, 메일 설정에서 POP/IMAP 사용 설정에서 POP/SMTP 사용함으로 설정o
+        String setFrom = "dkssud2422@naver.com"; //2단계 인증 x, 메일 설정에서 POP/IMAP 사용 설정에서 POP/SMTP 사용함으로 설정o
         String toMail = email;
         String title = "회원가입 인증 이메일 입니다.";
         String content = "인증 코드는 " + checkNum + " 입니다." +
