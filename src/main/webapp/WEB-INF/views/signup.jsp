@@ -96,7 +96,11 @@
                     </div>
                     <div class="d-none form-text text-danger" id="notAvailableIdMessage">
                         <i class="fa-solid fa-triangle-exclamation"></i>
-                        사용 불가능한 ID입니다.
+                        중복된 ID입니다.
+                    </div>
+                    <div class="d-none form-text text-danger" id="notAvailableIdRegMessage">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        ID는 영문으로 시작하여야 하며 영문, 숫자로만 이루어진 6 ~ 20자 이하여야 합니다.
                     </div>
                 </div>
                 <div class="mb-3">
@@ -116,6 +120,11 @@
                     <div id="passwordFailText" class="d-none form-text text-danger">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         패스워드가 일치하지 않습니다.
+                    </div>
+
+                    <div id="passwordFailRegText" class="d-none form-text text-danger">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        비밀번호는 8자 이상이어야 하며,  영문/숫자/특수문자를 모두 포함해야 합니다.
                     </div>
                 </div>
                 <div class="mb-3">
@@ -173,10 +182,19 @@
 
                 <br>
                 <div class="mb-3">
-                    <label for="inputEmail" class="form-label">이메일</label> (필수)
-                    <div class="input-group">
-                        <input id="inputEmail" type="text" class="form-control" name="email" value="${member.email }"/>
-                        <button class="btn btn-outline-secondary" type="button" id="emailAuth">인증코드받기</button>
+                    <label for="emailGroup" class="form-label">이메일</label> (필수)
+                    <div class="input-group" id="emailGroup">
+                        <input id="inputEmail" type="email" class="form-control" name="email" value="${member.email }"/>
+                        <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn">중복확인</button>
+                        <button class="d-none btn btn-outline-secondary" type="button" id="emailAuth">인증코드받기</button>
+                    </div>
+                    <div class="d-none form-text text-primary" id="availableEmailMessage">
+                        <i class="fa-solid fa-check"></i>
+                        사용 가능한 이메일입니다. 인증을 진행해주세요.
+                    </div>
+                    <div class="d-none form-text text-danger" id="notAvailableEmailMessage">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        사용 불가능한 이메일입니다.
                     </div>
                     <br>
                     <label for="authCode" class="form-label">인증코드입력</label>
