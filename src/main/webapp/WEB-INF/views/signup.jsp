@@ -186,7 +186,7 @@
                     <div class="input-group" id="emailGroup">
                         <input id="inputEmail" type="email" class="form-control" name="email" value="${member.email }"/>
                         <button class="btn btn-outline-secondary" type="button" id="checkEmailBtn">중복확인</button>
-                        <button class="d-none btn btn-outline-secondary" type="button" id="emailAuth">인증코드받기</button>
+                        <button class="d-none btn btn-success" type="button" id="emailAuth">인증코드받기</button>
                     </div>
                     <div class="d-none form-text text-primary" id="availableEmailMessage">
                         <i class="fa-solid fa-check"></i>
