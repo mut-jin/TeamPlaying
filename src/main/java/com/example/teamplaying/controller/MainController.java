@@ -142,6 +142,16 @@ public class MainController {
 
     }
 
+    @GetMapping("findId")
+    public void findId() {
+
+    }
+
+    @PostMapping("findId")
+    public void findIdCheck(Member member) {
+        memberService.findIdByNameAndEmail(member);
+    }
+
     @GetMapping("list")
     public void list(Model model) {
         List<Member> list = memberService.listMember();

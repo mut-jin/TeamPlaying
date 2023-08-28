@@ -327,4 +327,8 @@ public class MemberService {
     public Map<String, Object> checkId(String id) {
         return null;
     }
+
+    public void findIdByNameAndEmail(Member member) {
+
+    }
 }

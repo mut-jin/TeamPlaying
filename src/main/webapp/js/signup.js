@@ -209,7 +209,7 @@ $("#emailAuth").click(function() {
         type : 'POST',
         dataType : 'json',
         success : function(result) {
-            console.log("result : " + result);
+            // console.log("result : " + result);
             $("#authCode").attr("disabled", false);
             code = result;
             alert("인증 코드가 입력하신 이메일로 전송 되었습니다.");
@@ -225,8 +225,8 @@ $("#emailAuth").click(function() {
 $("#authCode").on("focusout", function() {
     const inputCode = $("#authCode").val(); //인증번호 입력 칸에 작성한 내용 가져오기
 
-    console.log("입력코드 : " + inputCode);
-    console.log("인증코드 : " + code);
+    // console.log("입력코드 : " + inputCode);
+    // console.log("인증코드 : " + code);
 
     if(Number(inputCode) === code){
         $("#emailAuthWarn").html('인증번호가 일치합니다.');

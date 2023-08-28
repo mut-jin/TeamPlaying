@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>로그인</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -24,13 +24,26 @@
 
         .login-title {
             margin-top: 2rem;
-            margin-left: 1rem;
+            /*margin-left: 1rem;*/
         }
 
         /* Modified styles */
-        input[type="text"], input[type="password"] {
+        /*input[type="text"], input[type="password"] {
             width: 80%;
+        }*/
+        a:link {
+            color : gray;
         }
+        a:visited {
+            color : gray;
+        }
+        a:hover {
+            color : darkgray;
+        }
+        a:active {
+            color : darkgray;
+        }
+
     </style>
 </head>
 <body>
@@ -41,20 +54,35 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
             <br><br><br><br>
-            <h1 class="login-title" style="margin-left:265px; font-family: 'Jeju Gothic', sans-serif;">로그인</h1>
+            <h1 class="login-title" style="/*margin-left:265px;*/ text-align: center; font-family: 'Jeju Gothic', sans-serif;">Zero-One</h1>
             <br/>
             <form method="post">
-                <div class="mb-3" style="margin-left:120px;">
-                    <label for="inputUsername" class="form-label" style="font-family: 'Jeju Gothic', sans-serif;">아이디</label>
-                    <input id="inputUsername" class="form-control" type="text" name="username"/>
+                <div class="mb-3" <%--style="margin-left:120px;"--%>>
+                    <%--<label for="inputUsername" class="form-label" style="font-family: 'Jeju Gothic', sans-serif; width: 80%;">아이디</label>--%>
+                    <input id="inputUsername" class="form-control" type="text" name="username" style="margin: 0 auto; width: 80%;" placeholder="아이디"/>
                 </div>
-                <div class="mb-3" style="margin-left:120px;">
-                    <label for="inputPassword" class="form-label" style="font-family: 'Jeju Gothic', sans-serif;">비밀번호</label>
-                    <input id="inputPassword" class="form-control" type="password" name="password"/>
+                <br>
+                <div class="mb-3" <%--style="margin-left:120px;"--%>>
+                    <%--<label for="inputPassword" class="form-label" style="font-family: 'Jeju Gothic', sans-serif;">비밀번호</label>--%>
+                    <input id="inputPassword" class="form-control" type="password" name="password" style="margin: 0 auto; width: 80%;" placeholder="비밀번호"/>
                 </div>
-                <br/>
-                <div class="mb-3" style="margin-left:120px;">
-                    <input class="btn btn-dark" style="width: 412.8px; height: 39px; font-family: 'Jeju Gothic', sans-serif;" type="submit" value="로그인">
+                <br>
+                <div class="mb-3"  style="text-align: center;"  <%--style="margin-left:120px;"--%>>
+                    <input class="btn btn-dark" style="/*width: 412.8px; height: 39px;*/ margin: 0 auto; font-family: 'Jeju Gothic', sans-serif; width: 80%;" type="submit" value="로그인">
+                </div>
+                <div class="mb-3" style="text-align: center; display: flex;">
+                    <div class="mb-3" style="margin: 0 auto;">
+                        <a href="https://www.naver.com">아이디 찾기</a>
+                        <%--<input class="btn btn-dark" style="font-family: 'Jeju Gothic', sans-serif;" type="submit" value="아이디 찾기">--%>
+                    </div>
+                    <div class="mb-3" style="margin: 0 auto;">
+                        <a href="https://www.naver.com">비밀번호 찾기</a>
+                        <%--<input class="btn btn-dark" style="font-family: 'Jeju Gothic', sans-serif;" type="submit" value="비밀번호 찾기">--%>
+                    </div>
+                    <div class="mb-3" style="margin: 0 auto;">
+                        <a href="/signup">회원가입</a>
+                        <%--<input class="btn btn-dark" style="font-family: 'Jeju Gothic', sans-serif;" type="submit" value="비밀번호 찾기">--%>
+                    </div>
                 </div>
 
                 <sec:csrfInput/>
@@ -74,10 +102,5 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
-<script>
-    $(function () {
-        $("findID")
-    })
-</script>
 </body>
 </html>
