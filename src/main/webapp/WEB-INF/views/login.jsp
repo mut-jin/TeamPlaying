@@ -72,11 +72,11 @@
                 </div>
                 <div class="mb-3" style="text-align: center; display: flex;">
                     <div class="mb-3" style="margin: 0 auto;">
-                        <a href="https://www.naver.com">아이디 찾기</a>
+                        <a href="/findId">아이디 찾기</a>
                         <%--<input class="btn btn-dark" style="font-family: 'Jeju Gothic', sans-serif;" type="submit" value="아이디 찾기">--%>
                     </div>
                     <div class="mb-3" style="margin: 0 auto;">
-                        <a href="https://www.naver.com">비밀번호 찾기</a>
+                        <a href="/findPW">비밀번호 찾기</a>
                         <%--<input class="btn btn-dark" style="font-family: 'Jeju Gothic', sans-serif;" type="submit" value="비밀번호 찾기">--%>
                     </div>
                     <div class="mb-3" style="margin: 0 auto;">

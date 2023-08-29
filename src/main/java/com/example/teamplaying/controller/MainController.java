@@ -148,8 +148,15 @@ public class MainController {
     }
 
     @PostMapping("findId")
-    public void findIdCheck(Member member) {
-        memberService.findIdByNameAndEmail(member);
+    @ResponseBody
+    public String findIdCheck(@RequestParam String name, @RequestParam String email) {
+        String foundId = memberService.findIdByNameAndEmail(name, email);
+        return foundId != null ? foundId : "아이디를 찾을 수 없습니다.";
+    }
+
+    @GetMapping("findPW")
+    public void findPW() {
+
     }
 
     @GetMapping("list")
