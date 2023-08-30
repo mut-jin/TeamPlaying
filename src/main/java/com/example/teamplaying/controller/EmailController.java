@@ -90,7 +90,7 @@ public class EmailController {
         content += "<br>";
         content += "<br>";
         content += "<div align='center' style='border:1px solid black'>";
-        content += "<h3 style='color:blue'>회원가입 인증코드 입니다</h3>";
+        content += "<h3 style='color:blue'>비밀번호 재설정 인증코드 입니다.</h3>";
         content += "<div style='font-size:130%'>";
         content += "<strong>" + checkNum + "</strong></div><br/>" ; // 메일에 인증번호 checkNum 넣기
         content += "</div>";

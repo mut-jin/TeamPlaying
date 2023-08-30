@@ -26,24 +26,46 @@
             <form method="post" id="findIdForm">
                 <div class="mb-3" <%--style="margin-left:120px;"--%>>
                     <%--<label for="inputUsername" class="form-label" style="font-family: 'Jeju Gothic', sans-serif; width: 80%;">아이디</label>--%>
-                    <input id="inputUserId" class="form-control" type="text" name="userId" style="margin: 0 auto; width: 80%;" placeholder="아이디"/>
+                    <div class="input-group" style="margin: 0 auto; width: 80%;">
+                        <input id="inputUserId" class="form-control" type="text" name="userId" placeholder="아이디"/>
+                        <button class="btn btn-outline-secondary" type="button" id="checkIdBtn">아이디  확인</button>
+                    </div>
+                    <div class="d-none form-text text-primary" id="existIdMessage" style="margin: 0 auto; width: 80%;">
+                        <i class="fa-solid fa-check"></i>
+                        존재하는 ID입니다.
+                    </div>
+                    <div class="d-none form-text text-danger" id="notExistIdMessage" style="margin: 0 auto; width: 80%;">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        존재하지 않는 ID입니다. ID를 확인해주세요
+                    </div>
                 </div>
                 <br>
                 <div class="mb-3" <%--style="margin-left:120px;"--%>>
                     <%--<label for="inputPassword" class="form-label" style="font-family: 'Jeju Gothic', sans-serif;">비밀번호</label>--%>
-                    <input id="inputEmail" class="form-control" type="email" name="email" style="margin: 0 auto; width: 80%;" placeholder="이메일"/>
+                    <div class="input-group" id="emailGroup" style="width: 80%; margin: 0 auto">
+                        <input id="inputEmail" class="form-control" type="email" name="email" style="margin: 0 auto;" placeholder="등록한 이메일"/>
+                        <button class="btn btn-success" type="button" id="emailAuth">인증코드받기</button>
+                    </div>
+                    <div class="d-none form-text text-primary" id="availableEmailMessage" style="margin: 0 auto; width: 80%;">
+                        <i class="fa-solid fa-check"></i>
+                        이메일로 인증코드를 발송했습니다. 인증코드를 입력해주세요.
+                    </div>
+                    <div class="d-none form-text text-danger" id="notAvailableEmailMessage" style="margin: 0 auto; width: 80%;">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        등록된 이메일과 일치하지 않습니다. 다시 입력해주세요.
+                    </div>
                 </div>
                 <br>
-                <div class="mb-3" <%--style="margin-left:120px;"--%>>
+                <div class="mb-3"  <%--style="margin-left:120px;"--%>>
                     <%--<label for="inputPassword" class="form-label" style="font-family: 'Jeju Gothic', sans-serif;">비밀번호</label>--%>
-                    <input id="inputEmail" class="form-control" type="email" name="email" style="margin: 0 auto; width: 80%;" placeholder="인증번호 입력"/>
+                    <input class="form-control" id="authCode" maxlength="6" disabled="disabled" name="authCode" type="text" placeholder="인증 코드 6자리를 입력해주세요." style="margin: 0 auto; width: 80%;" autofocus>
+                    <div style="margin: 0 auto; width: 80%;">
+                        <span id="emailAuthWarn"></span>
+                    </div>
                 </div>
                 <br>
                 <div class="mb-3"  style="text-align: center;"  <%--style="margin-left:120px;"--%>>
-                    <button id="findId" class="btn btn-dark" style="/*width: 412.8px; height: 39px;*/ margin: 0 auto; font-family: 'Jeju Gothic', sans-serif; width: 80%;" type="submit">비밀번호 재설정</button>
-                </div>
-                <div id="result" style="text-align: center;">
-                    <!-- 아이디가 보여질 영역 -->
+                    <button id="findPW" class="btn btn-dark" style="/*width: 412.8px; height: 39px;*/ margin: 0 auto; font-family: 'Jeju Gothic', sans-serif; width: 80%;" type="submit" disabled="disabled">임시 비밀번호 발급</button>
                 </div>
             </form>
             <sec:csrfInput/>
