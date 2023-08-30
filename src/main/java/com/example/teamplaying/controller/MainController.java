@@ -74,6 +74,15 @@ public class MainController {
         return memberService.IDCheck(id);
     }
 
+    @GetMapping("checkExistEmail/{userId}/{email}")
+    @ResponseBody
+    public Map<String, Object> checkExistEmail(@PathVariable("userId") String userId,
+                                               @PathVariable("email") String email) {
+
+        return memberService.checkExistEmail(userId, email);
+    }
+
+
     @GetMapping({"/", "main"})
     public void main(Model model, Authentication authentication) {
 

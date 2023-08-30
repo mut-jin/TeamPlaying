@@ -331,4 +331,9 @@ public class MemberService {
     public void findIdByNameAndEmail(Member member) {
 
     }
+
+    public Map<String, Object> checkExistEmail(String userId, String email) {
+        Member member = mapper.selectByEmailOfUserId(userId, email);
+        return Map.of("available", member != null);
+    }
 }

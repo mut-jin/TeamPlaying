@@ -260,4 +260,10 @@ public interface MemberMapper {
             SELECT COUNT(*) FROM Member WHERE userId = #{userId}
             """)
     int idCheck(String userId);
+
+    @Select("""
+            SELECT * FROM Member
+            WHERE userId = #{userId} AND email = #{email}
+            """)
+    Member selectByEmailOfUserId(String userId, String email);
 }
