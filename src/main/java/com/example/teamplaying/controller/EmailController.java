@@ -110,14 +110,18 @@ public class EmailController {
         return checkNum;
     }
 
-    @PostMapping("/sendPW/{userId}/{email}")
+    @PostMapping("/sendPW")
     @ResponseBody
-    public String sendPW(@PathVariable("userId") String userId,
-                         @PathVariable("email") String email) {
+    public String sendPW(@RequestBody Map<String, String> requestData) {
+
+        String userId = requestData.get("userId");
+        String email = requestData.get("email");
 
         //난수의 범위 111111 ~ 999999 (6자리 난수)
         Random random = new Random();
         String temporaryPW = Integer.toString(random.nextInt(888888)+111111);
+
+        memberService.setTemporaryPW(userId, email, temporaryPW);
 
         //이메일 보낼 양식
         String setFrom = "dkssud2422@naver.com"; //2단계 인증 x, 메일 설정에서 POP/IMAP 사용 설정에서 POP/SMTP 사용함으로 설정o
@@ -137,7 +141,6 @@ public class EmailController {
         content += "<strong>" + temporaryPW + "</strong></div><br/>" ; // 메일에 인증번호 checkNum 넣기
         content += "</div>";
 
-        memberService.setTemporaryPW(userId, email, temporaryPW);
         try {
             MimeMessage message = mailSender.createMimeMessage(); //Spring에서 제공하는 mail API
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
@@ -149,7 +152,8 @@ public class EmailController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return temporaryPW;
+        // return temporaryPW;
+        return "success"; // 또는 실패에 대한 메시지를 반환
 
     }
 }

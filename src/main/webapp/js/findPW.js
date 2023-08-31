@@ -101,24 +101,29 @@ $("#authCode").on("focusout", function() {
     }
 });
 
-$("#findId").onclick(function () {
+$("#findId").click(function () {
     const userId = $("#inputUserId").val();
     const email = $("#inputEmail").val();
     $.ajax({
-        url: "/sendPW/" + userId + "/" + email,
+        url: "/sendPW",
         type: "POST",
         dataType: "json",
-        data:
-            {
+        contentType: "application/json",
+        data: JSON.stringify({
                 "userId" : userId,
                 "email" : email
-            },
+            }),
         success : function (data) {
-            if(data == 1) {
+            if(data == "success") {
+                console.log(data)
                 alert("임시 비밀번호를 발송했습니다.");
             } else {
+                console.log(data)
                 alert("임시 비밀번호 발송에 실패했습니다.")
             }
+        },
+        error : function (xhr, ajaxSetting, thrownError) {
+            alert("임시 비밀번호 발송에 실패했습니다.")
         }
     })
 })
