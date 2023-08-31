@@ -100,3 +100,26 @@ $("#authCode").on("focusout", function() {
         $("#findPW").attr("disabled", true);
     }
 });
+
+$("#findId").onclick(function () {
+    const userId = $("#inputUserId").val();
+    const email = $("#inputEmail").val();
+    $.ajax({
+        url: "/sendPW/" + userId + "/" + email,
+        type: "POST",
+        dataType: "json",
+        data:
+            {
+                "userId" : userId,
+                "email" : email
+            },
+        success : function (data) {
+            if(data == 1) {
+                alert("임시 비밀번호를 발송했습니다.");
+            } else {
+                alert("임시 비밀번호 발송에 실패했습니다.")
+            }
+        }
+    })
+})
+

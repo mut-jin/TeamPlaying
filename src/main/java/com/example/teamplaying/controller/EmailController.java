@@ -1,5 +1,6 @@
 package com.example.teamplaying.controller;
 
+import com.example.teamplaying.domain.Member;
 import com.example.teamplaying.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -107,5 +108,48 @@ public class EmailController {
             e.printStackTrace();
         }
         return checkNum;
+    }
+
+    @PostMapping("/sendPW/{userId}/{email}")
+    @ResponseBody
+    public String sendPW(@PathVariable("userId") String userId,
+                         @PathVariable("email") String email) {
+
+        //난수의 범위 111111 ~ 999999 (6자리 난수)
+        Random random = new Random();
+        String temporaryPW = Integer.toString(random.nextInt(888888)+111111);
+
+        //이메일 보낼 양식
+        String setFrom = "dkssud2422@naver.com"; //2단계 인증 x, 메일 설정에서 POP/IMAP 사용 설정에서 POP/SMTP 사용함으로 설정o
+        String toMail = email;
+        String title = "Zero-One 임시 비밀번호 입니다..";
+        String content = "";
+        // msgg += "<img src=../resources/static/image/emailheader.jpg />"; // header image
+        content += "<h1>안녕하세요</h1>";
+        content += "<h1>커스텀 신발 플랫폼 Zero-One 입니다</h1>";
+        content += "<br>";
+        content += "<p>임시 비밀번호를 보내드립니다.</p>";
+        content += "<br>";
+        content += "<br>";
+        content += "<div align='center' style='border:1px solid black'>";
+        content += "<h3 style='color:blue'>로그인 후 비밀번호를 변경해주세요.</h3>";
+        content += "<div style='font-size:130%'>";
+        content += "<strong>" + temporaryPW + "</strong></div><br/>" ; // 메일에 인증번호 checkNum 넣기
+        content += "</div>";
+
+        memberService.setTemporaryPW(userId, email, temporaryPW);
+        try {
+            MimeMessage message = mailSender.createMimeMessage(); //Spring에서 제공하는 mail API
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+            helper.setFrom(setFrom);
+            helper.setTo(toMail);
+            helper.setSubject(title);
+            helper.setText(content, true);
+            mailSender.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return temporaryPW;
+
     }
 }
