@@ -266,4 +266,11 @@ public interface MemberMapper {
             WHERE userId = #{userId} AND email = #{email}
             """)
     Member selectByEmailOfUserId(String userId, String email);
+
+    @Update("""
+            UPDATE Member
+            SET password = #{encodePW}
+            WHERE userId = #{userId} AND email = #{email}
+            """)
+    Member setTemporaryPW(String userId, String email, String encodePW);
 }
