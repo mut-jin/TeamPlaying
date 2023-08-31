@@ -65,7 +65,7 @@
                 </div>
                 <br>
                 <div class="mb-3"  style="text-align: center;"  <%--style="margin-left:120px;"--%>>
-                    <button id="findPW" class="btn btn-dark" style="/*width: 412.8px; height: 39px;*/ margin: 0 auto; font-family: 'Jeju Gothic', sans-serif; width: 80%;" type="submit" disabled="disabled">임시 비밀번호 발급</button>
+                    <button id="findPW" class="btn btn-dark" style="/*width: 412.8px; height: 39px;*/ margin: 0 auto; font-family: 'Jeju Gothic', sans-serif; width: 80%;" type="submit" disabled="disabled" onclick="location.href='/login.jsp'">임시 비밀번호 발급</button>
                 </div>
             </form>
             <sec:csrfInput/>
