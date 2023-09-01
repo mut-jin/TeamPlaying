@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.internet.MimeMessage;
 import java.util.Map;
@@ -153,7 +154,6 @@ public class EmailController {
             e.printStackTrace();
         }
         // return temporaryPW;
-        return "success"; // 또는 실패에 대한 메시지를 반환
-
+        return temporaryPW;
     }
 }

@@ -337,8 +337,9 @@ public class MemberService {
         return Map.of("available", member != null);
     }
 
-    public void setTemporaryPW(String userId, String email, String temporaryPW) {
+    public String setTemporaryPW(String userId, String email, String temporaryPW) {
         String encodePW = passwordEncoder.encode(temporaryPW);
-        mapper.setTemporaryPW(userId, email, encodePW);
+       String pwd = mapper.setTemporaryPW(userId, email, encodePW);
+       return pwd;
     }
 }
