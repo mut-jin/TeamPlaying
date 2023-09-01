@@ -272,5 +272,5 @@ public interface MemberMapper {
             SET password = #{encodePW}
             WHERE userId = #{userId} AND email = #{email}
             """)
-    Member setTemporaryPW(String userId, String email, String encodePW);
+    String setTemporaryPW(String userId, String email, String encodePW);
 }

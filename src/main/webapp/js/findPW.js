@@ -101,7 +101,7 @@ $("#authCode").on("focusout", function() {
     }
 });
 
-$("#findId").click(function () {
+$("#findPW").click(function () {
     const userId = $("#inputUserId").val();
     const email = $("#inputEmail").val();
     $.ajax({
@@ -112,9 +112,9 @@ $("#findId").click(function () {
         data: JSON.stringify({
                 "userId" : userId,
                 "email" : email
-            }),
+        }),
         success : function (data) {
-            if(data == "success") {
+            if(data) {
                 console.log(data)
                 alert("임시 비밀번호를 발송했습니다.");
             } else {
