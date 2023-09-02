@@ -34,12 +34,17 @@
                     <input id="inputEmail" class="form-control" type="email" name="email" style="margin: 0 auto; width: 80%;" placeholder="이메일"/>
                 </div>
                 <br>
+                <div class="mb-3" <%--style="margin-left:120px;"--%>>
+                    <%--<label for="inputPassword" class="form-label" style="font-family: 'Jeju Gothic', sans-serif;">비밀번호</label>--%>
+                    <input id="result" class="form-control" type="text" style="margin: 0 auto; width: 80%;" placeholder="찾은 아이디" readonly/>
+                </div>
+                <br>
                 <div class="mb-3"  style="text-align: center;"  <%--style="margin-left:120px;"--%>>
                     <button id="findId" class="btn btn-dark" style="/*width: 412.8px; height: 39px;*/ margin: 0 auto; font-family: 'Jeju Gothic', sans-serif; width: 80%;" type="submit">아이디 확인</button>
                 </div>
-                <div id="result" style="text-align: center;">
+                <%--<div id="result" style="text-align: center;">
                     <!-- 아이디가 보여질 영역 -->
-                </div>
+                </div>--%>
             </form>
             <sec:csrfInput/>
         </div>

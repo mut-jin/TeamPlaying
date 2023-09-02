@@ -5,7 +5,7 @@ $(document).ready(function () {
         var email = $("#inputEmail").val();
 
         $.post("/findId", { name: name, email: email }, function (data) {
-            $("#result").html("<p>찾은 아이디: " + data + "</p>");
+            $("#result").val(data)
         });
     });
 });

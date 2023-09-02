@@ -42,11 +42,11 @@
             <c:if test="${csBoard.answer == null and csBoard.writer != 'admin0'}">
                 <form action="/csModify" style="margin-bottom: 0; margin-right: 2px; margin-left: auto;">
                     <input type="hidden" name="id" value="${csBoard.id}">
-                    <button class="btn btn-primary" type="submit">수정</button>
+                    <%--<button class="btn btn-primary" type="hidden">수정</button>--%>
                 </form>
-                <button type="button" data-bs-toggle="modal" style="margin-right: 2%;" class="btn btn-danger"
+                <%--<button type="hidden" data-bs-toggle="modal" style="margin-right: 2%;" class="btn btn-danger"
                         data-bs-target="#confirmModal">삭제
-                </button>
+                </button>--%>
             </c:if>
 
         </div>

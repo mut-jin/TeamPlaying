@@ -85,7 +85,7 @@
             <br/>
             <form method="post">
                 <div class="mb-3">
-                    <label for="inputId" class="form-label">아이디</label> (필수)
+                    <label for="inputId" class="form-label">아이디</label> (6~20자, 필수)
                     <div class="input-group">
                         <input id="inputId" type="text" class="form-control" name="userId" value="${member.userId }"/>
                         <button class="btn btn-outline-secondary" type="button" id="checkIdBtn">중복확인</button>
@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="inputPassword" class="form-label">패스워드</label> (필수)
+                    <label for="inputPassword" class="form-label">패스워드</label> (8자 이상, 필수)
                     <input id="inputPassword" type="password" class="form-control" name="password"
                            value="${member.password }"/>
                 </div>
@@ -148,7 +148,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="inputBirth" class="form-label">생년월일</label> (필수)
+                    <label for="inputBirth" class="form-label">생년월일</label> (8자, 필수)
                     <input id="inputBirth" type="text" class="form-control" name="birth" value="${member.birth }"/>
                 </div>
                 <div class="mb-3">
