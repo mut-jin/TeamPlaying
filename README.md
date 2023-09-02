@@ -113,15 +113,15 @@
                 <li>아이디, 패스워드 닉네임 중복 및 유효성 검사</li>
                 <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/1c3a0d2f-0b70-4a97-a41d-67c1dec293e0">
                 <li>다음 우편번호 서비스, 이메일 인증</li>
-                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/1c3a0d2f-0b70-4a97-a41d-67c1dec293e0">
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/f877a174-86f7-4fdb-aa99-e41ee2296195">
             </ul>
         </li>
         <br/>
         <li>
             <strong>로그인</strong>
             <ul>
-                <li>카카오 로그인 구현</li>
-                <li>프론트, 서버 모두 유효성 검사</li>
+                <li>로그인 구현</li>
+                <li>아이디 찾기 기능 구현</li>
                 <li>
                     <img src="https://user-images.githubusercontent.com/89326946/150129246-d77023e6-d76b-4950-af5b-b0f1523dd198.png">
                 </li>
