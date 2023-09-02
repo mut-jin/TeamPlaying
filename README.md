@@ -102,19 +102,15 @@
         <li>
             <strong>메인 페이지</strong>
             <ul>
-                <li>카테고리별 상품 조회 가능</li>
-                <li>더보기 버튼 (noOffset 페이징)</li>
-                <li>
-                    <img src="![mainPage](https://github.com/mut-jin/TeamPlaying/assets/112159785/afdcd193-5fab-434e-bcc3-935acef62745)">
-                </li>
+                <li>브랜드 별 작품 확인</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/afdcd193-5fab-434e-bcc3-935acef62745">
             </ul>
         </li>
         <br/>
         <li>
             <strong>회원가입</strong>
             <ul>
-                <li>문자인증 기능, 아이디 중복검사</li>
-                <li>프론트, 서버 모두 유효성 검사</li>
+                <li>아이디, 패스워드 닉네임 중복 및 유효성 검사</li>
                 <li>
                     <img src="https://user-images.githubusercontent.com/89326946/150129225-9668ed2b-21ea-4f2d-87f5-d25ceeda701f.png ">
                 </li>
