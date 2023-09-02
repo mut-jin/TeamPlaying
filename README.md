@@ -105,7 +105,7 @@
                 <li>카테고리별 상품 조회 가능</li>
                 <li>더보기 버튼 (noOffset 페이징)</li>
                 <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150293655-aaabd2a8-0587-4966-8440-7b150b2d5b80.png">
+                    <img src="![mainPage](https://github.com/mut-jin/TeamPlaying/assets/112159785/afdcd193-5fab-434e-bcc3-935acef62745)">
                 </li>
             </ul>
         </li>
