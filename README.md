@@ -1,6 +1,6 @@
 # 신발 커스텀 플랫폼 Zero-One
 
-<p>신발 커스텀 플랫폼 팀 프로젝트입니다.</p>
+<p>나만의 신발을 가질 수 있는 신발 커스텀 플랫폼 팀 프로젝트입니다.</p>
 
 <br/>
 
@@ -30,7 +30,6 @@
         <li>Spring Boot</li>
         <li>MariaDB</li>
         <li>MyBatis</li>
-        <li>AWS EC2, S3</li>
     </ul>
 </div>
 <br/>
@@ -54,7 +53,7 @@
                 <li>작품 페이지 CRUD</li>
                 <li>댓글, 대댓글 CRUD 및 좋아요, 조회수 확인</li>
                 <li>작품 검색 및 필터, 정렬</li>
-                <li>버튼 페이징</li>
+                <li>작품 의뢰</li>
             </ul>
         </li>
         <li>
@@ -62,7 +61,8 @@
             <ul>
                 <li>아티스트 정렬 및 검색</li>
                 <li>아티스트 페이지 이동</li>
-                <li>아티스트 별 작품 확인</li>
+                <li>아티스트 별 작품 확인 및 의뢰</li>
+                <li>커스텀 작품 의뢰</li>
             </ul>
         </li>
         <li>
@@ -73,16 +73,27 @@
             </ul>
         </li>
         <li>
-            <strong>결제</strong>
+            <strong>마이페이지</strong>
             <ul>
-                <li>카카오페이</li>
+                <li>회원정보 수정</li>
+                <li>주문 내역 및 진행상황 확인</li>
+                <li>요청된 의뢰 내역 확인(아티스트)</li>
+                <li>테스트 결제(카카오페이)</li>
+            </ul>
+        </li>
+        <li>
+            <strong>고객센터 및 ADMIN 페이지</strong>
+            <ul>
+                <li>문의 게시판 CRUD</li>
+                <li>회원 관리</li>
+                <li>문의 답변</li>
             </ul>
         </li>
     </ul>
 </div>
 <br/>
 <br/>
-<h1>이미지</h1>
+<h1>실제 페이지</h1>
 <p>( 이미지는 aws s3에 저장하고 사용하는데 비용문제로 사용 중단하면서 이미지가 없습니다. )</p>
 <p>( 그래서 임시 이미지로 대체했습니다. )</p>
 <br/>
@@ -122,7 +133,7 @@
         </li>
         <br/>
         <li>
-            <strong>MyPage</strong>
+            <strong>작품 페이지</strong>
             <ul>
                 <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
                 <li>회원탈퇴 기능</li>
@@ -135,7 +146,59 @@
         </li>
         <br/>
         <li>
-            <strong>자유게시판</strong>
+            <strong>아티스트 페이지</strong>
+            <ul>
+                <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
+                <li>회원탈퇴 기능</li>
+                <li>주문상세보기 클릭시 해당 주문 관련 정보들 표시</li>
+                <li>더보기 버튼 (noOffset 페이징)</li>
+                <li>
+                    <img src="https://user-images.githubusercontent.com/89326946/150294134-9774bb46-ac1d-49c5-b94f-6f51b576bd9d.png">
+                </li>
+            </ul>
+        </li>
+        <br/>
+        <li>
+            <strong>커스텀 페이지</strong>
+            <ul>
+                <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
+                <li>회원탈퇴 기능</li>
+                <li>주문상세보기 클릭시 해당 주문 관련 정보들 표시</li>
+                <li>더보기 버튼 (noOffset 페이징)</li>
+                <li>
+                    <img src="https://user-images.githubusercontent.com/89326946/150294134-9774bb46-ac1d-49c5-b94f-6f51b576bd9d.png">
+                </li>
+            </ul>
+        </li>
+        <br/>
+        <li>
+            <strong>마이페이지</strong>
+            <ul>
+                <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
+                <li>회원탈퇴 기능</li>
+                <li>주문상세보기 클릭시 해당 주문 관련 정보들 표시</li>
+                <li>더보기 버튼 (noOffset 페이징)</li>
+                <li>
+                    <img src="https://user-images.githubusercontent.com/89326946/150294134-9774bb46-ac1d-49c5-b94f-6f51b576bd9d.png">
+                </li>
+            </ul>
+        </li>
+        <br/>
+        <li>
+            <strong>결제 기능</strong>
+            <ul>
+                <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
+                <li>회원탈퇴 기능</li>
+                <li>주문상세보기 클릭시 해당 주문 관련 정보들 표시</li>
+                <li>더보기 버튼 (noOffset 페이징)</li>
+                <li>
+                    <img src="https://user-images.githubusercontent.com/89326946/150294134-9774bb46-ac1d-49c5-b94f-6f51b576bd9d.png">
+                </li>
+            </ul>
+        </li>
+        <br/>
+        <li>
+            <strong>고객센터</strong>
             <ul>
                 <li>기본적인 CRUD</li>
                 <li>댓글, 대댓글 CRUD, 비공개 여부 설정가능</li>
@@ -152,7 +215,7 @@
         <br/>
         <br/>
         <li>
-            <strong>상품, 상품리뷰, 상품 QnA</strong>
+            <strong>ADMIN 페이지</strong>
             <ul>
                 <li>수량 변경 가능</li>
                 <li>리뷰 : 상품 구매시에만 리뷰 작성 가능, 정렬 기능</li>
