@@ -111,9 +111,9 @@
             <strong>회원가입</strong>
             <ul>
                 <li>아이디, 패스워드 닉네임 중복 및 유효성 검사</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150129225-9668ed2b-21ea-4f2d-87f5-d25ceeda701f.png ">
-                </li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/1c3a0d2f-0b70-4a97-a41d-67c1dec293e0">
+                <li>다음 우편번호 서비스, 이메일 인증</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/1c3a0d2f-0b70-4a97-a41d-67c1dec293e0">
             </ul>
         </li>
         <br/>
