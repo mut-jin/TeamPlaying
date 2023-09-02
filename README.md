@@ -4,6 +4,13 @@
 
 <br/>
 
+<h1>개발인원</h1>
+<div>
+    <ul>
+        <li>3명(팀장)</li>
+    </ul>
+</div>
+<br/>
 <h1>배포환경</h1>
 <div>
     <ul>
@@ -112,7 +119,7 @@
             <ul>
                 <li>아이디, 패스워드 닉네임 중복 및 유효성 검사</li>
                 <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/1c3a0d2f-0b70-4a97-a41d-67c1dec293e0">
-                <li>다음 우편번호 서비스, 이메일 인증</li>
+                <li>다음 우편번호 서비스, 비동기 처리 이메일 인증</li>
                 <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/f877a174-86f7-4fdb-aa99-e41ee2296195">
             </ul>
         </li>
@@ -121,91 +128,80 @@
             <strong>로그인</strong>
             <ul>
                 <li>로그인 구현</li>
-                <li>아이디 찾기 기능 구현</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150129246-d77023e6-d76b-4950-af5b-b0f1523dd198.png">
-                </li>
+                <li>비동기 처리로 아이디 찾기 기능 구현</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/cd20af36-506e-4335-a784-419d6f080d31">
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/4be410a0-8e62-412f-b6e7-d8eb188cbdfd">
             </ul>
         </li>
         <br/>
         <li>
             <strong>작품 페이지</strong>
             <ul>
-                <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
-                <li>회원탈퇴 기능</li>
-                <li>주문상세보기 클릭시 해당 주문 관련 정보들 표시</li>
-                <li>더보기 버튼 (noOffset 페이징)</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150294134-9774bb46-ac1d-49c5-b94f-6f51b576bd9d.png">
-                </li>
+                <li>브랜드별 필터링</li>
+                <li>좋아요, 조회수, 가격순 정렬</li>
+                <li>검색 기능</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/e95f6c6e-cf9e-4d2a-b46f-1cbf0d0e81af">
+                <li>작품 클릭시 상품 상세정보 모달</li>
+                <li>댓글 CRUD, 좋아요 기능</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/9cfe42ba-aac6-4638-934e-8238702b4685">
+                <li>등록한 작품을 의뢰 요청</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/2055e291-212e-4f7c-b146-273d1f4d5025">
             </ul>
         </li>
         <br/>
         <li>
             <strong>아티스트 페이지</strong>
             <ul>
-                <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
-                <li>회원탈퇴 기능</li>
-                <li>주문상세보기 클릭시 해당 주문 관련 정보들 표시</li>
-                <li>더보기 버튼 (noOffset 페이징)</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150294134-9774bb46-ac1d-49c5-b94f-6f51b576bd9d.png">
-                </li>
+                <li>전체 아티스트 프로필 조회 기능</li>
+                <li>작품 등록순, 총 조회수 순으로 조회</li>
+                <li>아티스트 검색 기능</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/0106f721-3ad3-4534-9bf6-6470ea186741">
+                <li>아티스트 프로필 클릭 시 아티스트 상세 페이지로 이동</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/74c8240f-1b1d-4a1e-9884-4ac8ca220bec">
+                <li>커스텀 작품 아티스트에게 직접 의뢰</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/4d31578d-f6b4-4079-8674-48bd3ab75486">
             </ul>
         </li>
         <br/>
         <li>
             <strong>커스텀 페이지</strong>
             <ul>
-                <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
-                <li>회원탈퇴 기능</li>
-                <li>주문상세보기 클릭시 해당 주문 관련 정보들 표시</li>
-                <li>더보기 버튼 (noOffset 페이징)</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150294134-9774bb46-ac1d-49c5-b94f-6f51b576bd9d.png">
-                </li>
+                <li>대표적 커스텀 신발 도면 제공</li>
+                <li>그림판 드로잉 스티커 회전 및 삭제 기능</li>
+                <li>커스텀 이미지 로컬에 저장</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/92a944b6-b34a-41d6-9c53-50c49a15601b">
             </ul>
         </li>
         <br/>
         <li>
             <strong>마이페이지</strong>
             <ul>
-                <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
-                <li>회원탈퇴 기능</li>
-                <li>주문상세보기 클릭시 해당 주문 관련 정보들 표시</li>
-                <li>더보기 버튼 (noOffset 페이징)</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150294134-9774bb46-ac1d-49c5-b94f-6f51b576bd9d.png">
-                </li>
+                <li>고객과 아티스트의 기능이 다르게 구현</li>
+                <li>회원정보 수정 및 탈퇴 기능(공통)</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/50d99cd3-993b-4403-81d5-a9ff982424aa">
+                <li>의뢰 요청 상세정보 리스트 및 상세정보(공통)</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/cbca0f14-2c6f-40bf-b4d9-0d4b65d18102">
+                <li>받은 의뢰 관리(아티스트)</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/4fe8061c-7749-4ce2-8e1d-cbd8ab9ce423">
             </ul>
         </li>
         <br/>
         <li>
             <strong>결제 기능</strong>
             <ul>
-                <li>주문, QnA버튼 클릭시 비동기로 내용 가져오게끔 구현</li>
-                <li>회원탈퇴 기능</li>
-                <li>주문상세보기 클릭시 해당 주문 관련 정보들 표시</li>
-                <li>더보기 버튼 (noOffset 페이징)</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150294134-9774bb46-ac1d-49c5-b94f-6f51b576bd9d.png">
-                </li>
+                <li>카카오 페이 모바일 테스트 결제</li>
+                <li>마이페이지 -> 주문 내역에서 결제 진행</li>
+                <li>작업 수락 및 의뢰 수정 단계 이후 진행</li>
+                <li>결제 후 작업 단계로 진행</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/1a1e9ab4-44f9-4175-a474-b483b28317e3">
             </ul>
         </li>
         <br/>
         <li>
             <strong>고객센터</strong>
             <ul>
-                <li>기본적인 CRUD</li>
-                <li>댓글, 대댓글 CRUD, 비공개 여부 설정가능</li>
-                <li>작성자 아이디 마스킹처리</li>
-                <li>페이징</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150129443-4f43da01-8ed8-450f-87b6-c6c994d6e3d4.png">
-                </li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150262071-b6dbc5ee-1fb8-46b5-85bc-457b2a449e39.png">
-                </li>
+                <li>게시판 CRUD</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/9416b0e7-6f40-472d-bedf-e6b8a5ca94bb">
             </ul>
         </li>
         <br/>
@@ -213,101 +209,11 @@
         <li>
             <strong>ADMIN 페이지</strong>
             <ul>
-                <li>수량 변경 가능</li>
-                <li>리뷰 : 상품 구매시에만 리뷰 작성 가능, 정렬 기능</li>
-                <li>QnA : 비공개여부 선택 가능, 관리자만 답글 가능</li>
-                <li>일반 페이징, noOffset 페이징</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150293680-55db76f0-9ec8-49d9-bef9-94cfbf829d99.png">
-                </li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150261169-4ba3f6dc-fee5-4d9c-b6d9-e4d894225d3f.png">
-                </li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150261150-4780b106-e5df-49d8-89a4-d5f920f0b506.png">
-                </li>
+                <li>고객 문의 답변 기능</li>
+                <li>회원 탈퇴 관리</li>
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/3692d363-3a20-4914-b5b8-3338a580f3d2">
+                <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/eb34fd6e-4fa7-44f3-aa27-38762be03234">
             </ul>
         </li>
-        <br/>
-        <br/>
-        <li>
-            <strong>장바구니</strong>
-            <ul>
-                <li>개별 혹은 선택주문</li>
-                <li>비동기 수량변경, 삭제 가능</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150293781-519e646c-c017-4f9a-aaf9-202f531c702f.png">
-                </li>
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>주문 정보</strong>
-            <ul>
-                <li>주문한 상품에 대한 기본 정보들</li>
-                <li>가상계좌 구매시 유효기간과, 계좌번호도 표시</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150293700-fbaec84b-3cc9-4fa2-9c59-cecd61f2a756.png">
-                </li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150294626-c3d1b4cf-1517-4e89-bfca-524b3e6dcb37.png">
-                </li>
-            </ul>
-        </li>
-        <li>
-            <strong>상품 주문</strong>
-            <ul>
-                <li>구매하려는 상품 목록 표시</li>
-                <li>구매 클릭시 서버에서 배송정보 유효성검사후 결제 진행</li>
-                <li>카카오페이, 가상계좌 결제 가능</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150293743-7034ca49-43d5-41c5-8a3d-eaf673efef3d.png">
-                </li>
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>관리자 페이지 메인</strong>
-            <ul>
-                <li>최근 가입한 유저목록, 주문 목록 조회</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150129475-eaef4772-64d6-42bb-9f7f-9cd55950756b.png">
-                </li>
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>관리자 페이지 주문목록</strong>
-            <ul>
-                <li>주문상태 변경 기능</li>
-                <li>동적 검색</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150129493-4f176fcb-e4a3-4b90-a39f-5d5a3a83a6d6.png">
-                </li>
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>관리자 페이지 상품배송</strong>
-            <ul>
-                <li>입금 완료된 주문만 표시</li>
-                <li>운송장 입력후 배송시 해당 주문 배송상태 변경</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150293811-24e6beaa-9b10-430d-9dbe-d4c64ea7fa51.png">
-                </li>
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>관리자 페이지 상품 목록</strong>
-            <ul>
-                <li>상품 동적 검색 및 삭제</li>
-                <li>
-                    <img src="https://user-images.githubusercontent.com/89326946/150293851-7689a098-f254-4fbd-b6ed-b31fd2d0a299.png">
-                </li>
-            </ul>
-        </li>
-    </ul>
-</div>
 <br/>
 <br/>
