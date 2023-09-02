@@ -115,7 +115,7 @@
             </button>
             <ul class="dropdown-menu" style="width: 220px; font-family: 'Jeju Gothic', sans-serif;">
                 <li><a class="dropdown-item" href="/artist?name=선택">선택</a></li>
-                <li><a class="dropdown-item" href="/artist?order=subscribe&name=구독자 순">구독자 순</a></li>
+                <%--<li><a class="dropdown-item" href="/artist?order=subscribe&name=구독자 순">구독자 순</a></li>--%>
                 <li><a class="dropdown-item" href="/artist?order=totalWork&name=최다 작품 순">최다 작품 순 </a></li>
                 <li><a class="dropdown-item" href="/artist?order=totalView&name=총조회수 순">총조회수 순</a></li>
             </ul>
