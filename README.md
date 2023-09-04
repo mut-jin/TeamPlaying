@@ -41,6 +41,13 @@
     </ul>
 </div>
 <br/>
+<h1>WBS</h1>
+<div>
+    <ul>
+        <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/ca477037-bf1e-4212-bd14-cf4843052055">
+    </ul>
+</div>
+<br/>
 <h1>ERD</h1>
 <div>
     <ul>
