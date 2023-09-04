@@ -41,6 +41,12 @@
     </ul>
 </div>
 <br/>
+<h1>ERD</h1>
+<div>
+    <ul>
+        <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/8eb939c3-3a7c-47e1-83cc-c1ecd6f9de9b">
+    </ul>
+</div>
 <br/>
 <h1>구현 기능</h1>
 <div>
