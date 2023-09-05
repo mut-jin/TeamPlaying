@@ -36,6 +36,7 @@
         <li>Java17</li>
         <li>Spring Framework</li>
         <li>Spring Boot</li>
+        <li>JSP</li>
         <li>MariaDB</li>
         <li>MyBatis</li>
     </ul>
