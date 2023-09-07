@@ -45,7 +45,7 @@
 <h1>WBS</h1>
 <div>
     <ul>
-        <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/ca477037-bf1e-4212-bd14-cf4843052055">
+        <img src="https://github.com/mut-jin/TeamPlaying/assets/112159785/2e1d25af-938f-41c8-a3d2-d57e1abbdf88">
     </ul>
 </div>
 <br/>
